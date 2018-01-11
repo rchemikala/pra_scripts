@@ -1,0 +1,83 @@
+
+Step 1:
+
+Create a trigger to populate the CLIENT_IDENTIFIER for every logon (should be created before the job run)
+
+CREATE OR REPLACE TRIGGER logon_trigger
+AFTER LOGON
+ON DATABASE
+DECLARE
+ uid  VARCHAR2(64);
+BEGIN
+  SELECT ora_login_user ||':'||SYS_CONTEXT('USERENV','OS_USER')  INTO uid  FROM dual;
+  dbms_session.set_identifier(uid);
+END logon_trigger;
+/
+
+Step 2:
+
+After creating the above trigger, CLIENT_IDENTIFIER column in v$session will be populated for every logon and can be viewed using below query
+
+set echo off
+set linesize 95
+set head on
+set feedback on
+col sid head "Sid" form 9999 trunc
+col username form a8 trunc
+col osuser form a7 trunc
+col CLIENT_IDENTIFIER for a20
+col machine form a20 trunc head "Client|Machine"
+col program form a15 trunc head "Client|Program"
+col login form a11
+col "last call"  form 9999999 trunc head "Last Call|In Secs"
+col status form a6 trunc
+set lines 142 pages 100
+select sid,CLIENT_IDENTIFIER,substr(username,1,10) username,substr(osuser,1,10) osuser,
+substr(program||module,1,15) program,substr(machine,1,22) machine,
+to_char(logon_time,'ddMon hh24:mi') login,
+last_call_et "last call",status
+from v$session;
+
+
+Example
+
+Sid CLIENT_IDENTIFIER    USERNAME OSUSER  Program         Machine              LOGIN         In Secs STATUS
+----- -------------------- -------- ------- --------------- -------------------- ----------- --------- ------
+  211 SYS:tcsdba           SYS      tcsdba  sqlplus@usa0300 usa0300ux830         09Feb 09:43         0 ACTIVE
+  102 AOOPS:344142         AOOPS    344142  PLSQLDev.exePL/ XRXODC\01HW120617    09Feb 07:47      6440 INACTI
+  220 AOOPS:346933         AOOPS    346933  PLSQLDev.exePL/ XRXODC\01HW120591    09Feb 08:56      2275 INACTI
+   48 AOOPS:344142         AOOPS    344142  PLSQLDev.exePL/ XRXODC\01HW120617    09Feb 07:54      6442 INACTI
+   97 AOOPS:188036         AOOPS    188036  PLSQLDev.exePL/ XRXODC\01HW063160    09Feb 04:02       986 INACTI
+  101 AOOPS:346933         AOOPS    346933  PLSQLDev.exePL/ XRXODC\01HW120591    09Feb 08:40      3034 INACTI
+   49 AOOPS:188036         AOOPS    188036  PLSQLDev.exePL/ XRXODC\01HW063160    09Feb 04:02     20464 INACTI
+   84 AOOPS:333585         AOOPS    333585  PLSQLDev.exePL/ XRXODC\01HW344670    08Feb 23:11      2037 INACTI
+
+Step 3:
+
+Now that you know the client identifier, enablr trace for that client id:
+
+EXEC DBMS_MONITOR.client_id_trace_enable(client_id=>’< CLIENT_IDENTIFIER>’, waits=>TRUE, binds=>TRUE);
+
+Example:
+
+EXEC DBMS_MONITOR.client_id_trace_enable(client_id=>'TEST:tcsdba', waits=>TRUE, binds=>TRUE);
+
+Step 4:
+
+Activating trace on multiple sessions means that trace information is spread throughout many trace files. For this reason Oracle 10g introduced the trcsess utility, which allows trace information from multiple trace files to be identified and consolidated into a single trace file.
+
+trcsess output=<output file name> clientid=< CLIENT_IDENTIFIER>
+
+Example
+
+trcsess output=test.out clientid=TEST:tcsdba
+
+Step 5:
+
+Use tkprof to read the trace file.
+
+tkprof tracefile=< output file name>  outputfile=test1.out sys=no
+
+Example
+
+tkprof tracefile=test.out outputfile=test1.out sys=no

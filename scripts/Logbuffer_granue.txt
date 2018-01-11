@@ -1,0 +1,11 @@
+ select
+   a.ksppinm name,
+   b.ksppstvl value,
+   a.ksppdesc description
+from
+   x$ksppi a,
+   x$ksppcv b
+where
+   a.indx = b.indx
+and
+   a.ksppinm = '_ksmg_granule_size';

@@ -1,0 +1,8 @@
+select to_char(force_matching_signature), count(*)
+from  v$sqlstats
+ where force_matching_signature > 0
+ group by force_matching_signature
+ having count(*) > 10
+ order by 2 desc;
+
+select * from (select force_matching_signature, count(*) "Count" from v$sqlarea group by force_matching_signature order by 2 desc) where rownum<=10;

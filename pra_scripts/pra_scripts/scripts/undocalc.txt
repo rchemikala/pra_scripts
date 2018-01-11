@@ -1,0 +1,45 @@
+Failure to extend rollback segment because of 30036 condition w/auto undo mgmt
+
+Please clarify correct resolution. I've reviewed Metalink docs # 269814.1 and 247184.1. 
+
+One says solution is to increase UNDO file and UNDO_RETENTION param size, the other says to decrease the UNDO_RETENTION param size. 
+
+My specs: 
+(UR) UNDO_RETENTION in seconds 
+(UPS) Number of undo data blocks generated per second 
+(DBS) Overhead varies based on extent and file size (db_block_size) 
+
+UndoSpace = [UR * (UPS * DBS)] + (DBS * 24) 
+
+UPS = SELECT (SUM(undoblks) / SUM((end_time - begin_time) * 86400)) FROM v$undostat 
+
+
+UR=10800 
+UPS=13.5 
+DBS=8192 
+Calculate # bytes needed: 
+
+SELECT (UR * (UPS * DBS)) + (DBS * 24) AS "Bytes" 
+FROM (SELECT value AS UR FROM v$parameter WHERE name = 'undo_retention'), 
+(SELECT (SUM(undoblks)/SUM(((end_time - begin_time)*86400))) AS UPS FROM v$undostat), 
+(SELECT value AS DBS FROM v$parameter WHERE name = 'db_block_size') ; 
+
+UndoSpace = 1198535374 bytes or 1.1GB -- but my current UNDO datafile is at 12GB (it's maxsize to extend) and I'm getting above error. Even when I calculate Max query length: 
+SQL> select max(maxquerylen) from v$undostat; 
+
+MAX(MAXQUERYLEN) 
+---------------- 
+57797 
+
+Therefore using formula above, 
+UndoSpace = [57797 * 110592] + 196608 
+then UndoSpace min size = 6392082432 or 6GB -- I still have enough UNDO space (12GB) to accommodate the largest query. 
+
+Other than requiring dev team to increase the frequency of commits, what can I do to calculate correct UNDO_RETENTION param value and UNDO size? 
+
+thanx, 
+--D.Forbes 
+
+
+
+

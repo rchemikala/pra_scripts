@@ -1,0 +1,22 @@
+To check if this is the case, the SQL hash value can be found from the value of the MUTEX_IDENTIFIER with highest gets and sleeps from v$mutex_sleep_history:
+
+select MUTEX_IDENTIFIER, MUTEX_TYPE, max(gets), max(sleeps), mutex_value
+
+from v$mutex_sleep_history
+
+where mutex_type=’Cursor Pin’
+
+group by MUTEX_IDENTIFIER, MUTEX_TYPE, mutex_value
+
+order by 3, 4
+
+
+Bugs are usually associated with a specific type of SQL being executed, so it is good to find the SQLs that were being hard parsed. As is often the case, this has happened maybe few hours ago and we need to find the cause now, so we will use the Workload Repository tables:
+
+
+
+select sql_id, count(*) from dba_hist_active_sess_history
+where snap_id=&snap_id <= Snap_id got from the DBA_HIST_SNAPSHOT, for the specific time.
+and event=’cursor: pin S wait on X’
+group by sql_id
+order by 2

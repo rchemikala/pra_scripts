@@ -1,0 +1,117 @@
+9.30
+
+PRD591
+
+  COUNT(*) SUBSTR(A.PROGRA
+---------- ---------------
+        14 CSCCCCRC
+         2 CSXSRISR
+        22 JDBC Thin Clien
+         3 LAST10_CALLS
+         1 TTLVASORD
+         3 TTL_DISPATCH
+         1 TTL_INTF_LOAD_P
+         2 TTL_LOADING_DTL
+         7 httpd@TTLPRD02-
+        23 oracle@TTLPRD01
+         1 sqlplus.exeSQL*
+         1 sqlplus@TTLPRD1
+        14
+
+2.30
+PRD591
+
+ COUNT(*) SUBSTR(A.PROGRA
+--------- ---------------
+        1 APGLTRANS
+       22 CSCCCCRC
+        4 CSXSRISR
+        1 FNDSCSGN
+        1 FNDWFBG
+       27 JDBC Thin Clien
+        1 LAST10_CALLS
+        6 ORACLE.EXEORACL
+        1 TOAD.exeTOAD 7.
+        1 TTLARNC
+        1 TTLESN
+       12 TTL_DISPATCH
+        5 TTL_LOADING_DTL
+        1 adbagent@TTLPOS
+        9 httpd@TTLPRD02-
+        1 oracle@AISPROD0
+        1 oracle@TTLDWH (
+       31 oracle@TTLPRD01
+        1 sqlplus.exeSQL*
+        1 sqlplus@TTLPOS0
+        1 sqlplus@TTLPRD0
+        1 sqlplus@TTLPRD1
+       20
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+PRD592
+
+ COUNT(*) SUBSTR(A.PROGRA
+--------- ---------------
+       14 CSCCCCRC
+        8 CSXSRISR
+        1 FNDWFBG
+        2 LAST10_CALLS
+        1 TOAD.exeTOAD 7.
+        1 TTLDCR
+        1 TTLESN
+        1 TTL_DEP_QUERY
+        1 TTL_DISPATCH
+        5 TTL_LOADING_DTL
+        1 TTL_NOTES
+       23 oracle@TTLPRD11
+        1 sqlplus.exeSQL*
+        1 sqlplus@TTLPRD1
+       19
+
+
+2.30
+PRD591
+
+ COUNT(*) SUBSTR(A.PROGRA
+--------- ---------------
+        1 APGLTRANS
+       22 CSCCCCRC
+        4 CSXSRISR
+        1 FNDSCSGN
+        1 FNDWFBG
+       27 JDBC Thin Clien
+        1 LAST10_CALLS
+        6 ORACLE.EXEORACL
+        1 TOAD.exeTOAD 7.
+        1 TTLARNC
+        1 TTLESN
+       12 TTL_DISPATCH
+        5 TTL_LOADING_DTL
+        1 adbagent@TTLPOS
+        9 httpd@TTLPRD02-
+        1 oracle@AISPROD0
+        1 oracle@TTLDWH (
+       31 oracle@TTLPRD01
+        1 sqlplus.exeSQL*
+        1 sqlplus@TTLPOS0
+        1 sqlplus@TTLPRD0
+        1 sqlplus@TTLPRD1
+       20
+
+

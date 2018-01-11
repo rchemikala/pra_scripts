@@ -1,0 +1,19 @@
+To produce statistics about free extents and coalescing activity for each tablespace in the database, enter the following query:
+
+SELECT TABLESPACE_NAME "TABLESPACE", FILE_ID,
+   COUNT(*)    "PIECES",
+   MAX(blocks) "MAXIMUM",
+   MIN(blocks) "MINIMUM",
+   AVG(blocks) "AVERAGE",
+   SUM(blocks) "TOTAL"
+   FROM DBA_FREE_SPACE
+GROUP BY TABLESPACE_NAME, FILE_ID;
+
+TABLESPACE    FILE_ID  PIECES   MAXIMUM    MINIMUM  AVERAGE    TOTAL
+----------    -------  ------   -------    -------  -------   ------
+RBS                 2       1       955        955      955      955
+SYSTEM              1       1       119        119      119      119
+TEMP                4       1      6399       6399     6399     6399
+TESTTBS             5       5      6364          3     1278     6390
+USERS               3       1       363        363      363      363
+PIECES shows the number of free space extents in the tablespace file, MAXIMUM and MINIMUM show the largest and smallest contiguous area of space in database blocks, AVERAGE shows the average size in blocks of a free space extent, and TOTAL shows the amount of free space in each tablespace file in blocks. This query is useful when you are going to create a new object or you know that a segment is about to extend, and you want to make sure that there is enough space in the containing tablespace.	

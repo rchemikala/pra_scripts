@@ -1,0 +1,16 @@
+COL object_name FORMAT A30
+COL program     FORMAT A30
+COL event       FORMAT A30
+SELECT DISTINCT
+    current_obj#,
+    o.object_name,
+    o.owner,
+    o.object_type,
+    current_file#,
+    session_state,
+    sql_id,
+    event
+  FROM v$active_session_history a,
+       dba_objects o
+ WHERE a.current_obj# = o.object_id
+   AND a.event LIKE '%gc buffer busy%';

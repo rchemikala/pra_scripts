@@ -1,0 +1,216 @@
+col name Head "Tablespace Name" form a30
+col total head "Total|Space|(in MB)" form 9999999.99
+col used head "Used|Space|(in MB)" form 9999999.99
+col free head "Free|Space|(in MB)" form 9999999.99
+col pcfree head "% Free|Space" form 999.99
+select t.tsname name,nvl(t.total,0)/1048576 total,nvl(u.used,0)/1048576 used,
+  nvl(f.free,0)/1048576 free,(100 * nvl(f.free,0))/total pcfree
+from
+(select tb.tablespace_name tsname,sum(nvl(df.bytes,0)) total
+from dba_tablespaces tb,dba_data_files df
+where tb.tablespace_name(+)=df.tablespace_name
+group by tb.tablespace_name) t,
+(select tb.tablespace_name tsname,sum(nvl(ex.bytes,0)) used
+from dba_tablespaces tb,dba_extents ex
+where tb.tablespace_name(+)=ex.tablespace_name
+group by tb.tablespace_name) u,
+(select tb.tablespace_name tsname,sum(nvl(fs.bytes,0)) free
+from dba_tablespaces tb,dba_free_space fs
+where tb.tablespace_name(+)=fs.tablespace_name
+group by tb.tablespace_name) f
+where t.tsname=u.tsname(+)
+and t.tsname=f.tsname(+) 
+order by 5
+/
+
+
+col FILE_NAME for a50
+select file_name,bytes/1024/1024 "Used Space", maxbytes/1024/1024 "Max Size",autoextensible from dba_data_files where tablespace_name='XPMIO_IDX'
+/
+
+col FILE_NAME for a45
+select file_name,autoextensible,sum(bytes)/1024/1024 "Used",maxbytes/1024/1024 "Max" from dba_data_files where tablespace_name='CAMPS_TBL' group by  file_name,autoextensible,maxbytes
+
+select tablespace_name,autoextensible,sum(bytes)/1024/1024 "Used MB",sum(maxbytes)/1024/1024 "Max MB" from dba_data_files where tablespace_name in ('PDW2_EQP03_TBLS','PDW2_SUP03_TBL') group by tablespace_name,autoextensible
+
+List free and used space in database
+=================================================================================================
+
+SELECT sum(bytes)/1024/1024 "free space MB" FROM dba_free_space where tablespace_name='PDW2_SUP01_TBL'
+
+SELECT sum(bytes)/1024/1024 "used space MB" FROM dba_segments tablespace_name='XTMS_RBS';
+
+SELECT TABLESPACE_NAME,file_name,bytes/1024/1024 "freespace MB" FROM dba_free_space where tablespace_name='PDW2_SUP01_IDX'
+
+
+select sum(bytes)/1024/1024 "Used Space",sum(maxbytes)/1024/1024 "Max Size" from dba_data_files where tablespace_name='DBSTATS'
+
+--------------------
+Temp space usage
+-------------------------
+
+col FILE_NAME for a50
+select file_name,bytes/1024/1024 "Used Space", maxbytes/1024/1024 "Max Size",autoextensible from dba_temp_files where tablespace_name='CRDMRO'
+
+select BYTES_FREE from  V_$TEMP_SPACE_HEADER where TABLESPACE_NAME='TEMP1';
+
+
+
+select username,account_status from dba_users;
+select username,account_status,expiry_date from dba_users;
+
+-----------------------------------------
+to get the list of tables of that schema
+-----------------------------------------
+col OWNER for a10
+select OWNER,TABLE_NAME from dba_tables where OWNER='MAPL' 
+
+
+select owner,TABLE_NAME from dba_tables where table_name='DW_PWD2_USERS'
+
+col OWNER for a10
+col SEGMENT_NAME for a20
+select OWNER,SEGMENT_NAME,SEGMENT_TYPE,TABLESPACE_NAME from dba_segments where OWNER='XISCDBA'and SEGMENT_TYPE like 'TABLE';
+
+
+col TABLE_OWNER for a10
+select TABLE_NAME,PARTITION_NAME from dba_tab_partitions where TABLE_OWNER='DWSPEC' and PARTITION_NAME likE '%INVCTBLE_200%' ORDER BY PARTITION_NAME
+
+
+select TABLE_NAME,PARTITION_NAME from dba_tab_partitions where TABLE_OWNER='DWSPEC' and TABLE_NAME like 'TDWEL0_EQUIP_LFCYC' 
+
+select count(*) from DWSPEC.TRAIV0_INVCTBLE partition(TRAIV0_INVCTBLE_200712)
+
+
+col USERNAME for a12
+col TERMINAL for a25
+select username,terminal,to_char(timestamp,'DD-MON-YYYY') from dba_audit_session where username='OTCPFEED' group by username,terminal,to_char(timestamp,'DD-MON-YYYY');
+
+select OS_USERNAME,USERHOST,username,terminal,to_char(timestamp,'DD-MON-YYYY') from dba_audit_session where username='OTCPFEED'group by username,terminal,to_char(timestamp,'DD-MON-YYYY'),OS_USERNAME,USERHOST
+
+
+select a.oracle_username, a.process, b.object_name from v$locked_object a, dba_objects b where a.object_id = b.object_id;
+----------------
+select object_name, o.object_id from user_objects o, v$locked_object l where o.object_id = l.object_id
+
+
+Displays the user and the text of the statement the user is executing 
+==========================================================================
+SELECT a.OSUSER,a.username,
+a.SID,to_char(a.logon_time,'dd/mm/yyyy hh24:mi:ss') Time_Logged,
+b.SQL_TEXT
+FROM V$SESSION a, V$SQL b
+WHERE a.SQL_ADDRESS = b.ADDRESS 
+AND a.STATUS = 'ACTIVE';
+
+
+THIS QUERY SELECTS ALL THE LOCKED OBJECTS , AND THE USER THAT IS USING IT. 
+==============================================================================
+
+COL USERNAME FORMAT A10;
+COL OBJECT_NAME FORMAT A10;
+SELECT L.SID, S.USERNAME , L.TYPE , L.ID1, L.ID2, L.LMODE, L.REQUEST , L.CTIME , O.OBJECT_NAME 
+FROM V$LOCK L, V$SESSION S, V$LOCKED_OBJECT B, OBJ O
+WHERE L.SID = S.SID AND S.USERNAME='OPS$PSBATCH' AND L.SID = B.SESSION_ID AND
+B.OBJECT_ID = O.OBJECT_ID ORDER BY 1
+/
+
+
+col oracle_username for a14
+col OS_USER_NAME for a12
+col OBJECT_NAME for a18
+select
+   sess.sid,
+   sess.serial#,
+   lo.oracle_username,
+   lo.os_user_name,
+   ao.object_name,
+   lo.locked_mode
+from
+   v$locked_object lo,
+   dba_objects     ao,
+   v$session       sess
+where
+   ao.object_id = lo.object_id
+and
+   lo.session_id = sess.sid
+/
+
+displays UNIX/Oracle Sessions with PIDs(process ID) to kill from OS
+-------------------------------------------------------------------
+select
+   substr(a.spid,1,9) pid,
+   substr(b.sid,1,5) sid,
+   substr(b.serial#,1,5) ser#,
+   substr(b.machine,1,6) box,
+   substr(b.username,1,10) username,
+   substr(b.osuser,1,8) os_user,
+   substr(b.program,1,30) program
+from
+   v$session b,
+   v$process a
+where
+   b.paddr = a.addr
+and
+   type='USER'
+order by spid
+
+
+displays all connected sessions
+----------------------------------
+select
+   rpad(c.name||':',11)||rpad(' current logons='||
+   (to_number(b.sessions_current)),20)||'cumulative logons='||
+   rpad(substr(a.value,1,10),10)||'highwater mark='||
+   b.sessions_highwater Information
+from
+   v$sysstat a,
+   v$license b,
+   v$database c
+where
+   a.name = 'logons cumulative'
+
+
+ALTER SYSTEM KILL SESSION 'SID,SERIAL#';
+
+
+Server Startup
+===============
+select to_char(startup_time,'DD-MON-YYYY HH:MI:SS')from V$instance;
+
+
+Index
+=====================
+
+select index_name,INDEX_TYPE,STATUS,PARTITIONED from dba_indexes where owner='PHERMES' and table_name='STATEMENT';
+
+select INDEX_NAME,PARTITION_NAME, STATUS ,TABLESPACE_NAME from DBA_IND_PARTITIONS where INDEX_NAME='STATEMENT_UK';
+
+col TABLE_OWNER for a10
+col TABLESPACE_NAME for a15
+col TABLE_NAME for a22
+col PARTITION_NAME for a25
+select TABLE_OWNER,TABLE_NAME,PARTITION_NAME,TABLESPACE_NAME,high_value from dba_tab_partitions where TABLE_OWNER='SALSA_WH'and TABLE_NAME='ACTIVITY_FACT';
+
+select OWNER,TABLE_NAME,TABLESPACE_NAME from dba_indexes where OWNER='SALSA_WH'and TABLE_NAME='ACTIVITY_FACT'
+
+SELECT partition_name, high_value FROM   dba_tab_partitions WHERE  table_name = 'ACTIVITY_FACT' AND table_owner = 'SALSA_WH' ORDER BY partition_position
+
+
+http://xww.edsvalue.world.xerox.com/servlet/ServletGridAuth
+https://www.s3.external.xerox.com
+https://s3.directory.xerox.com/dmt2/includes/index_help.jsp
+International: (+1)-585-264-5269 Option 3
+1-800-337-4979, Options 1,2,2
+
+
+
+
+
+
+
+
+
+
+
+

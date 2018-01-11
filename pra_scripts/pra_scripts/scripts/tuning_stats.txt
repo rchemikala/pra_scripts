@@ -1,0 +1,1428 @@
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> ttitle 'SYSTEM STATISTICS'
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> select 'LIBRARY CACHE STATISTICS:' from dual;
+
+Wed Jul 06                                                                                                     page    1
+                                                   SYSTEM STATISTICS
+
+'LIBRARYCACHESTATISTICS:'                                                                                               
+-------------------------                                                                                               
+LIBRARY CACHE STATISTICS:                                                                                               
+
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> ttitle off
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> select 'PINS - # of times an item in the library cache was executed - '||
+  2          sum(pins),
+  3         'RELOADS - # of library cache misses on execution steps - '||
+  4          sum (reloads),
+  5         'RELOADS / PINS * 100 = '||round((sum(reloads) / sum(pins) *
+  6  100),2)||'%'
+  7  from    v$librarycache
+  8  /
+
+'PINS-#OFTIMESANITEMINTHELIBRARYCACHEWASEXECUTED-'||SUM(PINS)                                                           
+------------------------------------------------------------------------------------------------------                  
+'RELOADS-#OFLIBRARYCACHEMISSESONEXECUTIONSTEPS-'||SUM(RELOADS)                                                          
+-------------------------------------------------------------------------------------------------                       
+'RELOADS/PINS*100='||ROUND((SUM(RELOADS)/SUM(PINS)*100),2)||'%'                                                         
+----------------------------------------------------------------                                                        
+PINS - # of times an item in the library cache was executed - 28385991                                                  
+RELOADS - # of library cache misses on execution steps - 17942                                                          
+RELOADS / PINS * 100 = .06%                                                                                             
+                                                                                                                        
+
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> prompt Increase memory until RELOADS is near 0 but watch out for
+Increase memory until RELOADS is near 0 but watch out for
+nav@DIC.US.ORACLE.COM> prompt Paging/swapping
+Paging/swapping
+nav@DIC.US.ORACLE.COM> prompt To increase library cache, increase SHARED_POOL_SIZE
+To increase library cache, increase SHARED_POOL_SIZE
+nav@DIC.US.ORACLE.COM> prompt
+
+nav@DIC.US.ORACLE.COM> prompt ** NOTE: Increasing SHARED_POOL_SIZE will increase the SGA size.
+** NOTE: Increasing SHARED_POOL_SIZE will increase the SGA size.
+nav@DIC.US.ORACLE.COM> prompt
+
+nav@DIC.US.ORACLE.COM> prompt Library Cache Misses indicate that the Shared Pool is not big
+Library Cache Misses indicate that the Shared Pool is not big
+nav@DIC.US.ORACLE.COM> prompt enough to hold the shared SQL area for all concurrently open cursors.
+enough to hold the shared SQL area for all concurrently open cursors.
+nav@DIC.US.ORACLE.COM> prompt If you have no Library Cache misses (PINS = 0), you may get a small
+If you have no Library Cache misses (PINS = 0), you may get a small
+nav@DIC.US.ORACLE.COM> prompt increase in performance by setting CURSOR_SPACE_FOR_TIME = TRUE which
+increase in performance by setting CURSOR_SPACE_FOR_TIME = TRUE which
+nav@DIC.US.ORACLE.COM> prompt prevents ORACLE from deallocating a shared SQL area while an
+prevents ORACLE from deallocating a shared SQL area while an
+nav@DIC.US.ORACLE.COM> prompt application
+application
+nav@DIC.US.ORACLE.COM> prompt cursor associated with it is open.
+cursor associated with it is open.
+nav@DIC.US.ORACLE.COM> prompt
+
+nav@DIC.US.ORACLE.COM> prompt For Multi-threaded server, add 1K to SHARED_POOL_SIZE per user.
+For Multi-threaded server, add 1K to SHARED_POOL_SIZE per user.
+nav@DIC.US.ORACLE.COM> prompt
+
+nav@DIC.US.ORACLE.COM> prompt------------------------------------------------------------------------
+> 
+----------------------------------------------------------------------- 
+nav@DIC.US.ORACLE.COM> column xn1 format a50
+nav@DIC.US.ORACLE.COM> column xn2 format a50
+nav@DIC.US.ORACLE.COM> column xn3 format a50
+nav@DIC.US.ORACLE.COM> column xv1 new_value xxv1 noprint
+nav@DIC.US.ORACLE.COM> column xv2 new_value xxv2 noprint
+nav@DIC.US.ORACLE.COM> column xv3 new_value xxv3 noprint
+nav@DIC.US.ORACLE.COM> column d1  format a50
+nav@DIC.US.ORACLE.COM> column d2  format a50
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> prompt HIT RATIO:
+HIT RATIO:
+nav@DIC.US.ORACLE.COM> prompt
+
+nav@DIC.US.ORACLE.COM> prompt Values Hit Ratio is calculated against:
+Values Hit Ratio is calculated against:
+nav@DIC.US.ORACLE.COM> prompt
+
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> select lpad(name,20,' ')||'  =  '||value xn1, value xv1
+  2  from   v$sysstat
+  3  where  name = 'db block gets'
+  4  /
+
+XN1                                                                                                                     
+--------------------------------------------------                                                                      
+       db block gets  =  5006888                                                                                        
+
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> select lpad(name,20,' ')||'  =  '||value xn2, value xv2
+  2  from   v$sysstat
+  3  where  name = 'consistent gets'
+  4  /
+
+XN2                                                                                                                     
+--------------------------------------------------                                                                      
+     consistent gets  =  92500152                                                                                       
+
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> select lpad(name,20,' ')||'  =  '||value xn3, value xv3
+  2  from   v$sysstat b
+  3  where  name = 'physical reads'
+  4  /
+
+XN3                                                                                                                     
+--------------------------------------------------                                                                      
+      physical reads  =  11747228                                                                                       
+
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> set pages 60
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> select 'Logical reads = db block gets + consistent gets ',
+  2          lpad ('Logical Reads = ',24,' ')||to_char(&xxv1+&xxv2) d1
+  3  from    dual
+  4  /
+old   2:         lpad ('Logical Reads = ',24,' ')||to_char(&xxv1+&xxv2) d1
+new   2:         lpad ('Logical Reads = ',24,' ')||to_char(   5006888+  92500152) d1
+
+'LOGICALREADS=DBBLOCKGETS+CONSISTENTGETS'        D1                                                                     
+------------------------------------------------ --------------------------------------------------                     
+Logical reads = db block gets + consistent gets          Logical Reads = 97507040                                       
+
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> select 'Hit Ratio = (logical reads - physical reads) / logical reads',
+  2          lpad('Hit Ratio = ',24,' ')||
+  3          round( (((&xxv2+&xxv1) - &xxv3) / (&xxv2+&xxv1))*100,2 )||'%' d2
+  4  from    dual
+  5  /
+old   3:         round( (((&xxv2+&xxv1) - &xxv3) / (&xxv2+&xxv1))*100,2 )||'%' d2
+new   3:         round( (((  92500152+   5006888) -   11747228) / (  92500152+   5006888))*100,2 )||'%' d2
+
+'HITRATIO=(LOGICALREADS-PHYSICALREADS)/LOGICALREADS'         D2                                                         
+------------------------------------------------------------ --------------------------------------------------         
+Hit Ratio = (logical reads - physical reads) / logical reads             Hit Ratio = 87.95%                             
+
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> prompt If the hit ratio is less than 60%-70%, increase the initialization
+If the hit ratio is less than 60%-70%, increase the initialization
+nav@DIC.US.ORACLE.COM> prompt parameter DB_BLOCK_BUFFERS.  ** NOTE:  Increasing this parameter will
+parameter DB_BLOCK_BUFFERS.  ** NOTE:  Increasing this parameter will
+nav@DIC.US.ORACLE.COM> prompt increase the SGA size.
+increase the SGA size.
+nav@DIC.US.ORACLE.COM> prompt
+
+nav@DIC.US.ORACLE.COM> prompt------------------------------------------------------------------------
+> 
+----------------------------------------------------------------------- 
+nav@DIC.US.ORACLE.COM> col name format a30
+nav@DIC.US.ORACLE.COM> col gets format 9,999,999
+nav@DIC.US.ORACLE.COM> col waits format 9,999,999
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> prompt ROLLBACK CONTENTION STATISTICS:
+ROLLBACK CONTENTION STATISTICS:
+nav@DIC.US.ORACLE.COM> prompt
+
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> prompt GETS - # of gets on the rollback segment header
+GETS - # of gets on the rollback segment header
+nav@DIC.US.ORACLE.COM> prompt WAITS - # of waits for the rollback segment header
+WAITS - # of waits for the rollback segment header
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> set head on;
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> select name, waits, gets
+  2  from   v$rollstat, v$rollname
+  3  where  v$rollstat.usn = v$rollname.usn
+  4  /
+
+NAME                                WAITS       GETS                                                                    
+------------------------------ ---------- ----------                                                                    
+SYSTEM                                  0        427                                                                    
+_SYSSMU1$                               1    159,679                                                                    
+_SYSSMU2$                               1    121,888                                                                    
+_SYSSMU3$                               1    125,439                                                                    
+_SYSSMU4$                               1    126,597                                                                    
+_SYSSMU5$                               0    124,120                                                                    
+_SYSSMU6$                               3    133,765                                                                    
+_SYSSMU7$                               2    137,002                                                                    
+_SYSSMU8$                               1    129,241                                                                    
+_SYSSMU9$                               3    139,064                                                                    
+_SYSSMU10$                              0    134,231                                                                    
+
+11 rows selected.
+
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> set head off
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> select 'The average of waits/gets is '||
+  2     round((sum(waits) / sum(gets)) * 100,2)||'%'
+  3  From    v$rollstat
+  4  /
+
+The average of waits/gets is 0%                                                                                         
+
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> prompt
+
+nav@DIC.US.ORACLE.COM> prompt If the ratio of waits to gets is more than 1% or 2%, consider
+If the ratio of waits to gets is more than 1% or 2%, consider
+nav@DIC.US.ORACLE.COM> prompt creating more rollback segments
+creating more rollback segments
+nav@DIC.US.ORACLE.COM> prompt
+
+nav@DIC.US.ORACLE.COM> prompt Another way to gauge rollback contention is:
+Another way to gauge rollback contention is:
+nav@DIC.US.ORACLE.COM> prompt
+
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> column xn1 format 9999999
+nav@DIC.US.ORACLE.COM> column xv1 new_value xxv1 noprint
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> set head on
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> select class, count
+  2  from   v$waitstat
+  3  where  class in ('system undo header', 'system undo block',
+  4                   'undo header',        'undo block'          )
+  5  /
+
+CLASS                   COUNT                                                                                           
+------------------ ----------                                                                                           
+system undo header          0                                                                                           
+system undo block           0                                                                                           
+undo header                63                                                                                           
+undo block                199                                                                                           
+
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> set head off
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> select 'Total requests = '||sum(count) xn1, sum(count) xv1
+  2  from    v$waitstat
+  3  /
+
+Total requests = 4382                                                                                                   
+
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> select 'Contention for system undo header = '||
+  2         (round(count/(&xxv1+0.00000000001),4)) * 100||'%'
+  3  from  v$waitstat
+  4  where   class = 'system undo header'
+  5  /
+old   2:        (round(count/(&xxv1+0.00000000001),4)) * 100||'%'
+new   2:        (round(count/(      4382+0.00000000001),4)) * 100||'%'
+
+Contention for system undo header = 0%                                                                                  
+
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> select 'Contention for system undo block = '||
+  2         (round(count/(&xxv1+0.00000000001),4)) * 100||'%'
+  3  from    v$waitstat
+  4  where   class = 'system undo block'
+  5  /
+old   2:        (round(count/(&xxv1+0.00000000001),4)) * 100||'%'
+new   2:        (round(count/(      4382+0.00000000001),4)) * 100||'%'
+
+Contention for system undo block = 0%                                                                                   
+
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> select 'Contention for undo header = '||
+  2         (round(count/(&xxv1+0.00000000001),4)) * 100||'%'
+  3  from    v$waitstat
+  4  where   class = 'undo header'
+  5  /
+old   2:        (round(count/(&xxv1+0.00000000001),4)) * 100||'%'
+new   2:        (round(count/(      4382+0.00000000001),4)) * 100||'%'
+
+Contention for undo header = 1.44%                                                                                      
+
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> select 'Contention for undo block = '||
+  2         (round(count/(&xxv1+0.00000000001),4)) * 100||'%'
+  3  from    v$waitstat
+  4  where   class = 'undo block'
+  5  /
+old   2:        (round(count/(&xxv1+0.00000000001),4)) * 100||'%'
+new   2:        (round(count/(      4382+0.00000000001),4)) * 100||'%'
+
+Contention for undo block = 4.54%                                                                                       
+
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> prompt
+
+nav@DIC.US.ORACLE.COM> prompt If the percentage for an area is more than 1% or 2%, consider
+If the percentage for an area is more than 1% or 2%, consider
+nav@DIC.US.ORACLE.COM> prompt creating more rollback segments.  Note:  This value is usually very
+creating more rollback segments.  Note:  This value is usually very
+nav@DIC.US.ORACLE.COM> prompt small
+small
+nav@DIC.US.ORACLE.COM> prompt and has been rounded to 4 places.
+and has been rounded to 4 places.
+nav@DIC.US.ORACLE.COM> prompt
+
+nav@DIC.US.ORACLE.COM> prompt------------------------------------------------------------------------
+> 
+----------------------------------------------------------------------- 
+nav@DIC.US.ORACLE.COM> prompt REDO CONTENTION STATISTICS:
+REDO CONTENTION STATISTICS:
+nav@DIC.US.ORACLE.COM> prompt
+
+nav@DIC.US.ORACLE.COM> prompt The following shows how often user processes had to wait for space in
+The following shows how often user processes had to wait for space in
+nav@DIC.US.ORACLE.COM> prompt the redo log buffer:
+the redo log buffer:
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> select name||' = '||value
+  2  from   v$sysstat
+  3  where  name = 'redo log space requests'
+  4  /
+
+redo log space requests = 46                                                                                            
+
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> prompt
+
+nav@DIC.US.ORACLE.COM> prompt This value should be near 0.  If this value increments consistently,
+This value should be near 0.  If this value increments consistently,
+nav@DIC.US.ORACLE.COM> prompt processes have had to wait for space in the redo buffer.  If this
+processes have had to wait for space in the redo buffer.  If this
+nav@DIC.US.ORACLE.COM> prompt condition exists over time, increase the size of LOG_BUFFER in the
+condition exists over time, increase the size of LOG_BUFFER in the
+nav@DIC.US.ORACLE.COM> prompt init.ora file in increments of 5% until the value nears 0.
+init.ora file in increments of 5% until the value nears 0.
+nav@DIC.US.ORACLE.COM> prompt ** NOTE: increasing the LOG_BUFFER value will increase total SGA size.
+** NOTE: increasing the LOG_BUFFER value will increase total SGA size.
+nav@DIC.US.ORACLE.COM> prompt
+
+nav@DIC.US.ORACLE.COM> prompt -----------------------------------------------------------------------
+> 
+---------------------------------------------------------------------- 
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> col name format a15
+nav@DIC.US.ORACLE.COM> col gets format 9999999
+nav@DIC.US.ORACLE.COM> col misses format 9999999
+nav@DIC.US.ORACLE.COM> col immediate_gets heading 'IMMED GETS' format 9999999
+nav@DIC.US.ORACLE.COM> col immediate_misses heading 'IMMED MISS' format 9999999
+nav@DIC.US.ORACLE.COM> col sleeps format 999999
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> prompt LATCH CONTENTION:
+LATCH CONTENTION:
+nav@DIC.US.ORACLE.COM> prompt
+
+nav@DIC.US.ORACLE.COM> prompt GETS - # of successful willing-to-wait requests for a latch
+GETS - # of successful willing-to-wait requests for a latch
+nav@DIC.US.ORACLE.COM> prompt MISSES - # of times an initial willing-to-wait request was unsuccessful
+MISSES - # of times an initial willing-to-wait request was unsuccessful
+nav@DIC.US.ORACLE.COM> prompt IMMEDIATE_GETS - # of successful immediate requests for each latch
+IMMEDIATE_GETS - # of successful immediate requests for each latch
+nav@DIC.US.ORACLE.COM> prompt IMMEDIATE_MISSES = # of unsuccessful immediate requests for each latch
+IMMEDIATE_MISSES = # of unsuccessful immediate requests for each latch
+nav@DIC.US.ORACLE.COM> prompt SLEEPS - # of times a process waited and requests a latch after an
+SLEEPS - # of times a process waited and requests a latch after an
+nav@DIC.US.ORACLE.COM> prompt          initial willing-to-wait request
+initial willing-to-wait request
+nav@DIC.US.ORACLE.COM> prompt
+
+nav@DIC.US.ORACLE.COM> prompt If the latch requested with a willing-to-wait request is not
+If the latch requested with a willing-to-wait request is not
+nav@DIC.US.ORACLE.COM> prompt available, the requesting process waits a short time and requests
+available, the requesting process waits a short time and requests
+nav@DIC.US.ORACLE.COM> prompt again.
+again.
+nav@DIC.US.ORACLE.COM> prompt If the latch requested with an immediate request is not available,
+If the latch requested with an immediate request is not available,
+nav@DIC.US.ORACLE.COM> prompt the requesting process does not wait, but continues processing
+the requesting process does not wait, but continues processing
+nav@DIC.US.ORACLE.COM> prompt
+
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> set head on
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> select name,          gets,              misses,
+  2         immediate_gets,  immediate_misses,  sleeps
+  3  from   v$latch
+  4  where  name in ('redo allocation',  'redo copy')
+  5  /
+
+NAME                GETS   MISSES IMMED GETS IMMED MISS  SLEEPS                                                         
+--------------- -------- -------- ---------- ---------- -------                                                         
+redo copy           6352        0    3090524       8833       0                                                         
+redo allocation  3846920     4334          0          0      14                                                         
+
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> set head off
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> select 'Ratio of MISSES to GETS: '||
+  2          round((sum(misses)/(sum(gets)+0.00000000001) * 100),2)||'%'
+  3  from    v$latch
+  4  where   name in ('redo allocation',  'redo copy')
+  5  /
+
+Ratio of MISSES to GETS: .11%                                                                                           
+
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> select 'Ratio of IMMEDIATE_MISSES to IMMEDIATE_GETS: '||
+  2          round((sum(immediate_misses)/
+  3         (sum(immediate_misses+immediate_gets)+0.00000000001) * 100),2)||'%'
+  4  from    v$latch
+  5  where   name in ('redo allocation',  'redo copy')
+  6  /
+
+Ratio of IMMEDIATE_MISSES to IMMEDIATE_GETS: .28%                                                                       
+
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> prompt
+
+nav@DIC.US.ORACLE.COM> prompt If either ratio exceeds 1%, performance will be affected.
+If either ratio exceeds 1%, performance will be affected.
+nav@DIC.US.ORACLE.COM> prompt
+
+nav@DIC.US.ORACLE.COM> prompt Decreasing the size of LOG_SMALL_ENTRY_MAX_SIZE reduces the number of
+Decreasing the size of LOG_SMALL_ENTRY_MAX_SIZE reduces the number of
+nav@DIC.US.ORACLE.COM> prompt processes copying information on the redo allocation latch.
+processes copying information on the redo allocation latch.
+nav@DIC.US.ORACLE.COM> prompt
+
+nav@DIC.US.ORACLE.COM> prompt Increasing the size of LOG_SIMULTANEOUS_COPIES will reduce contention
+Increasing the size of LOG_SIMULTANEOUS_COPIES will reduce contention
+nav@DIC.US.ORACLE.COM> prompt for redo copy latches.
+for redo copy latches.
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> rem
+nav@DIC.US.ORACLE.COM> rem This shows the library cache reloads
+nav@DIC.US.ORACLE.COM> rem
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> set head on
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> prompt
+
+nav@DIC.US.ORACLE.COM> prompt------------------------------------------------------------------------
+> 
+----------------------------------------------------------------------- 
+nav@DIC.US.ORACLE.COM> prompt
+
+nav@DIC.US.ORACLE.COM> prompt Look at gethitratio and pinhit ratio
+Look at gethitratio and pinhit ratio
+nav@DIC.US.ORACLE.COM> prompt
+
+nav@DIC.US.ORACLE.COM> prompt GETHITRATIO is number of GETHTS/GETS
+GETHITRATIO is number of GETHTS/GETS
+nav@DIC.US.ORACLE.COM> prompt PINHIT RATIO is number of PINHITS/PINS - number close to 1 indicates
+PINHIT RATIO is number of PINHITS/PINS - number close to 1 indicates
+nav@DIC.US.ORACLE.COM> prompt that most objects requested for pinning have been cached.  Pay close
+that most objects requested for pinning have been cached.  Pay close
+nav@DIC.US.ORACLE.COM> prompt attention to PINHIT RATIO.
+attention to PINHIT RATIO.
+nav@DIC.US.ORACLE.COM> prompt
+
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> column namespace    format a20   heading 'NAME'
+nav@DIC.US.ORACLE.COM> column gets         format 99999999 heading 'GETS'
+nav@DIC.US.ORACLE.COM> column gethits      format 99999999 heading 'GETHITS'
+nav@DIC.US.ORACLE.COM> column gethitratio  format 999.99   heading 'GET HIT|RATIO'
+nav@DIC.US.ORACLE.COM> column pins         format 9999999  heading 'PINHITS'
+nav@DIC.US.ORACLE.COM> column pinhitratio  format 999.99   heading 'PIN HIT|RATIO'
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> select namespace,    gets,  gethits,
+  2         gethitratio,  pins,  pinhitratio
+  3  from   v$librarycache
+  4  /
+
+                                         GET HIT          PIN HIT                                                       
+NAME                      GETS   GETHITS   RATIO  PINHITS   RATIO                                                       
+-------------------- --------- --------- ------- -------- -------                                                       
+SQL AREA               1064401   1041384     .98 ########    1.00                                                       
+TABLE/PROCEDURE         853897    835969     .98  5823003     .99                                                       
+BODY                    713433    713309    1.00   720639    1.00                                                       
+TRIGGER                  37129     37116    1.00    37129    1.00                                                       
+INDEX                   275762    244822     .89   305608     .80                                                       
+CLUSTER                    490       481     .98      633     .98                                                       
+OBJECT                       0         0    1.00        0    1.00                                                       
+PIPE                     40262     40256    1.00    40262    1.00                                                       
+JAVA SOURCE                  0         0    1.00        0    1.00                                                       
+JAVA RESOURCE                0         0    1.00        0    1.00                                                       
+JAVA DATA                    0         0    1.00        0    1.00                                                       
+
+11 rows selected.
+
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> rem
+nav@DIC.US.ORACLE.COM> rem
+nav@DIC.US.ORACLE.COM> rem This looks at the dictionary cache miss rate
+nav@DIC.US.ORACLE.COM> rem
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> prompt
+
+nav@DIC.US.ORACLE.COM> prompt------------------------------------------------------------------------
+> 
+----------------------------------------------------------------------- 
+nav@DIC.US.ORACLE.COM> prompt THE DATA DICTIONARY CACHE:
+THE DATA DICTIONARY CACHE:
+nav@DIC.US.ORACLE.COM> prompt
+
+nav@DIC.US.ORACLE.COM> prompt
+
+nav@DIC.US.ORACLE.COM> prompt Consider keeping this below 5% to keep the data dictionary cache in
+Consider keeping this below 5% to keep the data dictionary cache in
+nav@DIC.US.ORACLE.COM> prompt the SGA.  Up the SHARED_POOL_SIZE to improve this statistic. **NOTE:
+the SGA.  Up the SHARED_POOL_SIZE to improve this statistic. **NOTE:
+nav@DIC.US.ORACLE.COM> prompt increasing the SHARED_POOL_SIZE will increase the SGA.
+increasing the SHARED_POOL_SIZE will increase the SGA.
+nav@DIC.US.ORACLE.COM> prompt
+
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> column dictcache format 999.99 heading 'Dictionary Cache | Ratio %'
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> select sum(getmisses) / (sum(gets)+0.00000000001) * 100 dictcache
+  2  from   v$rowcache
+  3  /
+
+Dictionary Cache                                                                                                        
+          Ratio %                                                                                                       
+-----------------                                                                                                       
+             6.32                                                                                                       
+
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> prompt
+
+nav@DIC.US.ORACLE.COM> prompt------------------------------------------------------------------------
+> 
+----------------------------------------------------------------------- 
+nav@DIC.US.ORACLE.COM> prompt
+
+nav@DIC.US.ORACLE.COM> prompt SYSTEM EVENTS:
+SYSTEM EVENTS:
+nav@DIC.US.ORACLE.COM> prompt
+
+nav@DIC.US.ORACLE.COM> prompt Not sure of the value of this section yet but it looks interesting.
+Not sure of the value of this section yet but it looks interesting.
+nav@DIC.US.ORACLE.COM> prompt
+
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> col event format a37 heading 'Event'
+nav@DIC.US.ORACLE.COM> col total_waits format 99999999 heading 'Total|Waits'
+nav@DIC.US.ORACLE.COM> col time_waited format 9999999999 heading 'Time Wait|In Hndrds'
+nav@DIC.US.ORACLE.COM> col total_timeouts format 999999 heading 'Timeout'
+nav@DIC.US.ORACLE.COM> col average_wait heading 'Average|Time' format 999999.999
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> set pages 999
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> select *
+  2  from   v$system_event
+  3  /
+
+                                          Total           Time Wait     Average                                         
+Event                                     Waits Timeout   In Hndrds        Time TIME_WAITED_MICRO                       
+------------------------------------- --------- ------- ----------- ----------- -----------------                       
+latch free                                 5837    2015        1706        .000          17061962                       
+pmon timer                                34363   34361    10090276     294.000        1.0090E+11                       
+process startup                              46       0         297       6.000           2968064                       
+rdbms ipc reply                            1012       0         331        .000           3314827                       
+rdbms ipc message                       1475068  871892    48474665      33.000        4.8475E+11                       
+enqueue                                    1113       7        5957       5.000          59568771                       
+reliable message                              1       0           0        .000               883                       
+control file sequential read              23341       0         250        .000           2499016                       
+control file parallel write               35115       0       12705        .000         127052466                       
+refresh controlfile command                   1       0           3       3.000             28204                       
+control file heartbeat                        1       1         400     400.000           4004601                       
+buffer busy waits                          4382       5        3233       1.000          32330503                       
+log file sequential read                     84       0          19        .000            188864                       
+log file single write                        84       0          32        .000            317746                       
+log file parallel write                  381566  375132       24638        .000         246377493                       
+LGWR wait for redo copy                    7875       0          71        .000            706609                       
+log file switch completion                   45       0         195       4.000           1948721                       
+log file sync                             81488      85       37589        .000         375888329                       
+db file sequential read                  389623       0      109178        .000        1091778140                       
+db file scattered read                  1492330       0       72258        .000         722575778                       
+db file parallel write                    11880       0        8200       1.000          82001778                       
+direct path read                         161061       0       45308        .000         453082899                       
+direct path write                          8278       0         688        .000           6878296                       
+direct path read (lob)                       50       0          51       1.000            514622                       
+direct path write (lob)                      50       0          27       1.000            273247                       
+undo segment extension                        5       4           0        .000                13                       
+sort segment request                          1       1         100     100.000           1002920                       
+instance state change                         2       0           0        .000              1791                       
+smon timer                                  348     329     9709790   27902.000        9.7098E+10                       
+row cache lock                                6       0          18       3.000            182141                       
+library cache pin                          4695     124       39619       8.000         396185700                       
+library cache lock                            5       0         151      30.000           1507133                       
+library cache load lock                      18       4        1356      75.000          13556510                       
+jobq slave wait                             103      99       30623     297.000         306226097                       
+pipe get                                 167770  167769    70533101     420.000        7.0533E+11                       
+PX qref latch                               141      52        5268      37.000          52684813                       
+PX Idle Wait                              28885   24755     5113792     177.000        5.1138E+10                       
+PX Deq: Join ACK                           2347       0         404        .000           4035350                       
+PX Deq Credit: need buffer                10913       0         679        .000           6788568                       
+PX Deq Credit: send blkd                  21228       0        2582        .000          25822773                       
+PX Deq: Signal ACK                         2901     912        5620       2.000          56197006                       
+PX Deq: Msg Fragment                       9075       3        2422        .000          24216444                       
+PX Deq: Parse Reply                        2950      54       16847       6.000         168468274                       
+PX Deq: Execute Reply                     30242      40       40957       1.000         409567174                       
+PX Deq: Execution Msg                     50301     722      329149       7.000        3291492523                       
+PX Deq: Table Q Normal                    50317       2       14887        .000         148867177                       
+PX Deq: Table Q Sample                      145       4         432       3.000           4319174                       
+PX Deq: Table Q qref                       3484       9         131        .000           1314657                       
+PX Deq: Table Q Get Keys                     55       0           5        .000             47376                       
+SQL*Net message to client               4967112       0        1324        .000          13235239                       
+SQL*Net more data to client               28355       0         244        .000           2441386                       
+SQL*Net message from client             4967043       0   278183716      56.000        2.7818E+12                       
+SQL*Net more data from client             40850       0      125617       3.000        1256169428                       
+SQL*Net break/reset to client            176158       0       10841        .000         108409773                       
+PL/SQL lock timer                         40267   40267    40249914    1000.000        4.0250E+11                       
+queue messages                           325281  325280   273122054     840.000        2.7312E+12                       
+wakeup time manager                        3258    3255     9694224    2976.000        9.6942E+10                       
+
+57 rows selected.
+
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> prompt
+
+nav@DIC.US.ORACLE.COM> prompt------------------------------------------------------------------------
+> 
+----------------------------------------------------------------------- 
+nav@DIC.US.ORACLE.COM> rem
+nav@DIC.US.ORACLE.COM> rem
+nav@DIC.US.ORACLE.COM> rem This looks at the sga area breakdown
+nav@DIC.US.ORACLE.COM> rem
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> prompt THE SGA AREA ALLOCATION:
+THE SGA AREA ALLOCATION:
+nav@DIC.US.ORACLE.COM> prompt
+
+nav@DIC.US.ORACLE.COM> prompt
+
+nav@DIC.US.ORACLE.COM> prompt This shows the allocation of SGA storage.  Examine this before and
+This shows the allocation of SGA storage.  Examine this before and
+nav@DIC.US.ORACLE.COM> prompt after making changes in the INIT.ORA file which will impact the SGA.
+after making changes in the INIT.ORA file which will impact the SGA.
+nav@DIC.US.ORACLE.COM> prompt
+
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> col name format a40
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> select name, bytes
+  2  from   v$sgastat
+  3  /
+
+NAME                                          BYTES                                                                     
+---------------------------------------- ----------                                                                     
+fixed_sga                                    455532                                                                     
+log_buffer                                 10617856                                                                     
+errors                                        39452                                                                     
+enqueue                                      380336                                                                     
+DML lock                                    1333076                                                                     
+KGK heap                                       8748                                                                     
+KQR L SO                                      72704                                                                     
+KQR M PO                                   92613644                                                                     
+KQR M SO                                     183848                                                                     
+KQR S PO                                   12234824                                                                     
+KQR S SO                                       6912                                                                     
+sessions                                     966400                                                                     
+sql area                                   14663540                                                                     
+1M buffer                                   2098176                                                                     
+KGLS heap                                  51670908                                                                     
+processes                                    188800                                                                     
+PX subheap                                    29512                                                                     
+parameters                                    69752                                                                     
+free memory                                38697128                                                                     
+transaction                                  438944                                                                     
+PL/SQL DIANA                                 538604                                                                     
+FileOpenBlock                               2336476                                                                     
+PL/SQL MPCODE                               3275356                                                                     
+library cache                              63795808                                                                     
+miscellaneous                              17057200                                                                     
+PLS non-lib hp                                 2068                                                                     
+joxs heap init                                  512                                                                     
+kgl simulator                              12471832                                                                     
+partitioning d                               333876                                                                     
+table definiti                                 1308                                                                     
+temporary tabl                                85892                                                                     
+trigger defini                                 4328                                                                     
+trigger inform                                  880                                                                     
+trigger source                                 2092                                                                     
+type object de                                71396                                                                     
+Checkpoint queue                            2886400                                                                     
+db_block_buffers                            3840000                                                                     
+dictionary cache                            1614976                                                                     
+enqueue resources                           2708816                                                                     
+sim trace entries                            393216                                                                     
+ktlbk state objects                          188320                                                                     
+KSXR receive buffers                        1033000                                                                     
+db_block_hash_buckets                        233472                                                                     
+FileIdentificatonBlock                       826816                                                                     
+message pool freequeue                       834752                                                                     
+KSXR pending messages que                    841036                                                                     
+event statistics per sess                   4468800                                                                     
+fixed allocation callback                       384                                                                     
+free memory                                50331648                                                                     
+
+49 rows selected.
+
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> set head off
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> select 'total of SGA                            '||sum(bytes)
+  2  from    v$sgastat
+  3  /
+
+total of SGA                            396949356                                                                       
+
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> prompt
+
+nav@DIC.US.ORACLE.COM> prompt------------------------------------------------------------------------
+> 
+----------------------------------------------------------------------- 
+nav@DIC.US.ORACLE.COM> rem
+nav@DIC.US.ORACLE.COM> rem Displays all the base session statistics
+nav@DIC.US.ORACLE.COM> rem
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> set head on
+nav@DIC.US.ORACLE.COM> set pagesize 110
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> column name        format a55            heading 'Statistic Name'
+nav@DIC.US.ORACLE.COM> column value       format 9,999,999,999  heading 'Result'
+nav@DIC.US.ORACLE.COM> column statistic#  format 9999           heading 'Stat#'
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> ttitle center 'Instance Statistics' skip 2
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> prompt
+
+nav@DIC.US.ORACLE.COM> prompt Below is a dump of the core Instance Statistics that are greater than0.
+Below is a dump of the core Instance Statistics that are greater than0.
+nav@DIC.US.ORACLE.COM> prompt Although there are a great many statistics listed, the ones of greatest
+Although there are a great many statistics listed, the ones of greatest
+nav@DIC.US.ORACLE.COM> prompt value are displayed in other formats throughout this report.  Of
+value are displayed in other formats throughout this report.  Of
+nav@DIC.US.ORACLE.COM> prompt interest here are the values for:
+interest here are the values for:
+nav@DIC.US.ORACLE.COM> prompt
+
+nav@DIC.US.ORACLE.COM> prompt  cumulative logons
+cumulative logons
+nav@DIC.US.ORACLE.COM> prompt(# of actual connections to the DB since last startup - good
+(# of actual connections to the DB since last startup - good
+nav@DIC.US.ORACLE.COM> prompt  volume-of-use statistic)
+volume-of-use statistic)
+nav@DIC.US.ORACLE.COM> prompt
+
+nav@DIC.US.ORACLE.COM> prompt  #93  table fetch continued row
+#93  table fetch continued row
+nav@DIC.US.ORACLE.COM> prompt  (# of chained rows - will be higher if there are a lot of long fields
+(# of chained rows - will be higher if there are a lot of long fields
+nav@DIC.US.ORACLE.COM> prompt  if the value goes up over time, it is a good signaller of general
+if the value goes up over time, it is a good signaller of general
+nav@DIC.US.ORACLE.COM> prompt  database fragmentation)
+database fragmentation)
+nav@DIC.US.ORACLE.COM> prompt
+
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> select statistic#,  name,  value
+  2  from   v$sysstat
+  3  where  value > 0
+  4  /
+
+                                                   Instance Statistics                                                  
+                                                                                                                        
+Stat# Statistic Name                                                  Result                                            
+----- ------------------------------------------------------- --------------                                            
+    0 logons cumulative                                               15,025                                            
+    1 logons current                                                     112                                            
+    2 opened cursors cumulative                                    2,452,606                                            
+    3 opened cursors current                                           1,934                                            
+    4 user commits                                                   140,710                                            
+    5 user rollbacks                                                   3,272                                            
+    6 user calls                                                   4,334,421                                            
+    7 recursive calls                                             54,944,199                                            
+    8 recursive cpu usage                                            541,867                                            
+    9 session logical reads                                       96,662,763                                            
+   11 CPU used when call started                                   1,098,943                                            
+   12 CPU used by this session                                     1,097,834                                            
+   13 session connect time                                    ##############                                            
+   14 process last non-idle time                              ##############                                            
+   15 session uga memory                                         263,891,132                                            
+   16 session uga memory max                                  ##############                                            
+   17 messages sent                                                  378,537                                            
+   18 messages received                                              378,538                                            
+   19 background timeouts                                            121,133                                            
+   20 session pga memory                                       1,384,414,980                                            
+   21 session pga memory max                                  ##############                                            
+   22 enqueue timeouts                                                21,816                                            
+   23 enqueue waits                                                    1,000                                            
+   25 enqueue requests                                             2,428,117                                            
+   26 enqueue conversions                                             42,082                                            
+   27 enqueue releases                                             2,406,638                                            
+   40 db block gets                                                5,007,367                                            
+   41 consistent gets                                             92,508,766                                            
+   42 physical reads                                              11,747,247                                            
+   43 db block changes                                             5,917,869                                            
+   44 consistent changes                                           2,122,324                                            
+   46 physical writes                                                 82,844                                            
+   47 physical writes non checkpoint                                  49,628                                            
+   48 summed dirty queue length                                       15,029                                            
+   49 DBWR checkpoint buffers written                                 57,922                                            
+   50 DBWR transaction table writes                                      965                                            
+   51 DBWR undo block writes                                          38,796                                            
+   52 DBWR revisited being-written buffer                                  3                                            
+   53 DBWR make free requests                                          2,484                                            
+   54 DBWR free buffers found                                        234,890                                            
+   55 DBWR lru scans                                                   1,554                                            
+   56 DBWR summed scan depth                                         246,827                                            
+   57 DBWR buffers scanned                                           246,827                                            
+   58 DBWR checkpoints                                                   163                                            
+   71 change write time                                               19,738                                            
+   72 redo synch writes                                              105,604                                            
+   73 redo synch time                                                 41,308                                            
+   75 free buffer requested                                       11,555,715                                            
+   76 dirty buffers inspected                                          2,896                                            
+   77 pinned buffers inspected                                           784                                            
+   78 hot buffers moved to head of LRU                                51,556                                            
+   79 free buffer inspected                                            5,820                                            
+   81 commit cleanout failures: block lost                            29,898                                            
+   82 commit cleanout failures: cannot pin                               120                                            
+   84 commit cleanout failures: buffer being written                       1                                            
+   85 commit cleanout failures: callback failure                          20                                            
+   86 commit cleanouts                                             1,217,567                                            
+   87 commit cleanouts successfully completed                      1,187,528                                            
+   90 CR blocks created                                              377,253                                            
+   92 switch current to new buffer                                   208,137                                            
+   93 write clones created in foreground                                  19                                            
+   95 prefetched blocks                                            9,008,365                                            
+   96 prefetched blocks aged out before use                           78,665                                            
+   97 physical reads direct                                          862,181                                            
+   98 physical writes direct                                           9,451                                            
+   99 physical reads direct (lob)                                         50                                            
+  100 physical writes direct (lob)                                        50                                            
+  102 consistent gets - examination                               42,350,829                                            
+  103 shared hash latch upgrades - no wait                         8,426,385                                            
+  104 shared hash latch upgrades - wait                                  380                                            
+  105 calls to kcmgcs                                                 18,328                                            
+  107 calls to kcmgas                                              2,863,720                                            
+  110 calls to get snapshot scn: kcmgss                           17,704,050                                            
+  114 redo entries                                                 3,083,779                                            
+  115 redo size                                                  832,770,220                                            
+  116 redo buffer allocation retries                                      43                                            
+  117 redo wastage                                               106,367,920                                            
+  118 redo writer latching time                                           70                                            
+  119 redo writes                                                    381,589                                            
+  120 redo blocks written                                          1,893,883                                            
+  121 redo write time                                                119,160                                            
+  122 redo log space requests                                             46                                            
+  123 redo log space wait time                                           201                                            
+  125 redo ordering marks                                                  6                                            
+  152 background checkpoints started                                      19                                            
+  153 background checkpoints completed                                    18                                            
+  161 transaction tables consistent reads - undo records appl             68                                            
+      ied                                                                                                               
+                                                                                                                        
+  162 transaction tables consistent read rollbacks                         1                                            
+  163 data blocks consistent reads - undo records applied          1,937,464                                            
+  164 no work - consistent read gets                              39,181,426                                            
+  165 cleanouts only - consistent read gets                            4,966                                            
+  166 rollbacks only - consistent read gets                          108,075                                            
+  167 cleanouts and rollbacks - consistent read gets                 297,220                                            
+  171 rollback changes - undo records applied                          3,294                                            
+  172 transaction rollbacks                                            3,273                                            
+  173 immediate (CURRENT) block cleanout applications                 39,458                                            
+  174 immediate (CR) block cleanout applications                     302,186                                            
+  175 deferred (CURRENT) block cleanout applications                 436,398                                            
+  176 commit txn count during cleanout                                97,870                                            
+  177 active txn count during cleanout                               372,692                                            
+  178 cleanout - number of ktugct calls                              322,900                                            
+  181 Commit SCN cached                                                  228                                            
+  182 Cached Commit SCN referenced                                       789                                            
+
+                                                   Instance Statistics                                                  
+                                                                                                                        
+Stat# Statistic Name                                                  Result                                            
+----- ------------------------------------------------------- --------------                                            
+  183 table scans (short tables)                                     881,932                                            
+  184 table scans (long tables)                                       24,010                                            
+  185 table scans (rowid ranges)                                      16,330                                            
+  186 table scans (cache partitions)                                     949                                            
+  187 table scans (direct read)                                        6,252                                            
+  188 table scan rows gotten                                     106,222,312                                            
+  189 table scan blocks gotten                                    15,737,141                                            
+  190 table fetch by rowid                                        21,780,006                                            
+  191 table fetch continued row                                       80,724                                            
+  192 cluster key scans                                            2,468,703                                            
+  193 cluster key scan block gets                                  7,375,080                                            
+  194 rows fetched via callback                                    8,822,015                                            
+  195 leaf node splits                                                 1,168                                            
+  196 leaf node 90-10 splits                                             369                                            
+  197 branch node splits                                                   7                                            
+  200 index fast full scans (full)                                    11,876                                            
+  201 index fast full scans (rowid ranges)                            10,449                                            
+  202 index fast full scans (direct read)                              4,985                                            
+  203 index fetch by key                                          38,926,545                                            
+  204 index scans kdiixs1                                         12,304,103                                            
+  205 session cursor cache hits                                    1,279,563                                            
+  206 session cursor cache count                                       1,281                                            
+  207 cursor authentications                                           1,166                                            
+  208 queries parallelized                                               480                                            
+  209 DML statements parallelized                                         20                                            
+  210 DDL statements parallelized                                         20                                            
+  211 DFO trees parallelized                                             520                                            
+  212 Parallel operations not downgraded                                  50                                            
+  213 Parallel operations downgraded to serial                            17                                            
+  215 Parallel operations downgraded 50 to 75 pct                          8                                            
+  216 Parallel operations downgraded 25 to 50 pct                        462                                            
+  218 PX local messages sent                                         206,002                                            
+  219 PX local messages recv'd                                       206,002                                            
+  222 buffer is pinned count                                      38,584,999                                            
+  223 buffer is not pinned count                                  62,391,894                                            
+  224 no buffer to keep pinned count                                       1                                            
+  227 workarea executions - optimal                                1,035,182                                            
+  230 parse time cpu                                                 192,711                                            
+  231 parse time elapsed                                             289,593                                            
+  232 parse count (total)                                          3,159,414                                            
+  233 parse count (hard)                                              39,818                                            
+  234 parse count (failures)                                               5                                            
+  235 execute count                                               14,477,086                                            
+  236 bytes sent via SQL*Net to client                           349,130,250                                            
+  237 bytes received via SQL*Net from client                     785,373,900                                            
+  238 SQL*Net roundtrips to/from client                            4,937,842                                            
+  242 sorts (memory)                                               1,316,861                                            
+  244 sorts (rows)                                               120,859,167                                            
+
+151 rows selected.
+
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> prompt
+
+nav@DIC.US.ORACLE.COM> prompt -----------------------------------------------------------------------
+> 
+---------------------------------------------------------------------- 
+nav@DIC.US.ORACLE.COM> set pages 66;
+nav@DIC.US.ORACLE.COM> set space 3;
+nav@DIC.US.ORACLE.COM> set heading on;
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> prompt
+
+nav@DIC.US.ORACLE.COM> prompt Parse Ratio usually falls between 1.15 and 1.45.  If it is higher, then
+Parse Ratio usually falls between 1.15 and 1.45.  If it is higher, then
+nav@DIC.US.ORACLE.COM> prompt it is usually a sign of poorly written Pro* programs or unoptimized
+it is usually a sign of poorly written Pro* programs or unoptimized
+nav@DIC.US.ORACLE.COM> prompt SQL*Forms applications.
+SQL*Forms applications.
+nav@DIC.US.ORACLE.COM> prompt
+
+nav@DIC.US.ORACLE.COM> prompt Recursive Call Ratio will usually be between
+Recursive Call Ratio will usually be between
+nav@DIC.US.ORACLE.COM> prompt
+
+nav@DIC.US.ORACLE.COM> prompt   7.0 - 10.0 for tuned production systems
+7.0 - 10.0 for tuned production systems
+nav@DIC.US.ORACLE.COM> prompt  10.0 - 14.5 for tuned development systems
+10.0 - 14.5 for tuned development systems
+nav@DIC.US.ORACLE.COM> prompt
+
+nav@DIC.US.ORACLE.COM> prompt Buffer Hit Ratio is dependent upon RDBMS size, SGA size and
+Buffer Hit Ratio is dependent upon RDBMS size, SGA size and
+nav@DIC.US.ORACLE.COM> prompt the types of applications being processed.  This shows the %-age
+the types of applications being processed.  This shows the %-age
+nav@DIC.US.ORACLE.COM> prompt of logical reads from the SGA as opposed to total reads - the
+of logical reads from the SGA as opposed to total reads - the
+nav@DIC.US.ORACLE.COM> prompt figure should be as high as possible.  The hit ratio can be raised
+figure should be as high as possible.  The hit ratio can be raised
+nav@DIC.US.ORACLE.COM> prompt by increasing DB_BUFFERS, which increases SGA size.  By turning on
+by increasing DB_BUFFERS, which increases SGA size.  By turning on
+nav@DIC.US.ORACLE.COM> prompt the "Virtual Buffer Manager" (db_block_lru_statistics = TRUE and
+the "Virtual Buffer Manager" (db_block_lru_statistics = TRUE and
+nav@DIC.US.ORACLE.COM> prompt db_block_lru_extended_statistics = TRUE in the init.ora parameters),
+db_block_lru_extended_statistics = TRUE in the init.ora parameters),
+nav@DIC.US.ORACLE.COM> prompt you can determine how many extra hits you would get from memory as
+you can determine how many extra hits you would get from memory as
+nav@DIC.US.ORACLE.COM> prompt opposed to physical I/O from disk.  **NOTE:  Turning these on will
+opposed to physical I/O from disk.  **NOTE:  Turning these on will
+nav@DIC.US.ORACLE.COM> prompt impact performance.  One shift of statistics gathering should be enough
+impact performance.  One shift of statistics gathering should be enough
+nav@DIC.US.ORACLE.COM> prompt to get the required information.
+to get the required information.
+nav@DIC.US.ORACLE.COM> prompt
+
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> ttitle left 'Ratios for this Instance' skip 2
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> column pcc   heading 'Parse|Ratio'       format 99.99
+nav@DIC.US.ORACLE.COM> column rcc   heading 'Recsv|Cursr'       format 99.99
+nav@DIC.US.ORACLE.COM> column hr    heading 'Buffer|Ratio'      format 999,999,999.999
+nav@DIC.US.ORACLE.COM> column rwr   heading 'Rd/Wr|Ratio'       format 999,999.9
+nav@DIC.US.ORACLE.COM> column bpfts heading 'Blks per|Full TS'  format 999,999
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> REM Modified for O7.1 to reverse 'cumulative opened cursors' to
+nav@DIC.US.ORACLE.COM> REM 'opened cursors cumulative'
+nav@DIC.US.ORACLE.COM> REM was:sum(decode(a.name,'cumulative opened cursors',value, .00000000001))
+nav@DIC.US.ORACLE.COM> REM pcc,
+nav@DIC.US.ORACLE.COM> REM and:sum(decode(a.name,'cumulative opened cursors',value,.00000000001))
+nav@DIC.US.ORACLE.COM> REM rcc,
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> select sum(decode(a.name,'parse count',value,0)) /
+  2         sum(decode(a.name,'opened cursors cumulative',value,.00000000001)) pcc,
+  3         sum(decode(a.name,'recursive calls',value,0)) /
+  4         sum(decode(a.name,'opened cursors cumulative',value,.00000000001)) rcc,
+  5         (1-(sum(decode(a.name,'physical reads',value,0)) /
+  6         sum(decode(a.name,'db block gets',value,.00000000001)) +
+  7    sum(decode(a.name,'consistent gets',value,0))) * (-1)) hr,
+  8         sum(decode(a.name,'physical reads',value,0)) /
+  9         sum(decode(a.name,'physical writes',value,.00000000001)) rwr,
+ 10         (sum(decode(a.name,'table scan blocks gotten',value,0)) -
+ 11         sum(decode(a.name,'table scans (short tables)',value,0)) * 4) /
+ 12         sum(decode(a.name,'table scans (long tables)',value,.00000000001))
+ 13  bpfts
+ 14  from   v$sysstat a
+ 15  /
+
+Ratios for this Instance                                                                                                
+                                                                                                                        
+ Parse    Recsv             Buffer        Rd/Wr   Blks per                                                              
+ Ratio    Cursr              Ratio        Ratio    Full TS                                                              
+------   ------   ----------------   ----------   --------                                                              
+   .00    22.40     92,510,617.346        141.8        509                                                              
+
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> prompt
+
+nav@DIC.US.ORACLE.COM> prompt -----------------------------------------------------------------
+> prompt This looks at overall i/o activity against individual
+---------------------------------------------------------------- prompt This looks at overall i/o activity against individual
+nav@DIC.US.ORACLE.COM> prompt files within a tablespace
+files within a tablespace
+nav@DIC.US.ORACLE.COM> prompt
+
+nav@DIC.US.ORACLE.COM> prompt Look for a mismatch across disk drives in terms of I/O
+Look for a mismatch across disk drives in terms of I/O
+nav@DIC.US.ORACLE.COM> prompt
+
+nav@DIC.US.ORACLE.COM> prompt Also, examine the Blocks per Read Ratio for heavily accessed
+Also, examine the Blocks per Read Ratio for heavily accessed
+nav@DIC.US.ORACLE.COM> prompt TSs - if this value is significantly above 1 then you may have
+TSs - if this value is significantly above 1 then you may have
+nav@DIC.US.ORACLE.COM> prompt full tablescans occurring (with multi-block I/O)
+full tablescans occurring (with multi-block I/O)
+nav@DIC.US.ORACLE.COM> prompt
+
+nav@DIC.US.ORACLE.COM> prompt If activity on the files is unbalanced, move files around to balance
+If activity on the files is unbalanced, move files around to balance
+nav@DIC.US.ORACLE.COM> prompt the load.  Should see an approximately even set of numbers across files
+the load.  Should see an approximately even set of numbers across files
+nav@DIC.US.ORACLE.COM> prompt
+
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> set pagesize 100;
+nav@DIC.US.ORACLE.COM> set space 1
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> column pbr       format 99999999  heading 'Physical|Blk Read'
+nav@DIC.US.ORACLE.COM> column pbw       format 999999    heading 'Physical|Blks Wrtn'
+nav@DIC.US.ORACLE.COM> column pyr       format 999999    heading 'Physical|Reads'
+nav@DIC.US.ORACLE.COM> column readtim   format 99999999  heading 'Read|Time'
+nav@DIC.US.ORACLE.COM> column name      format a40       heading 'DataFile Name'
+nav@DIC.US.ORACLE.COM> column writetim  format 99999999  heading 'Write|Time'
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> ttitle center 'Tablespace Report' skip 2
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> compute sum of f.phyblkrd, f.phyblkwrt on report
+nav@DIC.US.ORACLE.COM> 
+nav@DIC.US.ORACLE.COM> select fs.name name,  f.phyblkrd pbr,  f.phyblkwrt pbw,
+  2         f.readtim,     f.writetim
+  3  from   v$filestat f, v$datafile fs
+  4  where  f.file#  =  fs.file#
+  5  order  by fs.name
+  6  /
+
+                                                    Tablespace Report                                                   
+                                                                                                                        
+                                          Physical  Physical      Read     Write                                        
+DataFile Name                             Blk Read Blks Wrtn      Time      Time                                        
+---------------------------------------- --------- --------- --------- ---------                                        
+/dic/dicdata/USERS01.dbf                       221      1027        31       543                                        
+/dic/dicdata/abmd01.dbf                        344        19       476        15                                        
+/dic/dicdata/abmx01.dbf                        524        19       620        15                                        
+/dic/dicdata/ahld01.dbf                        273        19       447        12                                        
+/dic/dicdata/ahlx01.dbf                        511        19       672         2                                        
+/dic/dicdata/ahmd01.dbf                        239        19       458         1                                        
+/dic/dicdata/ahmx01.dbf                        285        19       513         2                                        
+/dic/dicdata/akd01.dbf                       14297        19      3202        13                                        
+/dic/dicdata/akx01.dbf                       11197        19      2133        13                                        
+/dic/dicdata/alrd01.dbf                        253        19        69        15                                        
+/dic/dicdata/alrx01.dbf                        213        19       149         8                                        
+/dic/dicdata/amfd01.dbf                        247        19       351        18                                        
+/dic/dicdata/amfx01.dbf                        279        19       384        16                                        
+/dic/dicdata/amsd01.dbf                        894        19       806         9                                        
+/dic/dicdata/amsx01.dbf                       1664        19      1317        12                                        
+/dic/dicdata/amvd01.dbf                        673        19       322        18                                        
+/dic/dicdata/amvx01.dbf                        659        19       156        18                                        
+/dic/dicdata/apd01.dbf                         699        19       422        14                                        
+/dic/dicdata/applsysd01.dbf                 698677      4878     24690      3488                                        
+/dic/dicdata/applsysd02.dbf                2474352      1857     32314       348                                        
+/dic/dicdata/applsysx01.dbf                 132629      9991      8824      8770                                        
+/dic/dicdata/applsysx02.dbf                 286803      2979     67156       917                                        
+/dic/dicdata/apx01.dbf                         897        19       712        21                                        
+/dic/dicdata/ard01.dbf                        4557        19      1495        23                                        
+/dic/dicdata/arx01.dbf                        4289        19      2369        22                                        
+/dic/dicdata/asfd01.dbf                        113        19       149        18                                        
+/dic/dicdata/asfx01.dbf                        117        19       181        15                                        
+/dic/dicdata/asgd01.dbf                        337        19       337         8                                        
+/dic/dicdata/asgx01.dbf                        189        19       163        16                                        
+/dic/dicdata/asld01.dbf                        160        19       284        14                                        
+/dic/dicdata/aslx01.dbf                        149        19       276        12                                        
+/dic/dicdata/asod01.dbf                       7034        19       507        18                                        
+/dic/dicdata/asox01.dbf                        307        19       285        17                                        
+/dic/dicdata/aspd01.dbf                        165        19       309         2                                        
+/dic/dicdata/aspx01.dbf                        183        19       324        14                                        
+/dic/dicdata/astd01.dbf                        122        19       192        18                                        
+/dic/dicdata/astx01.dbf                        137        19       165        17                                        
+/dic/dicdata/axd01.dbf                        6855        19      1963        17                                        
+/dic/dicdata/axx01.dbf                       10070        37       330        20                                        
+/dic/dicdata/azd01.dbf                         159        19       135        17                                        
+/dic/dicdata/azx01.dbf                         156        19        94        13                                        
+/dic/dicdata/bend01.dbf                        607        19       849         5                                        
+/dic/dicdata/benx01.dbf                       3419        19      2526         5                                        
+/dic/dicdata/bicd01.dbf                        186        19       163        15                                        
+/dic/dicdata/bicx01.dbf                        151        19       207        15                                        
+/dic/dicdata/bild01.dbf                         55        19       120        16                                        
+/dic/dicdata/bilx01.dbf                         99        19       142        18                                        
+/dic/dicdata/bimd01.dbf                        367        19       377        15                                        
+/dic/dicdata/bimx01.dbf                        999        19       773        17                                        
+/dic/dicdata/bisd01.dbf                       4165        19      1695        13                                        
+/dic/dicdata/bisx01.dbf                       2994        19      1973        14                                        
+/dic/dicdata/bivd01.dbf                        192        19       287        16                                        
+/dic/dicdata/bivx01.dbf                        189        19       332        14                                        
+/dic/dicdata/bixd01.dbf                        110        19       163         7                                        
+/dic/dicdata/bixx01.dbf                        211        19       131         6                                        
+/dic/dicdata/bned01.dbf                        654        19       486        14                                        
+/dic/dicdata/bnex01.dbf                        417        19       496        21                                        
+/dic/dicdata/bomd01.dbf                       1077        19       799        15                                        
+/dic/dicdata/bomx01.dbf                       1337        19      1089        13                                        
+/dic/dicdata/bscd01.dbf                        194        19       210        11                                        
+/dic/dicdata/bscx01.dbf                        336        19       284        11                                        
+/dic/dicdata/cctd01.dbf                        126        19       123        17                                        
+/dic/dicdata/cctx01.dbf                        205        19       204         3                                        
+/dic/dicdata/ced01.dbf                         107        19       179         6                                        
+/dic/dicdata/cex01.dbf                         161        19       189         6                                        
+/dic/dicdata/clnd01.dbf                        252        19       329         3                                        
+/dic/dicdata/clnx01.dbf                        271        19       289         1                                        
+/dic/dicdata/cnd01.dbf                        5086        19       919        14                                        
+/dic/dicdata/cnx01.dbf                        3251        36       339        22                                        
+/dic/dicdata/crpd01.dbf                         86        19       195        10                                        
+/dic/dicdata/crpx01.dbf                        117        19       208         9                                        
+/dic/dicdata/cscd01.dbf                        217        19       174         3                                        
+/dic/dicdata/cscx01.dbf                        211        19       204         5                                        
+/dic/dicdata/csd01.dbf                         424        19       359         8                                        
+/dic/dicdata/csdd01.dbf                        112        19       195        14                                        
+/dic/dicdata/csdx01.dbf                        155        19       272        13                                        
+/dic/dicdata/csed01.dbf                        183        19       295        12                                        
+/dic/dicdata/csex01.dbf                        183        19       315        12                                        
+/dic/dicdata/csfd01.dbf                        196        19       203        14                                        
+/dic/dicdata/csfx01.dbf                        139        19       317        15                                        
+/dic/dicdata/csid01.dbf                        285        19       417        10                                        
+/dic/dicdata/csix01.dbf                        577        19       767         9                                        
+/dic/dicdata/csld01.dbf                        221        19       356        10                                        
+/dic/dicdata/cslx01.dbf                        329        19       372         7                                        
+/dic/dicdata/csmd01.dbf                        263        19       362        14                                        
+/dic/dicdata/csmx01.dbf                        407        19       439        15                                        
+/dic/dicdata/cspd01.dbf                        200        19       212        19                                        
+/dic/dicdata/cspx01.dbf                        395        19       357        11                                        
+/dic/dicdata/csrd01.dbf                         95        19       174        14                                        
+/dic/dicdata/csrx01.dbf                         83        19       185        13                                        
+/dic/dicdata/cssd01.dbf                        208        19       241        22                                        
+/dic/dicdata/cssx01.dbf                        403        19       374        18                                        
+/dic/dicdata/csx01.dbf                         929        19       804         7                                        
+/dic/dicdata/ctxd01.dbf                        195       137       124        80                                        
+
+                                                    Tablespace Report                                                   
+                                                                                                                        
+                                          Physical  Physical      Read     Write                                        
+DataFile Name                             Blk Read Blks Wrtn      Time      Time                                        
+---------------------------------------- --------- --------- --------- ---------                                        
+/dic/dicdata/cuad01.dbf                        147        19       255         2                                        
+/dic/dicdata/cuax01.dbf                        147        19       273        11                                        
+/dic/dicdata/cued01.dbf                        165        19       305         3                                        
+/dic/dicdata/cuex01.dbf                        165        19       285         3                                        
+/dic/dicdata/cufd01.dbf                        129        19       266         6                                        
+/dic/dicdata/cufx01.dbf                        129        19       238         3                                        
+/dic/dicdata/cugd01.dbf                        198        19       389         8                                        
+/dic/dicdata/cugx01.dbf                        255        19       380         6                                        
+/dic/dicdata/cuid01.dbf                        129        19       239         4                                        
+/dic/dicdata/cuix01.dbf                        129        19       254         4                                        
+/dic/dicdata/cund01.dbf                        159        19       294         3                                        
+/dic/dicdata/cunx01.dbf                        169        19       295         2                                        
+/dic/dicdata/cupd01.dbf                        129        19       263         4                                        
+/dic/dicdata/cupx01.dbf                        129        19       267         5                                        
+/dic/dicdata/cusd01.dbf                        147        19       271         3                                        
+/dic/dicdata/cust_data01.dbf                   221        19        34        18                                        
+/dic/dicdata/cusx01.dbf                        147        19       276         3                                        
+/dic/dicdata/czd01.dbf                         405        19       366        17                                        
+/dic/dicdata/czx01.dbf                         553        19       602        11                                        
+/dic/dicdata/dddd01.dbf                        534        19       420         1                                        
+/dic/dicdata/dddx01.dbf                        469        19       315         5                                        
+/dic/dicdata/domd01.dbf                        219        19       332        13                                        
+/dic/dicdata/domx01.dbf                        219        19       305        10                                        
+/dic/dicdata/eaad01.dbf                         71        19       120         9                                        
+/dic/dicdata/eaax01.dbf                        103        19       135        19                                        
+/dic/dicdata/eamd01.dbf                        164        19       292        19                                        
+/dic/dicdata/eamx01.dbf                        197        19       330        19                                        
+/dic/dicdata/ecd01.dbf                        1448        19       462         2                                        
+/dic/dicdata/ecx01.dbf                         332        19       415         1                                        
+/dic/dicdata/ecxd01.dbf                        630        19       329         2                                        
+/dic/dicdata/ecxx01.dbf                        403        19       296         3                                        
+/dic/dicdata/edrd01.dbf                        254        19       409         2                                        
+/dic/dicdata/edrx01.dbf                        269        19       326         8                                        
+/dic/dicdata/egod01.dbf                        275        19       434         6                                        
+/dic/dicdata/egox01.dbf                        339        19       467         6                                        
+/dic/dicdata/engd01.dbf                        133        19       338        11                                        
+/dic/dicdata/engx01.dbf                        333        19       642        12                                        
+/dic/dicdata/enid01.dbf                        303        19       517        10                                        
+/dic/dicdata/enix01.dbf                        637        19       944         9                                        
+/dic/dicdata/evmd01.dbf                         57        19       101        14                                        
+/dic/dicdata/evmx01.dbf                         57        19       120        15                                        
+/dic/dicdata/fad01.dbf                        1770        19       100        12                                        
+/dic/dicdata/fax01.dbf                        1253        19       925        18                                        
+/dic/dicdata/femd01.dbf                        114        19       130        15                                        
+/dic/dicdata/femx01.dbf                        121        19       144        17                                        
+/dic/dicdata/fiid01.dbf                        363        19       465        15                                        
+/dic/dicdata/fiix01.dbf                       1291        19       755        19                                        
+/dic/dicdata/flmd01.dbf                        110        19       214        11                                        
+/dic/dicdata/flmx01.dbf                        137        19       239         9                                        
+/dic/dicdata/fptd01.dbf                        162        19       225        19                                        
+/dic/dicdata/fptx01.dbf                        351        19       169        17                                        
+/dic/dicdata/frmd01.dbf                         57        19       102         7                                        
+/dic/dicdata/frmx01.dbf                         57        19        93         8                                        
+/dic/dicdata/fted01.dbf                        212        19       360         2                                        
+/dic/dicdata/ftex01.dbf                        319        19       327         3                                        
+/dic/dicdata/fvd01.dbf                         312        19       468         3                                        
+/dic/dicdata/fvx01.dbf                         431        19       513         3                                        
+/dic/dicdata/gld01.dbf                        2316        19       521        16                                        
+/dic/dicdata/glx01.dbf                        1224        19       556        16                                        
+/dic/dicdata/gmad01.dbf                        336        19       243        17                                        
+/dic/dicdata/gmax01.dbf                        160        19       218         2                                        
+/dic/dicdata/gmdd01.dbf                        312        19       513         6                                        
+/dic/dicdata/gmdx01.dbf                        407        19       540         3                                        
+/dic/dicdata/gmed01.dbf                         63        19        82        10                                        
+/dic/dicdata/gmex01.dbf                         99        19        99         6                                        
+/dic/dicdata/gmfd01.dbf                        228        19       149         5                                        
+/dic/dicdata/gmfx01.dbf                        183        19       185         6                                        
+/dic/dicdata/gmid01.dbf                        282        19       265         3                                        
+/dic/dicdata/gmix01.dbf                        301        19       283         4                                        
+/dic/dicdata/gmld01.dbf                        429        19       267        14                                        
+/dic/dicdata/gmlx01.dbf                        191        19       191        19                                        
+/dic/dicdata/gmpd01.dbf                        168        19       142         9                                        
+/dic/dicdata/gmpx01.dbf                        105        19       105         5                                        
+/dic/dicdata/gmsd01.dbf                        162        19       290        17                                        
+/dic/dicdata/gmsx01.dbf                        331        19       386        21                                        
+/dic/dicdata/grd01.dbf                         246        19       203         7                                        
+/dic/dicdata/grx01.dbf                         589        19       446         9                                        
+/dic/dicdata/hrd01.dbf                        5311        19      2625        13                                        
+/dic/dicdata/hrid01.dbf                        342        19       536        20                                        
+/dic/dicdata/hrix01.dbf                       1115        19      1614        18                                        
+/dic/dicdata/hrx01.dbf                        8317        21      5243        12                                        
+/dic/dicdata/hxcd01.dbf                        286        19       298         7                                        
+/dic/dicdata/hxcx01.dbf                        342        19       397         9                                        
+/dic/dicdata/hxtd01.dbf                        146        19       245         6                                        
+/dic/dicdata/hxtx01.dbf                        313        19       359         6                                        
+/dic/dicdata/ibad01.dbf                         45        19       103        12                                        
+/dic/dicdata/ibax01.dbf                         49        19       103        15                                        
+/dic/dicdata/ibcd01.dbf                        289        19       304         8                                        
+/dic/dicdata/ibcx01.dbf                        305        19       393         9                                        
+/dic/dicdata/ibed01.dbf                        129        19       247        15                                        
+/dic/dicdata/ibex01.dbf                        264        19       379        16                                        
+/dic/dicdata/ibpd01.dbf                         39        19       109        13                                        
+/dic/dicdata/ibpx01.dbf                         39        19       118        15                                        
+/dic/dicdata/ibud01.dbf                         51        19       119        16                                        
+
+                                                    Tablespace Report                                                   
+                                                                                                                        
+                                          Physical  Physical      Read     Write                                        
+DataFile Name                             Blk Read Blks Wrtn      Time      Time                                        
+---------------------------------------- --------- --------- --------- ---------                                        
+/dic/dicdata/ibux01.dbf                         59        19       112        12                                        
+/dic/dicdata/ibyd01.dbf                        147        19       192        14                                        
+/dic/dicdata/ibyx01.dbf                        302        19       283        10                                        
+/dic/dicdata/icxd01.dbf                        649        19       413         3                                        
+/dic/dicdata/icxx01.dbf                        548        19       507         4                                        
+/dic/dicdata/iebd01.dbf                        102        19       199        14                                        
+/dic/dicdata/iebx01.dbf                        133        19       201        14                                        
+/dic/dicdata/iecd01.dbf                        318        19       383         9                                        
+/dic/dicdata/iecx01.dbf                        577        19       681         7                                        
+/dic/dicdata/iemd01.dbf                        121        19       227         5                                        
+/dic/dicdata/iemx01.dbf                        195        19       246         5                                        
+/dic/dicdata/ieod01.dbf                        204        19       222        18                                        
+/dic/dicdata/ieox01.dbf                        167        19       270        17                                        
+/dic/dicdata/iesd01.dbf                        209        19       259        17                                        
+/dic/dicdata/iesx01.dbf                        324        19       353        15                                        
+/dic/dicdata/ieud01.dbf                        289        19       235        17                                        
+/dic/dicdata/ieux01.dbf                        310        19       347        16                                        
+/dic/dicdata/iexd01.dbf                        155        19       259        14                                        
+/dic/dicdata/iexx01.dbf                        277        19       263        15                                        
+/dic/dicdata/igcd01.dbf                        197        19       320        13                                        
+/dic/dicdata/igcx01.dbf                        335        19       240        14                                        
+/dic/dicdata/igfd01.dbf                        353        19       505         2                                        
+/dic/dicdata/igfx01.dbf                        692        19       745         2                                        
+/dic/dicdata/igid01.dbf                        397        19       703        15                                        
+/dic/dicdata/igix01.dbf                        423        19       272         5                                        
+/dic/dicdata/igsd01.dbf                       2347        19       295         1                                        
+/dic/dicdata/igsx01.dbf                       5478        21      9782         4                                        
+/dic/dicdata/igwd01.dbf                        201        19       339         0                                        
+/dic/dicdata/igwx01.dbf                        263        19       707         0                                        
+/dic/dicdata/imcd01.dbf                        189        19       296         8                                        
+/dic/dicdata/imcx01.dbf                        183        19       328        11                                        
+/dic/dicdata/imtd01.dbf                        207        19       338        17                                        
+/dic/dicdata/imtx01.dbf                        271        19       368        13                                        
+/dic/dicdata/invd01.dbf                    7232594        19     25701        15                                        
+/dic/dicdata/invd02.dbf                       1989        19       253        19                                        
+/dic/dicdata/invd03.dbf                        219        19        25        20                                        
+/dic/dicdata/invx01.dbf                      33447        30     13532        17                                        
+/dic/dicdata/ipad01.dbf                        145        19       261         5                                        
+/dic/dicdata/ipax01.dbf                        183        19       292         5                                        
+/dic/dicdata/ipdd01.dbf                        147        19       275        21                                        
+/dic/dicdata/ipdx01.dbf                        147        19       325        19                                        
+/dic/dicdata/iscd01.dbf                        133        19       282        16                                        
+/dic/dicdata/iscx01.dbf                        339        19       318        18                                        
+/dic/dicdata/itgd01.dbf                        147        19       307        13                                        
+/dic/dicdata/itgx01.dbf                        147        19       277        19                                        
+/dic/dicdata/jad01.dbf                         900        19       244        11                                        
+/dic/dicdata/jax01.dbf                         632        19       353        16                                        
+/dic/dicdata/jed01.dbf                         125        19       244        15                                        
+/dic/dicdata/jex01.dbf                         133        19       330        20                                        
+/dic/dicdata/jgd01.dbf                         119        19       264        18                                        
+/dic/dicdata/jgx01.dbf                         117        19       256        17                                        
+/dic/dicdata/jld01.dbf                         333        19       574        17                                        
+/dic/dicdata/jlx01.dbf                         649        19       752        16                                        
+/dic/dicdata/jtfd01.dbf                       7598       499      1744       141                                        
+/dic/dicdata/jtfx01.dbf                       2411        19      1609        15                                        
+/dic/dicdata/jtmd01.dbf                        292        19       519        15                                        
+/dic/dicdata/jtmx01.dbf                        695        19      1154        18                                        
+/dic/dicdata/jtsd01.dbf                        199        19       345        18                                        
+/dic/dicdata/jtsx01.dbf                        243        19       397        15                                        
+/dic/dicdata/med01.dbf                         111        19       154        14                                        
+/dic/dicdata/mex01.dbf                         111        19       135        17                                        
+/dic/dicdata/mfgd01.dbf                         75        19       163        14                                        
+/dic/dicdata/mfgx01.dbf                         75        19       160        13                                        
+/dic/dicdata/mrpd01.dbf                        760        19       715        10                                        
+/dic/dicdata/mrpx01.dbf                        748        19       533        13                                        
+/dic/dicdata/mscd01.dbf                        559        19       998         4                                        
+/dic/dicdata/mscx01.dbf                       1389        19      1513        15                                        
+/dic/dicdata/msdd01.dbf                        216        19       502         6                                        
+/dic/dicdata/msdx01.dbf                        221        19       574         5                                        
+/dic/dicdata/msod01.dbf                         93        19       210         6                                        
+/dic/dicdata/msox01.dbf                         93        19       197         5                                        
+/dic/dicdata/msrd01.dbf                        165        19       294         8                                        
+/dic/dicdata/msrx01.dbf                        165        19       312         6                                        
+/dic/dicdata/mwad01.dbf                         76        19       114        13                                        
+/dic/dicdata/mwax01.dbf                         75        19       159        16                                        
+/dic/dicdata/oed01.dbf                         276        19       249         7                                        
+/dic/dicdata/oex01.dbf                         698        19      1027        18                                        
+/dic/dicdata/okbd01.dbf                        201        19       282        15                                        
+/dic/dicdata/okbx01.dbf                        201        19       340        20                                        
+/dic/dicdata/okcd01.dbf                        497        19       553        18                                        
+/dic/dicdata/okcx01.dbf                        803        19      1246         5                                        
+/dic/dicdata/oked01.dbf                        219        19       369        15                                        
+/dic/dicdata/okex01.dbf                        440        19       412        13                                        
+/dic/dicdata/okid01.dbf                        237        19       307        21                                        
+/dic/dicdata/okix01.dbf                        339        19       532        20                                        
+/dic/dicdata/okld01.dbf                        513        19       825         3                                        
+/dic/dicdata/oklx01.dbf                       1657        19      2337        20                                        
+/dic/dicdata/okod01.dbf                        201        19       338        18                                        
+/dic/dicdata/okox01.dbf                        201        19       286        18                                        
+/dic/dicdata/okrd01.dbf                        246        19       430         7                                        
+/dic/dicdata/okrx01.dbf                        311        19       511         6                                        
+/dic/dicdata/oksd01.dbf                        143        19       209        18                                        
+/dic/dicdata/oksx01.dbf                        191        19       297        17                                        
+/dic/dicdata/okxd01.dbf                        111        19       158        21                                        
+
+                                                    Tablespace Report                                                   
+                                                                                                                        
+                                          Physical  Physical      Read     Write                                        
+DataFile Name                             Blk Read Blks Wrtn      Time      Time                                        
+---------------------------------------- --------- --------- --------- ---------                                        
+/dic/dicdata/okxx01.dbf                        111        19       157        18                                        
+/dic/dicdata/ontd01.dbf                       1734        19       480        25                                        
+/dic/dicdata/ontx01.dbf                        791        19       986        12                                        
+/dic/dicdata/opid01.dbf                        206        19       359         6                                        
+/dic/dicdata/opix01.dbf                        495        19       473        16                                        
+/dic/dicdata/osmd01.dbf                        394        19       578        16                                        
+/dic/dicdata/osmx01.dbf                       1183        19      1131        13                                        
+/dic/dicdata/otad01.dbf                        145        19       299         8                                        
+/dic/dicdata/otax01.dbf                        401        19       663        18                                        
+/dic/dicdata/owad01.dbf                         21        19        34        19                                        
+/dic/dicdata/ozfd01.dbf                        100        19       210         5                                        
+/dic/dicdata/ozfx01.dbf                        311        19       560         5                                        
+/dic/dicdata/ozpd01.dbf                         57        19       149         7                                        
+/dic/dicdata/ozpx01.dbf                         57        19       138        10                                        
+/dic/dicdata/ozsd01.dbf                         57        19       148         6                                        
+/dic/dicdata/ozsx01.dbf                         57        19       141        17                                        
+/dic/dicdata/pad01.dbf                         833        19       982        17                                        
+/dic/dicdata/pax01.dbf                        2256        19      2186        14                                        
+/dic/dicdata/pjid01.dbf                        219        19       327         8                                        
+/dic/dicdata/pjix01.dbf                        219        19       271         3                                        
+/dic/dicdata/pjmd01.dbf                        109        19       263         9                                        
+/dic/dicdata/pjmx01.dbf                        151        19       249        13                                        
+/dic/dicdata/pmid01.dbf                         29        19        63        12                                        
+/dic/dicdata/pmix01.dbf                         37        19        67        16                                        
+/dic/dicdata/pnd01.dbf                         133        19       272         9                                        
+/dic/dicdata/pnx01.dbf                         543        19       101         5                                        
+/dic/dicdata/poad01.dbf                        235        19       129        12                                        
+/dic/dicdata/poax01.dbf                        897        19       471        15                                        
+/dic/dicdata/pod01.dbf                        2620        19       830        18                                        
+/dic/dicdata/pomd01.dbf                         75        19       131        11                                        
+/dic/dicdata/pomx01.dbf                         75        19       137        10                                        
+/dic/dicdata/pond01.dbf                        319        19       423         5                                        
+/dic/dicdata/ponx01.dbf                        413        19       299         7                                        
+/dic/dicdata/portal01.dbf                      215        28       344        16                                        
+/dic/dicdata/posd01.dbf                        213        19       345        21                                        
+/dic/dicdata/posx01.dbf                        229        19       299        17                                        
+/dic/dicdata/pox01.dbf                        1851        19       909        20                                        
+/dic/dicdata/prpd01.dbf                        268        19       310        14                                        
+/dic/dicdata/prpx01.dbf                        337        19       405        14                                        
+/dic/dicdata/psad01.dbf                        166        19       254        14                                        
+/dic/dicdata/psax01.dbf                        146        19       263         4                                        
+/dic/dicdata/psbd01.dbf                        229        19       399        15                                        
+/dic/dicdata/psbx01.dbf                        573        19       247        16                                        
+/dic/dicdata/pspd01.dbf                        204        19       378         0                                        
+/dic/dicdata/pspx01.dbf                        491        19       773         2                                        
+/dic/dicdata/pvd01.dbf                         260        19       425        19                                        
+/dic/dicdata/pvx01.dbf                         459        19       826        16                                        
+/dic/dicdata/qad01.dbf                         288        19       239         8                                        
+/dic/dicdata/qax01.dbf                         321        19       112         4                                        
+/dic/dicdata/qotd01.dbf                        219        19       320        11                                        
+/dic/dicdata/qotx01.dbf                        219        19       329        20                                        

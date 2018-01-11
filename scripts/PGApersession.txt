@@ -1,0 +1,31 @@
+select
+    to_char(ssn.sid, '9999') || ' – ' || nvl(ssn.username,
+    nvl(bgp.name, 'background')) || nvl(lower(ssn.machine), ins.host_name) ssession,
+    to_char(prc.spid, '999999999')                       pid_thread,
+    to_char((se1.value / 1024) / 1024, '999g999g990d00') current_size_mb,
+    to_char((se2.value / 1024) / 1024, '999g999g990d00') maximum_size_mb
+from
+    v$statname  stat1,
+    v$statname  stat2,
+    v$session   ssn,
+    v$sesstat   se1,
+    v$sesstat   se2,
+    v$bgprocess bgp,
+    v$process   prc,
+    v$instance  ins
+where
+    stat1.name = 'session pga memory'
+and
+    stat2.name = 'session pga memory max' 
+and
+    se1.sid = ssn.sid 
+and
+    se2.sid = ssn.sid 
+and
+    se2.statistic# = stat2.statistic# 
+and
+    se1.statistic# = stat1.statistic# 
+and
+    ssn.paddr = bgp.paddr(+) 
+and
+    ssn.paddr = prc.addr(+); 

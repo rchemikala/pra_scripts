@@ -1,0 +1,9 @@
+/*Full Table Scans
+• When a full table scan occurs, blocks are not retained in the
+Buffer Cache
+• To load fully scanned tables into the Buffer Cache, you
+should use the "CACHE" clause: */
+
+
+create table emp (first_name varchar2(20), last_name varchar2(20))
+cache;

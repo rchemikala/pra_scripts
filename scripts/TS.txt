@@ -1,0 +1,62 @@
+col name Head "Tablespace Name" form a30
+col total head "Total|Space|(in MB)" form 9999999.99
+col used head "Used|Space|(in MB)" form 9999999.99
+col free head "Free|Space|(in MB)" form 9999999.99
+col pcfree head "% Free|Space" form 999.99
+
+select t.tsname name,nvl(t.total,0)/1048576 total,nvl(u.used,0)/1048576 used,
+             nvl(f.free,0)/1048576 free,(100 * nvl(f.free,0))/total pcfree
+from 
+(select tb.tablespace_name tsname,sum(nvl(df.bytes,0)) total
+from dba_tablespaces tb,dba_data_files df
+where tb.tablespace_name(+)=df.tablespace_name
+group by tb.tablespace_name) t,
+(select tb.tablespace_name tsname,sum(nvl(ex.bytes,0)) used
+from dba_tablespaces tb,dba_extents ex
+where tb.tablespace_name(+)=ex.tablespace_name
+group by tb.tablespace_name) u,
+(select tb.tablespace_name tsname,sum(nvl(fs.bytes,0)) free
+from dba_tablespaces tb,dba_free_space fs
+where tb.tablespace_name(+)=fs.tablespace_name
+group by tb.tablespace_name) f
+where t.tsname=u.tsname(+)
+and t.tsname=f.tsname(+)
+order by 5
+/
+
+SELECT sum(bytes)/1024/1024 "free space MB" FROM dba_free_space where tablespace_name='ORADBA_CUR_YR_ADJ_TAB2';
+
+col FILE_NAME for a50
+select file_name,bytes/1024/1024 "Used Space", maxbytes/1024/1024 "Max Size",autoextensible from dba_data_files where tablespace_name='ORADBA_CUR_YR_ADJ_TAB2'
+
+
+
+
+
+select file_name,autoextensible,sum(bytes)/1024/1024,maxbytes/1024/1024 from dba_data_files where tablespace_name='TRAIV0_DATA24' group by  file_name,autoextensible,maxbytes;
+
+select tablespace_name,sum(bytes)/1024/1024 from dba_free_space where tablespacE_name='TRAIV0_DATA24' group by tablespacE_name;
+
+ALTER DATABASE DATAFILE '/uv1247/u292/oradata/NAGL2H/glddutility01.dbf' RESIZE 50M;
+
+
+select SID,SERIAL#,USERNAME,STATUS,TERMINAL from v$session where status='ACTIVE' AND USERNAME IS NOT NULL
+
+
+
+col FILE_NAME for a50
+select file_name,bytes/1024/1024 "Used Space", maxbytes/1024/1024 "Max Size",autoextensible from dba_temp_files where tablespace_name='TRAIV0_DATA24';
+
+select BYTES_FREE from  V_$TEMP_SPACE_HEADER where TABLESPACE_NAME='NDDW_TMP';
+\
+
+
+
+
+
+ALTER TABLESPACE XTMS_REF_IDX2 ADD DATAFILE '/apps/oracle/admin/xtms/data/xtmsref2_016.idx' SIZE 100M AUTOEXTEND ON NEXT 100M MAXSIZE 2000M
+
+
+ALTER DATABASE DATAFILE '/apps/oracle/admin/pdw2/data_eq/pdw2eqp0302.tbls' RESIZE 1000M
+
+ALTER TABLESPACE CPAMEMOTECH ADD DATAFILE '/uv1083/u309/oradata/OGC1T/OGC1T_cpamemotech_03.dbf' SIZE 500M

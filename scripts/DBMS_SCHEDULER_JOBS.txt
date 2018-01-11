@@ -1,0 +1,31 @@
+
+BEGIN
+  DBMS_SCHEDULER.drop_job (job_name => 'Hourly_Snapshot');
+END;
+/
+
+BEGIN
+  DBMS_SCHEDULER.create_job (
+    job_name        => 'Hourly_Snapshot',
+    job_type        => 'PLSQL_Block',
+    job_action      => 'BEGIN statspack.snap; END;',
+    start_date      => SYSTIMESTAMP,
+    repeat_interval => 'freq=hourly; byhour=8,9,10,11,12,13,14,15,16,17; byminute=0; bysecond=0;',
+    end_date        => NULL,
+    enabled         => TRUE,
+    comments        => 'Job defined for taking snapshots hourly');
+END;
+/
+
+
+DECLARE
+   jobno   NUMBER;
+BEGIN
+   DBMS_JOB.SUBMIT
+      (job  => jobno
+      ,what => 'BEGIN statspack.snap; END;'
+      ,next_date => SYSDATE
+      ,interval  => 'SYSDATE+1/24');
+   COMMIT;
+END;
+/

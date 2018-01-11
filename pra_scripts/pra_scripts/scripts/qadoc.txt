@@ -1,0 +1,49 @@
+Ensure the following values are all the same as well as case-sensitivity.
+
+1. Login to Sqlplus and query ICX_PARAMETERS table for value of session_cookie_name. 
+
+Value :QA59
+
+2. Verify System Profile option "APPLICATION DATABASE ID"
+Value:
+
+3. Check the IAS_ORACLE_HOME/Apache/Jserv/etc/jserv.properties 
+#
+# JTF wrapper.bin parameters
+#
+wrapper.bin.parameters=-DJTFDBCFILE=/xxxxx/fnd/11.5.0/secure/.dbc
+
+4. Clear the apache and client browser cache as follows: 
+
+Clear apache cache - remove the following files underneath the directories 
+============================================================ 
+a. $APACHE_TOP/modplsql/cache - directories - cookie and plsql. 
+b. $OA_HTML/_pages directory 
+
+5. Restart the Apache server. 
+
+
+
+1.QA59
+2.
+
+select a.profile_option_name, b.profile_option_value from
+apps.fnd_profile_options a , apps.fnd_profile_option_values b
+where a.profile_option_id = b.profile_option_id and
+a.profile_option_name like '%APP%'
+
+PROFILE_OPTION_NAME              LEVEL_ID LEVEL_VALUE PROFILE_OPTION_VALUE
+------------------------------ ---------- ----------- ------------------------------
+APPS_DATABASE_ID                    10004        1696 ttldev05-oaqa_qa59
+APPS_DATABASE_ID                    10001           0 QA59
+APPS_DATABASE_ID                    10004       10366 ttldev05-oaqa_qa59
+APPS_DATABASE_ID                    10004        1537 ttldev05-oaqa_qa59
+APPS_DATABASE_ID                    10004           0 ttldev05-oaqa_qa591
+APPS_DATABASE_ID                    10004       11688 ttldev05-oaqa_qa591
+
+
+3.
+
+
+
+

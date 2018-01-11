@@ -1,0 +1,2 @@
+select GRANTEE,OWNER,TABLE_NAME,GRANTOR,PRIVILEGE from dba_tab_privs where TABLE_NAME like 'FA%'
+

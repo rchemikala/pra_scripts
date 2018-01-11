@@ -1,0 +1,72 @@
+select a.tablespace_name "TBL", a."Total SIze", b."USED",
+round((b."USED"/a."Total SIze")*100) "%USED",
+round((1-(b."USED"/a."Total SIze"))*100) "%FREE"  from
+(select tablespace_name, sum(bytes)/1024/1024 "Total SIze" from dba_temp_files 
+where tablespace_name like 'TEMP%' group by tablespace_name) a,
+(select tablespace_name, (total_blocks*(select value from v$parameter where name
+='db_block_size'))/1024/1024 "USED" from v$sort_segment) b
+where a.tablespace_name=b.tablespace_name;
+
+ 
+
+select   se.username
+        ,se.sid
+        ,su.extents
+        ,su.blocks * to_number(rtrim(p.value))/1048576 as Space
+        ,tablespace
+from     v$sort_usage su
+        ,v$parameter  p
+        ,v$session    se
+where    p.name          = 'db_block_size'
+and      su.session_addr = se.saddr
+order by se.username, se.sid
+
+
+
+col name Head "Tablespace Name" form a30
+col total head "Total|Space|(in MB)" form 9999999.99
+col used head "Used|Space|(in MB)" form 9999999.99
+col free head "Free|Space|(in MB)" form 9999999.99
+col pcfree head "% Free|Space" form 999.99
+
+select t.tsname name,nvl(t.total,0)/1048576 total,nvl(u.used,0)/1048576 used,
+             nvl(f.free,0)/1048576 free,(100 * nvl(f.free,0))/total pcfree
+from 
+(select tb.tablespace_name tsname,sum(nvl(df.bytes,0)) total
+from dba_tablespaces tb,dba_data_files df
+where tb.tablespace_name(+)=df.tablespace_name
+group by tb.tablespace_name) t,
+(select tb.tablespace_name tsname,sum(nvl(ex.bytes,0)) used
+from dba_tablespaces tb,dba_extents ex
+where tb.tablespace_name(+)=ex.tablespace_name
+group by tb.tablespace_name) u,
+(select tb.tablespace_name tsname,sum(nvl(fs.bytes,0)) free
+from dba_tablespaces tb,dba_free_space fs
+where tb.tablespace_name(+)=fs.tablespace_name
+group by tb.tablespace_name) f
+where t.tsname=u.tsname(+)
+and t.tsname=f.tsname(+)
+order by 5
+/
+
+
+select segment_name,segment_type,max_extents,extents,owner
+from dba_segments
+where (max_extents - extents) <20 and segment_type not in('ROLLBACK','CACHE');
+
+
+
+
+set head on
+col current_users head 'No Of|Users|Sorting|now' form 9999
+col total_extents head 'No of|Current|Extents' form 9999999
+col used_extents head 'No Of|Used|Extents' form 9999999
+col free_extents head 'No Of|Free|Extents' form 999999999
+col Added_extents head 'No Of|Extents|Added' form 999999999
+col freed_extents head 'No Of|Extents|Freed' form 999999999
+col extent_hits head 'No Of|Freed|Extents|reused' form 999999999
+col max_size head 'Max Extents|Ever Used' form 999999999
+col max_used_size head 'Max Extents|Used By all|Sorts' form 999999999
+select current_users,total_extents,used_extents,free_extents,added_extents,
+freed_extents,extent_hits,max_size,max_used_size 
+from v$sort_segment

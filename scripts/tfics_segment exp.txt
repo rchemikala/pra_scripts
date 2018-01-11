@@ -1,0 +1,1 @@
+nohup exp system/cspl_0531 file=tfics_cust_segment_cspldba_ITT332997.dmp log=exptfics_cust_segment_cspldba_ITT332997.log tables=cspldba.tfics_cust_segment statistics=none direct=y recordlength=65532 feedback=100000 > nohup.out &

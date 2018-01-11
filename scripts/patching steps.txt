@@ -1,0 +1,21 @@
+patching 
+
+1) check the backup status
+2) send mail to ernie requesting for changes
+3) check the dba_registry
+             dba_component_version
+              v$version
+     invalid objects list
+4) check the system tablespace is having 50mb free space
+5) java_pool_size=150mb
+6)shared_pool_size=150mB
+7) change the profile with new oracle home
+8) shutdown with old profile
+9)run the profile
+10)startup migrate
+11)@catpatch (make sure u spool )
+12)shutdown
+13)startup 
+14)utlrp
+15)check the invalid objects
+16) run catcpu.sql

@@ -1,0 +1,22 @@
+ops$tkyte@ORA9IR2> create or replace trigger snapshot_too_old
+  2  after servererror on database
+  3  declare
+  4      l_sql_text ora_name_list_t;
+  5      l_n        number;
+  6  begin
+  7      if ( is_servererror(1555) )
+  8      then
+  9          insert into t values ( 'ora_sysevent = ' || ora_sysevent );
+ 10          insert into t values ( 'ora_login_user = ' || ora_login_user );
+ 11          insert into t values ( 'ora_server_error = ' || ora_server_error(1) 
+);
+ 12
+ 13          l_n := ora_sql_txt( l_sql_text );
+ 14          for i in 1 .. l_n
+ 15          loop
+ 16              insert into t values ( 'l_sql_text(' || i || ') = ' || 
+l_sql_text(i) );
+ 17          end loop;
+ 18      end if;
+ 19  end;
+ 20  /

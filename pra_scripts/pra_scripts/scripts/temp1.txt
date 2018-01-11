@@ -1,0 +1,14 @@
+select c.responsibility_name ,count(*)
+from  fnd_user_resp_groups a , fnd_logins b, FND_RESPONSIBILITY_VL c
+where b.start_time > trunc(sysdate)
+and b.user_id = a.user_id
+and a.responsibility_id = c.responsibility_id 
+group by  c.responsibility_name
+/
+
+
+sandeep.joshi@serwizsol.com
+
+
+patch -- 8.15-9.12
+	 9.13- 9.18

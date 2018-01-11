@@ -1,0 +1,17 @@
+nohup exp system/ma3ch_07d@OGC1T file=exp_memoip2_test_4dec.dmp log=exp_memoip2_test_4dec.log owner=MEMOIP2 buffer=2560000000 statistics=none > nohup.out &
+
+
+
+nohup exp system/ma3ch_07d@OGC1T file=exp_MTAPPS_test_4dec.dmp log=exp_MTAPPS_test_4dec.log owner=MTAPPS buffer=2560000000 statistics=none > nohup.out &
+
+
+
+nohup exp system/ma3ch_07d@OGC1T file=exp_CPAMEMOTECH_test_4dec.dmp log=exp_CPAMEMOTECH_test_4dec.log owner=CPAMEMOTECH buffer=2560000000 statistics=none > nohup.out &
+
+
+nohup exp system/ma3ch_07d@OGC1T file=exp_COPYRIGHT_test_4dec.dmp log=exp_COPYRIGHT_test_4dec.log owner=COPYRIGHT buffer=2560000000 statistics=none > nohup.out &
+
+
+
+
+nohup exp system/ma3ch_07d@OGC1T file=exp_OPS$PATENT_test_4dec.dmp log=exp_OPS$PATENT_test_4dec.log owner=OPS$PATENT buffer=2560000000 statistics=none > nohup.out &

@@ -1,0 +1,37 @@
+SQL> set pages 50000 lines 120 
+SQL> ALTER SESSION SET NLS_DATE_FORMAT = 'MM/DD/YYYY HH24:MI';
+
+[1] select count(*) "# archives", to_char(first_time,'yymmdd') "archived day" 
+from v$log_history group by to_char(first_time,'yymmdd') order by 2;
+
+
+[2] BEGIN DBMS_LOGMNR.START_LOGMNR( STARTTIME => '&datestart' ,ENDTIME => '&dateend' ,OPTIONS => DBMS_LOGMNR.DICT_FROM_ONLINE_CATALOG + DBMS_LOGMNR.CONTINUOUS_MINE ); END; 
+
+
+
+[3] SELECT count(*) occurrences , seg_owner , seg_name , operation FROM v$logmnr_contents group by seg_owner,seg_name,operation having count(*) >999 order by 1 ;
+
+[4] select sql_redo FROM v$logmnr_contents where seg_ownerxi='SYS' and seg_name='WRH$_WAITCLASSMETRIC_HISTORY' and operation='CREATE' and rownum <4;
+[5] SQL> BEGIN DBMS_LOGMNR.END_LOGMNR; END;
+=============================================================================================================================
+Mining Online Redo Logs
+
+SELECT distinct member LOGFILENAME FROM V$LOGFILE;
+
+
+[5] 
+BEGIN DBMS_LOGMNR.ADD_LOGFILE ('/u03/app/oracle/admin/edoc1011/arch/1_1198_717663271.arc');
+      DBMS_LOGMNR.ADD_LOGFILE ('/u03/app/oracle/admin/edoc1011/arch/1_1199_717663271.arc'); 
+      DBMS_LOGMNR.ADD_LOGFILE ('/u03/app/oracle/admin/edoc1011/arch/1_1200_717663271.arc');
+      DBMS_LOGMNR.ADD_LOGFILE ('/u03/app/oracle/admin/edoc1011/arch/1_1201_717663271.arc'); 
+  END;
+
+[6] BEGIN DBMS_LOGMNR.START_LOGMNR (options => dbms_logmnr.dict_from_online_catalog); END;
+
+
+[7] select count(*) ocurrences, operation from v$logmnr_contents group by operation
+
+[8] select username, to_char(timestamp,'mm/dd/yy hh24:mi') timestamp, seg_type_name, seg_name, sql_redo from v$logmnr_contents where operation = 'DDL';
+
+[9] BEGIN DBMS_LOGMNR.END_LOGMNR; END;
+

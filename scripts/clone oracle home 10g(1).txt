@@ -1,0 +1,75 @@
+[oracle@usagepcwd17-1i]$ export ORACLE_HOME=/u01/app/oracle/product/10.2.0/db_3
+[oracle@usagepcwd17-1i]$ echo $ORACLE_HOME
+/u01/app/oracle/product/10.2.0/db_3
+[oracle@usagepcwd17-1i]$ cd oui/bin
+[oracle@usagepcwd17-1i]$ pwd
+/u01/app/oracle/product/10.2.0/db_3/oui/bin
+[oracle@usagepcwd17-1i]$ ./runInstaller -clone -silent -ignorePreReq ORACLE_HOME
+_HOME_NAME="orahomedb3"
+Starting Oracle Universal Installer...
+
+No pre-requisite checks found in oraparam.ini, no system pre-requisite checks wi
+Preparing to launch Oracle Universal Installer from /tmp/OraInstall2010-06-18_05
+1i]$ Oracle Universal Installer, Version 10.2.0.4.0 Production
+Copyright (C) 1999, 2008, Oracle. All rights reserved.
+
+You can find a log of this install session at:
+ /u01/app/oraInventory/logs/cloneActions2010-06-18_05-53-03AM.log
+................................................................................
+
+
+
+Installation in progress (Friday, June 18, 2010 5:53:39 AM EDT)
+[oracle@usagepcwd17-1i]$                                                         72% Done.
+Install successful
+
+Linking in progress (Friday, June 18, 2010 5:54:06 AM EDT)
+
+[oracle@usagepcwd17-1i]$ Link successful
+
+Setup in progress (Friday, June 18, 2010 5:55:53 AM EDT)
+Setup successful
+
+End of install phases.(Friday, June 18, 2010 5:56:02 AM EDT)
+WARNING:
+The following configuration scripts need to be executed as the "root" user.
+#!/bin/sh
+#Root script to run
+/u01/app/oracle/product/10.2.0/db_3/root.sh
+To execute the configuration scripts:
+    1. Open a terminal window
+    2. Log in as "root"
+    3. Run the scripts
+
+The cloning of orahomedb3 was successful.
+Please check '/u01/app/oraInventory/logs/cloneActions2010-06-18_05-53-03AM.log' for more details.
+
+
+./runInstaller -clone -silent -ignorePreReq ORACLE_HOME="/u01/app/oracle/product/10.2.0/db_3" ORACLE_HOME_NAME="orahomedb3"
+
+Root.sh output
+==================
+==================
+
+[root@usagepcwd17-1i db_3]# sh root.sh
+Running Oracle10 root.sh script...
+
+The following environment variables are set as:
+    ORACLE_OWNER= oracle
+    ORACLE_HOME=  /u01/app/oracle/product/10.2.0/db_3
+
+Enter the full pathname of the local bin directory: [/usr/local/bin]:
+The file "dbhome" already exists in /usr/local/bin.  Overwrite it? (y/n)
+[n]: y
+   Copying dbhome to /usr/local/bin ...
+The file "oraenv" already exists in /usr/local/bin.  Overwrite it? (y/n)
+[n]: y
+   Copying oraenv to /usr/local/bin ...
+The file "coraenv" already exists in /usr/local/bin.  Overwrite it? (y/n)
+[n]: y
+   Copying coraenv to /usr/local/bin ...
+
+Entries will be added to the /etc/oratab file as needed by
+Database Configuration Assistant when a database is created
+Finished running generic part of root.sh script.
+Now product-specific root actions will be performed.

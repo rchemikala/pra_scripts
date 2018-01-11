@@ -1,0 +1,61 @@
+SELECT TO_CHAR(s.sid)||','||TO_CHAR(s.serial#) sid_serial,
+NVL(s.username, 'None') orauser,
+s.program,
+r.name undoseg,
+t.used_ublk * TO_NUMBER(x.value)/1024||'K' "Undo"
+FROM sys.v_$rollname    r,
+sys.v_$session     s,
+sys.v_$transaction t,
+sys.v_$parameter   x
+WHERE s.taddr = t.addr
+AND r.usn   = t.xidusn(+)
+AND x.name  = 'db_block_size';
+
+
+
+
+
+Select   substr(a.os_user_name,1,8)    "OS User",
+         substr(a.oracle_username,1,8) "DB User",
+         substr(b.owner,1,8)           "Schema",
+         substr(b.object_name,1,25)    "Object Name",
+         substr(b.object_type,1,10)    "Type",
+         substr(c.segment_name,1,5)    "RBS",
+         substr(d.used_urec,1,12)      "# of Records",
+         substr(d.USED_UBLK,1,20)     "# of undo blocks used"
+From v$locked_object   a,
+     dba_objects       b,
+     dba_rollback_segs c,
+     v$transaction     d,
+     v$session         e
+Where a.object_id = b.object_id
+  And a.xidusn    = c.segment_id
+  And a.xidusn    = d.xidusn
+  And a.xidslot   = d.xidslot
+  And d.addr      = e.taddr;
+
+
+
+
+
+
+Active , EXPIRED, UNEXPIRED UNDO:
+
+select status,
+  round(sum_bytes / (1024*1024), 0) as MB,
+  round((sum_bytes / undo_size) * 100, 0) as PERC
+from
+(
+  select status, sum(bytes) sum_bytes
+  from dba_undo_extents
+  group by status
+),
+(
+  select sum(a.bytes) undo_size
+  from dba_tablespaces c
+    join v$tablespace b on b.name = c.tablespace_name
+    join v$datafile a on a.ts# = b.ts#
+  where c.contents = 'UNDO'
+    and c.status = 'ONLINE'
+);
+It will

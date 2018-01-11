@@ -1,0 +1,4 @@
+For CPU: uname –X
+
+For Mem: prtconf|grep Mem
+

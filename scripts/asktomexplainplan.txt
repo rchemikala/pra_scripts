@@ -1,0 +1,173 @@
+Ok, tell me if this helps.  It is an excerpt from my forth coming book:
+
+
+1.3.3 Reading an Explain Plan
+
+This is a frequently asked question - how exactly do you read an explain plan.  Here I will present 
+my 'simple' approach to reading the plan.  I do suggest however that a quick read of the chapter in 
+the Oracle Performance Guide - the chapter on the explain plan command - would be very useful as 
+well.
+
+For all of the details on reading an explain plan, please refer to the Oracle Performance Guide. 
+There are complete details on how to read the query plan and interpret the results.
+
+We'll take a look at a query plan resulting from a query against the SCOTT/TIGER tables (note, I 
+add primary keys to the EMP and DEPT tables - hence, they are indexed):
+
+scott@ORA920> delete from plan_table;
+7 rows deleted.
+
+scott@ORA920> explain plan for
+  2  select ename, dname, grade
+  3    from emp, dept, salgrade
+  4   where emp.deptno = dept.deptno
+  5     and emp.sal between salgrade.losal and salgrade.hisal
+  6  /
+Explained.
+
+scott@ORA920> @?/rdbms/admin/utlxpls
+
+PLAN_TABLE_OUTPUT
+-----------------------------------------------------------------
+| Id  | Operation                    |Name     |Rows|Bytes|Cost |
+-----------------------------------------------------------------
+|   0 | SELECT STATEMENT             |         |    |     |     |
+|   1 |  NESTED LOOPS                |         |    |     |     |
+|   2 |   NESTED LOOPS               |         |    |     |     |
+|   3 |    TABLE ACCESS FULL         | SALGRADE|    |     |     |
+|*  4 |    TABLE ACCESS FULL         | EMP     |    |     |     |
+|   5 |   TABLE ACCESS BY INDEX ROWID| DEPT    |    |     |     |
+|*  6 |    INDEX UNIQUE SCAN         | DEPT_PK |    |     |     |
+-----------------------------------------------------------------
+
+Predicate Information (identified by operation id):
+---------------------------------------------------
+
+   4 - filter("EMP"."SAL"<="SALGRADE"."HISAL" AND 
+              "EMP"."SAL">="SALGRADE"."LOSAL")
+   6 - access("EMP"."DEPTNO"="DEPT"."DEPTNO")
+
+Note: rule based optimization
+
+21 rows selected.
+
+Now - what happens first?  How does that plan actually get evaluated?  First I'll show you the 
+psuedo code for how the plan is evaluated and then we'll discuss how I arrived at this conclusion:
+
+For salgrade in (select * from salgrade) 
+Loop
+   For emp in ( select * from emp )
+   Loop
+      If ( emp.sal between salgrade.losal and salgrade.hisal )
+      Then
+          Select * into dept_rec
+            From dept
+           Where dept.deptno = emp.deptno;
+
+          OUTPUT RECORD with fields from salgrade,emp,dept
+      End if;
+   End loop;
+End loop; 
+   
+The way I read the plan was to turn it into a graph of sorts - an evaluation tree.  In order to do 
+that, we need to understand something about access paths.
+
+For detailed information on the access paths available to Oracle, please see the Oracle Performance 
+and Tuning Guide.
+
+In order to build the tree - we can start at the top, with step 1.  That will be our "root node" in 
+the tree.  Next, we need to find the things that "feed" this root node - that will be steps 2 and 5 
+- as you can see - 2 and 5 are at the same level of indentation - they "feed" into step 1.  
+Further, we can see that steps 3 and 4 feed step 2 and that step 6 feeds step 5.  Putting that 
+together iteratively - we would draw:
+
+
+                                1
+                               / \
+                              2   5
+                             / \   \
+                            3   4   6
+                    
+ 
+And then just read the tree.  In order to get 1 we need 2 and 5 - 2 is "first".  In order to get 2, 
+we need 3 and 4.  3 is "first".  That is how I arrived at the psuedo code for:
+
+For salgrade in (select * from salgrade) 
+Loop
+   For emp in ( select * from emp )
+   Loop
+
+Full scan SALGRADE is step 3, full scan EMP is step 4 and step 2 is a nested loop - which is 
+roughly equivalent to two "for loops".  Once we get step 2 going like that - we can look at step 5. 
+ Step 5 runs step 6 first - step 6 is the index scan step.  We are taking the output of step 2 here 
+and using that to "feed" this part of the query plan.  So, the output from step 2 is used to 
+perform an index scan - that index scan output is used to TABLE ACCESS BY ROWID the DEPT table and 
+that result is the output of step 1 - our result set.
+
+Now, to make this "interesting", we will run an equivalent query - but we'll mix up the order of 
+the tables in the from clause this time.  Since I am using the rule based optimizer - this will 
+affect the generated query plan (and is just one reason why you DON'T want to use the rule based 
+optimizer! We'll cover more reasons in a later section).  We'll use the same logic to build its 
+query plan tree and evaluate how it processed the query:
+
+scott@ORA920> delete from plan_table;
+7 rows deleted.
+
+scott@ORA920> explain plan for
+  2  select ename, dname, grade
+  3    from salgrade, dept, emp
+  4   where emp.deptno = dept.deptno
+  5     and emp.sal between salgrade.losal and salgrade.hisal
+  6  /
+Explained.
+
+scott@ORA920> @?/rdbms/admin/utlxpls
+
+PLAN_TABLE_OUTPUT
+-------------------------------------------------------------------
+| Id  | Operation                     |  Name       | Rows  | Bytes
+-------------------------------------------------------------------
+|   0 | SELECT STATEMENT              |             |       |      
+|   1 |  NESTED LOOPS                 |             |       |      
+|   2 |   NESTED LOOPS                |             |       |      
+|   3 |    TABLE ACCESS FULL          | EMP         |       |       
+|   4 |    TABLE ACCESS BY INDEX ROWID| DEPT        |       |       
+|*  5 |     INDEX UNIQUE SCAN         | DEPT_PK     |       |       
+|*  6 |   TABLE ACCESS FULL           | SALGRADE    |       |       
+-------------------------------------------------------------------
+Predicate Information (identified by operation id):
+---------------------------------------------------
+   5 - access("EMP"."DEPTNO"="DEPT"."DEPTNO")
+   6 - filter("EMP"."SAL"<="SALGRADE"."HISAL" AND 
+              "EMP"."SAL">="SALGRADE"."LOSAL")
+Note: rule based optimization
+
+21 rows selected.
+
+Here we see that steps 2 and 6 feed 1, steps 3 and 4 feed 2, and step 5 feeds 4.  Drawing the tree:
+                                1
+                               / \
+                              2   6
+                             / \   
+                            3   4
+                                 \
+                                 5   
+ 
+So, the psuedo code logic here is - starting with steps 3 and 4:
+
+For emp in ( select * from emp )
+Loop
+   -- using the index
+   Select * from dept where dept.deptno = emp.deptno
+  
+   For salgrade in (select * from salgrade )
+   Loop
+      If ( emp.sal between salgrade.losal and salgrade.hisal ) 
+      Then
+         OUTPUT RECORD;
+      End if;
+   End loop
+End loop;
+
+And that is it - if you draw the graphical tree like that and then read it bottom up, left to 
+right, you'll get a good understanding of the "flow" of the data. 

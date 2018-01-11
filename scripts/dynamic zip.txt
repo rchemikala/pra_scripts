@@ -1,0 +1,19 @@
+column trc_file new_value trc_file noprint
+column zip_file new_value zip_file noprint
+
+select p.value || '/ora_' || u.spid || '.trc' trc_file,
+       p.value || '/ora_' || u.spid || '.trc.gz' zip_file
+from   sys.v_$session s,
+       sys.v_$process u,
+       sys.v_$parameter p
+where  s.audsid = userenv('SESSIONID')
+  and  u.addr = s.paddr
+  and  p.name = 'user_dump_dest'
+/
+
+set define :
+host mknod :trc_file p && nohup gzip < :trc_file > :zip_file &
+set define &
+
+alter session set max_dump_file_size = unlimited
+/

@@ -1,0 +1,15 @@
+
+cat /etc/*-release
+
+cat /proc/cpuinfo
+
+
+# Count the number of “physical processor(s)”
+grep "physical id" /proc/cpuinfo | sort -u | wc -l
+1
+# Count the number of “physical cores per CPU”
+grep "cpu cores" /proc/cpuinfo |sort -u |cut -d":" -f2
+ 2
+# Count the number of “logical cores ” (including multi-threading cores)
+grep -c "processor" /proc/cpuinfo
+2

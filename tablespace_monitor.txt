@@ -1,0 +1,87 @@
+create table tablespace_monitor(
+	mon_run	number,
+	run_dt	date,
+	tablespace_name varchar2(35),
+	available  number,
+	used	number,
+	free	number,
+	pct_free number(9,2))
+tablespace users;
+
+
+
+create sequence tab_mon_seq
+start with 1 increment by 1 nocycle nomaxvalue nocache;
+
+
+insert into tablespace_monitor (tablespace_name, available, used, free, pct_free)
+(
+select tname_a tablespace_name, 
+       ttl_avail available, 
+       (ttl_avail - ttl_free) used, 
+       ttl_free free, 
+       round((ttl_free/ttl_avail)*100,2) "PCT FREE"
+from
+ (select tablespace_name tname_a, sum(user_bytes) ttl_avail
+ from dba_data_files
+ group by tablespace_name) avail left join
+ (select tablespace_name tname_f, sum(bytes) ttl_free
+ from dba_free_space
+ group by tablespace_name) free on tname_f = tname_a
+union
+select tablespace_name, 
+       sum(bytes_used+bytes_free) ttl_avail,
+       sum(bytes_used),
+       sum(bytes_free),
+       round((sum(bytes_free)/sum(bytes_used+bytes_free))*100,2) pct_free
+from v$temp_space_header
+group by tablespace_name);
+
+commit;
+
+
+
+column next_seq noprint
+select tab_mon_seq.nextval next_seq from dual;
+
+update tablespace_monitor
+set mon_run = tab_mon_seq.currval,
+    run_dt = sysdate
+where mon_run is null;
+
+commit;
+
+
+
+
+
+
+
+set linesize 200 numwidth 13 pagesize 40
+column "CONSUMED/FREED (+)" format a20
+column "TABLESPACE NAME" format a15
+
+select m1.tablespace_name "TABLESPACE NAME", m2.free "BYTES FREE", m2.pct_free "PCT FREE",
+      case when trunc((m1.free - m2.free)/(1024*1024)) > 0 then lpad(to_char(round((m1.free - m2.free)/(1024*1024),2)),20)
+            when trunc((m1.free - m2.free)/(1024)) between 1 and 999 then lpad(to_char(round((m1.free - m2.free)/(1024),2)),20)
+           when trunc((m1.free - m2.free)/(1024*1024))  0 then 'MB'
+            when abs(trunc((m1.free - m2.free)/(1024))) between 1 and 999 then 'KB'
+            else null end unit,
+       case when trunc((((m1.free - m2.free)/(1024*1024))/((m2.run_dt - m1.run_dt)*1440))) > 0 then round((((m1.free - m2.free)/(1024*1024))/((m2.run_dt - m1.run_dt)*1440)),2)
+            when trunc((((m1.free - m2.free)/(1024))/((m2.run_dt - m1.run_dt)*1440))) between 1 and 999 then round((((m1.free - m2.free)/(1024))/((m2.run_dt - m1.run_dt)*1440)),2)
+            when trunc((((m1.free - m2.free)/(1024*1024))/((m2.run_dt - m1.run_dt)*1440)))  0 then 'MB'
+            when abs(trunc((((m1.free - m2.free)/(1024))/((m2.run_dt - m1.run_dt)*1440)))) between 1 and 999 then 'KB'
+            else null end "UNIT PER MIN",
+       round((m2.run_dt - m1.run_dt)*1440,2) "WINDOW IN MIN",
+       to_char(m1.run_dt, 'RRRR-MM-DD HH24:MI:SS') "BEGIN DATE/TIME",
+       to_char(m2.run_dt, 'RRRR-MM-DD HH24:MI:SS') "LAST RUN DATE/TIME"
+from tablespace_monitor m1, tablespace_monitor m2
+where m2.mon_run = (select max(mon_run) from tablespace_monitor)
+and m1.mon_run = (select min(mon_run) from tablespace_monitor)
+and m2.tablespace_name = m1.tablespace_name
+
+spool &1
+/
+spool off
+
+set linesize 80

@@ -1,0 +1,125 @@
+
+
+FND_CONCURRENT_REQUESTS
+=======================
+
+
+                                                                                                                     Oracle
+    Request                                                                                                          Process
+         ID  REQUESTED_BY PHASE_CODE STATUS_CODE  PROGRAM_APPLICATION_ID  CONCURRENT_PROGRAM_ID  CONTROLLING_MANAGER ID                 ORACLE_SESSION_ID OS_PROCESS_ID ENABLE_TRACE
+----------- ------------- ---------- ----------- ----------------------- ---------------------- -------------------- ----------------- ------------------ ------------- ------------
+   10705704             0 C          C                                 0                  45031               555046 13798                      135657859 8217          N
+
+REQUESTED_BY           ref FND_USER.USER_ID
+PHASE_CODE             ref FND_LOOKUPS.LOOKUP_CODE (LOOKUP_TYPE = 'CP_PHASE_CODE')
+STATUS_CODE            ref FND_LOOKUPS.LOOKUP_CODE (LOOKUP_TYPE = 'CP_STATUS_CODE')
+PROGRAM_APPLICATION_ID ref FND_CONCURRENT_PROGRAMS.APPLICATION_ID
+CONCURRENT_PROGRAM_ID  ref FND_CONCURRENT_PROGRAMS.CONCURRENT_PROGRAM_ID
+CONTROLLING_MANAGER    ref FND_CONCURRENT_PROCESSES.CONCURRENT_PROCESS_ID
+ORACLE_PROCESS_ID      ref V$PROCESS.SPID (identifies SQL Trace filename)
+ORACLE_SESSION_ID      ref V$SESSION.AUDSID
+
+OS_PROCESS_ID is Operating System Process ID for Concurrent Program
+
+
+    Request
+         ID REQUEST_DATE         REQUESTED_START_DATE ACTUAL_START_DATE    ACTUAL_COMPLETION_DATE CURRENT_DATE          DURATION
+----------- -------------------- -------------------- -------------------- ---------------------- -------------------- ---------
+   10705704 17-JUN-2005 12:50:42 17-JUN-2005 13:50:42 17-JUN-2005 13:50:45 17-JUN-2005 13:51:00   17-JUN-2005 13:51:06       .00
+
+                                                                                                                                                          Oracle
+    Request                                                                                                                                               Process
+         ID LOGFILE_NAME                                                           OUTFILE_NAME                                                           ID
+----------- ---------------------------------------------------------------------- ---------------------------------------------------------------------- -----------------
+   10705704 /pprodi1/apps59/applprod/prd59comn/admin/log/QA59_ttlmumqa-01/l1070570 /pprodi1/apps59/applprod/prd59comn/admin/out/QA59_ttlmumqa-01/o1070570 13798
+            4.req                                                                  4.out
+
+
+ORACLE_PROCESS_ID identifies SQL Trace filename under udump directory
+
+
+
+FND_USER
+========
+
+
+      USER_ID requester            DESCRIPTION
+------------- -------------------- ------------------------------------------------------------
+            0 SYSADMIN             System Administrator
+
+
+FND_LOOKUPS
+===========
+
+
+LOOKUP_TYPE PHASE_CODE MEANING     LOOKUP_TYPE STATUS_CODE MEANING
+----------- ---------- ----------- ----------- ----------- -----------
+PHASE_CODE  C          Completed   STATUS_CODE C           Normal
+
+
+FND_CONCURRENT_PROGRAMS
+=======================
+
+
+ APPLICATION_ID  CONCURRENT_PROGRAM_ID Program                  EXECUTABLE_APPLICATION_ID  EXECUTABLE_ID ENABLE_TRACE OPTIMIZER_MODE
+--------------- ---------------------- ----------------------- -------------------------- -------------- ------------ --------------
+              0                  45031 FNDWFBES_CONTROL_QUEUE_                          0          10385 N
+                                       CLEANUP
+
+
+EXECUTABLE_APPLICATION_ID ref FND_EXECUTABLES.APPLICATION_ID
+EXECUTABLE_ID             ref FND_EXECUTABLES.EXECUTABLE_ID
+
+
+
+FND_CONCURRENT_PROGRAMS_TL
+==========================
+
+
+ APPLICATION_ID  CONCURRENT_PROGRAM_ID LANGUAGE             USER_CONCURRENT_PROGRAM_NAME
+--------------- ---------------------- -------------------- --------------------------------------------------------------------------------
+              0                  45031 US                   Workflow Control Queue Cleanup
+
+
+FND_EXECUTABLES
+===============
+
+
+ APPLICATION_ID  EXECUTABLE_ID EXECUTABLE_NAME EXECUTION_FILE_NAME SUBROUTINE_NAME
+--------------- -------------- --------------- ------------------- ---------------
+              0          10385 FNDWFBES_CONTRO wf_bes_cleanup.clea
+                               L_QUEUE_CLEANUP nup_subscribers
+
+
+
+FND_CONCURRENT_PROCESSES
+========================
+
+
+                                        Oracle
+                                        Process
+ CONCURRENT_PROCESS_ID       SESSION_ID ID                OS_PROCESS_ID Node                 DB_NAME  DB_DOMAIN
+---------------------- ---------------- ----------------- ------------- -------------------- -------- ------------------------------
+                555046        135632141 297               8217          TTLMUMQA-01          QA59
+
+OS_PROCESS_ID is Operating System Process ID for Concurrent Manager
+
+
+ CONCURRENT_PROCESS_ID LOGFILE_NAME
+---------------------- ----------------------------------------------------------------------
+                555046 /pprodi1/apps59/applprod/prd59comn/admin/log/QA59_ttlmumqa-01/w555046.
+                       mgr
+
+
+
+V$PROCESS
+=========
+
+
+
+V$SESSION
+=========
+
+
+PADDR ref V$PROCESS.ADDR
+

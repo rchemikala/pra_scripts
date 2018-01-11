@@ -1,0 +1,3 @@
+select 'DROP '||object_type||' '||owner||'.'||object_name||' cascade constraints;' from dba_objects where owner='';
+
+SELECT 'drop '||OBJECT_TYPE||' '||owner ||'."' ||  dbms_java.longname(object_name) || '"' || ' ;' FROM dba_objects WHERE owner='XEUR' and object_type like 'JAVA%';

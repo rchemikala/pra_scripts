@@ -1,0 +1,4 @@
+select
+  stat_name,
+  Round(value/1000000) "Time (Sec)"
+from v$sys_time_model;

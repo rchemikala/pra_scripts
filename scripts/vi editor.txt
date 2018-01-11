@@ -1,0 +1,152 @@
+Insert text at beginning of line: I 
+Insert text after cursor: a 
+Insert text at cursor : i 
+
+Switch to command mode <ESC> 
+Go to beginning of line :0 
+Go to end of line :$ 
+Scroll Up 1/2 screen   : <ctrl>u 
+Scroll Down 1/2 screen :<ctrl>d 
+Move left, down, up, right: h j k l 
+
+
+Deleting text (command mode):
+
+Delete text at cursor x
+Delete word: dw 
+Delete line: dd
+
+
+Editing commands:
+
+
+Undo previous command :u  
+Undo all changes to line :U 
+
+% (entire file)
+s (search and replace)
+  /old text with new/ 
+c (confirm)
+ g (global - all)
+                          :%s/oldstring/newstring/cg 
+
+
+
+telnet 193.113.139.132  259 bt
+
+
+vi 
+create a new file or open a file for editing  vi
+
+vi initSID.ora 
+-------------------------------------------------------
+quit without saving :q!
+ 
+:q! 
+________________________
+save and quit :wq
+ 
+:wq 
+__________________________
+insert Esc i
+ 
+i 
+_____________________________
+append Esc A
+ 
+A 
+________________________________________
+open a new line Esc o
+ 
+o 
+---------------------------------
+replace a single character Esc r
+ 
+r 
+______________________________
+replace a multiple characters Esc R
+ 
+R 
+_______________________________
+delete a single character Esc x
+ 
+x 
+_____________________________________
+delete line Esc dd
+ 
+dd 
+_______________________________
+delete word Esc dw
+ 
+dw 
+------------------------
+undo Esc u
+ 
+u 
+-----------------------------
+Copy line yy  
+Paste above current line P        
+Paste below current line p 
+---------------------------------
+12 2 * * * $HOME/.profile;/home/ncthdba/scripts/monitor_db_health.ksh > /home/ncthdba/scripts/ncth.log 2>&1
+
+12 2 * * *  $HOME/.profile;/home/auddba/scripts/monitor_db_health.ksh >/home/auddba/scripts/cap2.log 2>&1
+
+
+ /home/ncthdba/scripts/health_check.lst
+
+/home/auddba/scripts
+
+
+8 8 * * * $HOME/.profile;/home/auddba/scripts/monitor_db_health.ksh > /home/auddba/scripts/cap2.log 2>&1
+
+
+12 2 * * * $HOME/.profile; /u290/home/nagldba/scripts/monitor_db_health.ksh > /home/
+
+find /home/apindba/scripts/*rpt*  -mtime +7 -exec rm {} \;
+/u290/home/nagldba/scripts
+
+25 6 * * * $HOME/.profile;/u290/home/nagldba/scripts/monitor_db_health.ksh > /u290/home/nagldba/scripts/nag2t.log 2>&1
+
+/u290/home/nagldba/scripts
+
+EMAIL=USA.TCS.DBA.Team@xerox.com
+
+
+50 9 * * * $HOME/.profile;/u291/home/nagl3pdba/scripts/monitor_db_health.ksh > /u291/home/nagl3pdba/scripts/nagl3t.log 2>&1
+
+/u291/home/nagl3pdba/scripts/health_check.lst
+/u291/home/nagl3pdba/scripts
+
+20 11 * * * $HOME/.profile;/home/omnidba/scripts/monitor_db_health.ksh > /home/omnidba/scripts/
+
+
+USA.TCS.DBA.Team@xerox.com
+
+
+10 12 * * 8 $HOME/.profile;/home/cafmdba/scripts/monitor_db_health.ksh
+
+
+
+
+$ echo $ORACLE_HOME
+/apps/oracle/product/9.2.0.7.2006Q1
+$ echo $ORACLE_SID
+CAFM
+$
+datafile------/uv1141/u152/oradata/CAFM/
+
+bdump ------/uv1141/u152/ofaroot/CAFM/bdump
+monitor_db_health.ksh
+
+/home/cafmdba/scripts
+
+e@xerox.com
+
+/home/cafmdba/scripts
+
+
+
+
+
+

@@ -1,0 +1,10 @@
+select 'OLAP Pages Occupying: '||
+round((((select sum(nvl(pool_size,1)) from v$aw_calc)) / (select value from v$pgastat 
+where name = 'total PGA inuse')),2)*100||'%' info from dual union 
+select 'Total PGA In Use Size: '|| value/1024||' KB' info 
+from v$pgastat where name = 'total PGA inuse' union 
+select 'Total OLAP Page Size: '|| round(sum(nvl(pool_size,1))/1024,0)||' KB' info 
+from v$aw_calc union 
+select 'Total OLAP Page Hit Rate: '||
+round(100*(sum(pool_hits)/(sum(pool_hits)+sum(pool_misses))),1)||'%' info 
+from v$aw_calc order by info desc;

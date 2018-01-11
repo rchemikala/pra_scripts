@@ -1,0 +1,19 @@
+To easily determine the current value of the highwater mark, use the following formula after analyzing the table: 
+
+highwater mark = total blocks - empty blocks - 1 
+
+Total blocks for a table can be obtained by using the following query. 
+
+SELECT blocks
+  FROM dba_segments
+ WHERE owner = '&Owner'
+   AND segment_name = 'Tablename'; 
+
+Gottimukkala, Soumya says:
+Likewise, the number of empty blocks (blocks above the highwater mark) can be obtained with this query: 
+
+SELECT empty_blocks
+  FROM dba_tables
+ WHERE owner = '&Owner'
+   AND table_name = 'Tablename'; 
+

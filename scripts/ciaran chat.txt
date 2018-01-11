@@ -1,0 +1,59 @@
+  Never give out your password or credit card number in an instant message conversation.
+  
+Chemikala, Rakesh says:
+hi ciaran
+Doyle, Ciaran says:
+Hello
+Chemikala, Rakesh says:
+this is rakesh from tcs dba team
+Doyle, Ciaran says:
+Hi
+Chemikala, Rakesh says:
+we need your help regarding script check_grow_new_us in pdw2
+Doyle, Ciaran says:
+OK
+Chemikala, Rakesh says:
+we are getting continuous alerts in pdw2 "Datafiles cannot accomodate next ext in  PDW2_MSC_TBL tablespace-add a datafile
+"
+Chemikala, Rakesh says:
+even though we have free sapce of 6gb
+Chemikala, Rakesh says:
+in the tablespace
+Chemikala, Rakesh says:
+we have added 2 datafiles of 2gb each
+Doyle, Ciaran says:
+OK - here is simething to check - select * from dba_segments where tablespace_name='PDW2_MSC_TBL' order by next_extent;
+Doyle, Ciaran says:
+This us just in case there is some object with a massive next extent in the tablespace.
+Doyle, Ciaran says:
+Sometimes people craete objects whit PCTINCREASE not set to 0 and in this case the next segment just grows and grows
+Chemikala, Rakesh says:
+ok
+Doyle, Ciaran says:
+Any look?
+Doyle, Ciaran says:
+Any luck (that should be)?
+Chemikala, Rakesh says:
+most of them are not set to 0
+Chemikala, Rakesh says:
+pct increase is set to 50
+Doyle, Ciaran says:
+OK - but what is the biggest NEXT_EXTENT value if all the segments in that tablespace?
+Chemikala, Rakesh says:
+it is 1gb
+Doyle, Ciaran says:
+There you go.....what is the size of the table (the BYTES column)?
+Chemikala, Rakesh says:
+its 300MB
+Doyle, Ciaran says:
+OK.....set the NEXT_EXTENT to 20M and PCTINCREASE to 0 and run the check_grow script again to see if the alert comes
+Chemikala, Rakesh says:
+as these are red days we are not changing the storage parameters 
+Doyle, Ciaran says:
+This does not come under the remit of red days - you are not changing the data or evcen the table strucuture - just the amount of space that it is trying to allocate - having a table of 300MB with a next of 1 GB is not a good idea. 
+Chemikala, Rakesh says:
+ok 
+Chemikala, Rakesh says:
+thanks ciaran
+Doyle, Ciaran says:
+Not a problem

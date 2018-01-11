@@ -1,0 +1,14 @@
+sys@INST816.US.ORACLE.COM> alter table applsys.WF_DEFERRED storage(pctincrease 0);
+
+Table altered.
+
+sys@INST816.US.ORACLE.COM>
+sys@INST816.US.ORACLE.COM> alter table applsys.DR$FND_LOBS_CTX$I storage(pctincrease 0);
+
+Table altered.
+
+sys@INST816.US.ORACLE.COM>
+sys@INST816.US.ORACLE.COM> alter table apps.WF_NOTIFICATIONS_ATT100902 storage(pctincrease 0);
+
+Table altered.
+

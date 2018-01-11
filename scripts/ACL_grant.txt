@@ -1,0 +1,1 @@
+ EXEC DBMS_NETWORK_ACL_ADMIN.ADD_PRIVILEGE('/sys/acls/xerox_netacl.xml','GDS_STAGE', TRUE, 'connect');

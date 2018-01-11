@@ -1,0 +1,16 @@
+Description:    A script to find out what's in the tablespace. 
+Code: 
+
+SELECT A.TABLESPACE_NAME "Tablespace Name",
+B.TABLESPACE_SIZE/1024/1024 "Tablespace Size MB",
+A.SEGMENT_NAME "Object Name",
+A.SEGMENT_TYPE "Object Type",
+ROUND(A.BYTES/1024/1024,2) "Object Size MB",
+ROUND(A.BYTES / B.TABLESPACE_SIZE *100,2) || '%' "% Used by Object"
+FROM DBA_SEGMENTS A,
+( SELECT TABLESPACE_NAME, SUM(BYTES) TABLESPACE_SIZE
+FROM SYS.DBA_DATA_FILES
+GROUP BY TABLESPACE_NAME ) B
+WHERE A.TABLESPACE_NAME = B.TABLESPACE_NAME
+ORDER BY A.TABLESPACE_NAME, "% Used by Object" DESC ;
+          submitted by: Prasad Mahale Hits 

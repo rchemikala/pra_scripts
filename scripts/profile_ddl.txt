@@ -1,0 +1,12 @@
+declare 
+v_ct number;
+v_profile varchar2(30):='DEFAULT';
+begin
+dbms_output.put_line('create profile '||v_profile||' limit ');
+for v_limit in(select resource_name, limit from dba_profiles
+where profile = v_profile)
+loop
+dbms_output.put_line(v_limit.resource_name||' '||v_limit.limit);
+end loop;
+end;
+/

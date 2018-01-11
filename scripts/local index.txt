@@ -1,0 +1,146 @@
+
+
+SQL> select index_name,partition_name,tablespace_name from dba_ind_partitions where index_name='LOCALINDEX';
+
+ 
+
+INDEX_NAME PARTITION_NAME                 TABLESPACE_NAME
+
+---------- ------------------------------ ------------------------------
+
+LOCALINDEX YR4                            INDEX4
+
+LOCALINDEX MAX                            MAX
+
+LOCALINDEX YR0                            INDEX1
+
+LOCALINDEX YR1                            INDEX2
+
+LOCALINDEX YR2                            INDEX3
+
+ 
+
+ 
+
+ 
+
+SQL> select distinct partition_name,partition_position,tablespace_name from dba_tab_partitions WHERE table_name='RA
+
+NGE_PART1';
+
+ 
+
+PARTITION_NAME                 PARTITION_POSITION TABLESPACE_NAME
+
+------------------------------ ------------------ ------------------------------
+
+MAX                                             5 MAX
+
+YR0                                             1 PART1
+
+YR1                                             2 PART2
+
+YR2                                             3 PART3
+
+YR4                                             4 PART4
+
+ 
+
+SQL> alter table range_part1 split partition max at (TO_DATE('01-JAN-2004','DD-MON-YYYY'))
+
+  2  into(partition yr5 tablespace part5,partition max tablespace max);
+
+ 
+
+Table altered.
+
+ 
+
+SQL> select distinct partition_name,partition_position,tablespace_name from dba_tab_partitions WHERE table_name='
+
+NGE_PART1';
+
+ 
+
+PARTITION_NAME                 PARTITION_POSITION TABLESPACE_NAME
+
+------------------------------ ------------------ ------------------------------
+
+MAX                                             6 MAX
+
+YR0                                             1 PART1
+
+YR1                                             2 PART2
+
+YR2                                             3 PART3
+
+YR4                                             4 PART4
+
+YR5                                             5 PART5
+
+ 
+
+SQL> select index_name,partition_name,tablespace_name from dba_ind_partitions where index_name='LOCALINDEX';
+
+ 
+
+INDEX_NAME PARTITION_NAME                 TABLESPACE_NAME
+
+---------- ------------------------------ ------------------------------
+
+LOCALINDEX YR4                            INDEX4
+
+LOCALINDEX YR5                            PART5
+
+LOCALINDEX MAX                            MAX
+
+LOCALINDEX YR0                            INDEX1
+
+LOCALINDEX YR1                            INDEX2
+
+LOCALINDEX YR2                            INDEX3
+
+ 
+
+ 
+
+ 
+
+6 rows selected.
+
+ 
+
+SQL> alter index localindex rebuild partition yr5 tablespace index5;
+
+ 
+
+Index altered.
+
+ 
+
+ 
+
+ 
+
+SQL> select index_name,partition_name,tablespace_name from dba_ind_partitions where index_name='LOCALINDEX';
+
+ 
+
+INDEX_NAME PARTITION_NAME                 TABLESPACE_NAME
+
+---------- ------------------------------ ------------------------------
+
+LOCALINDEX YR4                            INDEX4
+
+LOCALINDEX YR5                            INDEX5
+
+LOCALINDEX MAX                            MAX
+
+LOCALINDEX YR0                            INDEX1
+
+LOCALINDEX YR1                            INDEX2
+
+LOCALINDEX YR2                            INDEX3
+
+ 
+

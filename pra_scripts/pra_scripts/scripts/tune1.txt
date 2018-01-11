@@ -1,0 +1,16 @@
+reload/pins ratio should be less in librarycache
+logical reads = db block gets + consistent gets
+logical reads=physical reads/logical reads > 60  buffer cache hit ratio
+
+The average of waits/gets is 0%  in v$rollstat 
+select name||' = '||value  from   v$sysstat  where  name = 'redo log space requests'
+if this is high increase log_buiffre
+
+select 'Ratio of MISSES to GETS: '||round((sum(misses)/(sum(gets)+0.00000000001) * 100),2)||'%'
+ from    v$latch
+ where   name in ('redo allocation',  'redo copy')
+ /
+
+select namespace,pinhitratio from v$librarycache
+ select sum(getmisses) / (sum(gets)+0.00000000001) * 100 dictcache Dict Cache hit ratio
+

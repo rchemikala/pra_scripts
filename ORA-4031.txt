@@ -1,0 +1,105 @@
+SQL> select FREE_SPACE from V$SHARED_POOL_RESERVED;
+
+FREE_SPACE
+----------
+  24263368
+
+SQL> select USED_SPACE from V$SHARED_POOL_RESERVED;
+
+USED_SPACE
+----------
+  15508456
+
+SQL> select REQUEST_MISSES from V$SHARED_POOL_RESERVED;
+
+REQUEST_MISSES
+--------------
+          5274
+
+SQL> select LAST_FAILURE_SIZE from V$SHARED_POOL_RESERVED;
+
+LAST_FAILURE_SIZE
+-----------------
+            67344
+SQL> SQL> select MAX_MISS_SIZE,LAST_MISS_SIZE  from V$SHARED_POOL_RESERVED;
+
+MAX_MISS_SIZE LAST_MISS_SIZE
+------------- --------------
+       201800          12352
+
+SQL>
+
+
+
+ select  'sga heap('||KSMCHIDX||',0)'sga_heap,ksmchcom ChunkComment,
+decode(round(ksmchsiz/1000),0,'0-1K', 1,'1-2K', 2,'2-3K',
+3,'3-4K',4,'4-5K',5,'5-6k',6,'6-7k',7,'7-8k',8,'8-9k', 9,'9-10k','> 10K') "Size",
+  2    3    4  count(*), ksmchcls "Status", sum(ksmchsiz) "Bytes" from x$ksmsp
+where KSMCHCOM = 'free memory' group by 'sga heap('||KSMCHIDX||',0)',
+ksmchcom, ksmchcls, decode(round(ksmchsiz/1000),0,'0-1K', 1,'1-2K', 2,'2-3K',
+ 3,'3-4K',4,'4-5K',5,'5-6k',6,'6-7k',7,'7-8k',8,'8-9k', 9,'9-10k','> 10K')
+  5    6    7    8  ;
+
+
+SGA_HEAP                                             CHUNKCOMMEN Size    COUNT(*) Status        Bytes
+---------------------------------------------------- ----------- ----- ---------- -------- ----------
+sga heap(1,0)                                        free memory 4-5K        2029 free        8147952
+sga heap(1,0)                                        free memory 0-1K       15952 free        2538128
+sga heap(1,0)                                        free memory 7-8k          66 free         466520
+sga heap(1,0)                                        free memory 4-5K           4 R-free        15448
+sga heap(1,0)                                        free memory 5-6k         244 free        1214416
+sga heap(1,0)                                        free memory 0-1K           6 R-free         1352
+sga heap(1,0)                                        free memory 5-6k           2 R-free        10112
+sga heap(1,0)                                        free memory 8-9k         483 free        3938728
+sga heap(1,0)                                        free memory 9-10k         29 free         263760
+sga heap(1,0)                                        free memory 7-8k           2 R-free        13656
+sga heap(1,0)                                        free memory > 10K       1228 free       79125904
+sga heap(1,0)                                        free memory 3-4K         411 free        1222768
+sga heap(1,0)                                        free memory > 10K         27 R-free     24918848
+sga heap(1,0)                                        free memory 3-4K          13 R-free        38504
+sga heap(1,0)                                        free memory 2-3K          22 R-free        42168
+sga heap(1,0)                                        free memory 1-2K        5818 free        5619528
+sga heap(1,0)                                        free memory 6-7k           6 R-free        35736
+sga heap(1,0)                                        free memory 8-9k           5 R-free        39552
+sga heap(1,0)                                        free memory 2-3K        1823 free        3311144
+sga heap(1,0)                                        free memory 6-7k         121 free         718320
+sga heap(1,0)                                        free memory 1-2K           6 R-free         5600
+
+21 rows selected.
+
+
+col free_space for 999,999,999,999 head "TOTAL FREE"
+col avg_free_size for 999,999,999,999 head "AVERAGE|CHUNK SIZE"
+col free_count for 999,999,999,999 head "COUNT"
+col request_misses for 999,999,999,999 head "REQUEST|MISSES"
+col request_failures for 999,999,999,999 head "REQUEST|FAILURES"
+col max_free_size for 999,999,999,999 head "LARGEST CHUNK"
+ 
+select free_space, avg_free_size, free_count, max_free_size, request_misses, request_failures
+from v$shared_pool_reserved;
+
+                          AVERAGE                                            REQUEST          REQUEST
+      TOTAL FREE       CHUNK SIZE            COUNT    LARGEST CHUNK           MISSES         FAILURES
+---------------- ---------------- ---------------- ---------------- ---------------- ----------------
+      24,277,312           42,893               92        2,096,968            5,388               46
+
+
+
+
+select a.ksppinm "Parameter",
+ b.ksppstvl "Session Value",
+ c.ksppstvl "Instance Value"
+ from sys.x$ksppi a, sys.x$ksppcv b, sys.x$ksppsv c
+ where a.indx = b.indx and a.indx = c.indx
+ and a.ksppinm = '_shared_pool_reserved_pct';
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+_shared_pool_reserved_pct
+5
+5
+
+select a.ksppinm "Parameter",
+ b.ksppstvl "Session Value",
+ c.ksppstvl "Instance Value"
+ from sys.x$ksppi a, sys.x$ksppcv b, sys.x$ksppsv c
+ where a.indx = b.indx and a.indx = c.indx
+ and a.ksppinm like '_shared_pool_reserved_min_alloc'

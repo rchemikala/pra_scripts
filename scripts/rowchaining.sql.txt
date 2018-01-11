@@ -1,0 +1,8 @@
+analyze table '&tablename' compute statistics;
+
+select num_rows, chain_cnt from user_tables
+where table_name=&tablename;
+
+alter table &table_name move;
+
+

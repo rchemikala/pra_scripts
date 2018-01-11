@@ -1,0 +1,15 @@
+/*Buffer Cache Performance Indicators
+free buffer inspected' represents the number of buffer blocks
+skipped to find a free one; buffer blocks are skipped because
+they are dirty (contents modified) or pinned
+The measure can be provided by Statspack or by the
+following SQL query:*/
+
+
+select name, value
+from v$sysstat
+where name='free buffer inspected'
+
+
+/*the value is high or increasing, you should consider
+increasing the buffer cache size*/

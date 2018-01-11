@@ -1,0 +1,21 @@
+##Finding Latch Contention with ASH
+
+WITH ash_query AS (
+         SELECT event, program,
+               h.module, h.action,   object_name,
+                SUM(time_waited)/1000 reltime, COUNT( * ) waits,
+               username, sql_text,
+                 RANK() OVER (ORDER BY COUNT(*) DESC) AS wait_rank
+          FROM  v$active_session_history h
+          JOIN  dba_users u  USING (user_id)
+          LEFT OUTER JOIN dba_objects o
+              ON (o.object_id = h.current_obj#)
+         LEFT OUTER JOIN v$sql s USING (sql_id)
+        WHERE (event LIKE '%latch%' or event like '%mutex%')
+        GROUP BY event,program, h.module, h.action,
+            object_name,  sql_text, username)
+   SELECT event,module, username,  object_name, waits,
+            sql_text
+   FROM ash_query
+   WHERE wait_rank < 11
+ ORDER BY wait_rank

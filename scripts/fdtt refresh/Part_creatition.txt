@@ -1,0 +1,106 @@
+-----------------------------
+To Refresh partitions
+---------------------------
+Check the no of partitions
+---------------------------
+col owner for a7
+col segment_name for a20
+col partition_name for a25
+col tablespace_name for a17
+select owner,SEGMENT_NAME,PARTITION_NAME,TABLESPACE_NAME,bytes/1024/1024 "used" from dba_segments where SEGMENT_NAME like 'CRR_METERS'order by PARTITION_NAME
+
+
+
+---------------------------------------
+To get the count in particular partition
+-----------------------------------------
+select count(*) from DWSPEC.TRAIL0_INVLTBLE partition(TRAIL0_INVLTBLE_200712)
+
+
+---------------------------
+To Truncate Partitions
+---------------------------
+ALTER TABLE DWSPEC.TRAIV0_INVCTBLE TRUNCATE PARTITION TRAIV0_INVCTBLE_200708
+
+
+
+
+-----------------------------------------------------------
+ADD Partitions in FDTT
+------------------------------------------
+
+col HIGH_VALUE for a8
+select TABLE_NAME,PARTITION_NAME,HIGH_VALUE,TABLESPACE_NAME from dba_tab_partitions where TABLE_NAME='CRR_METERS';
+
+
+select PCT_FREE,INI_TRANS,MAX_TRANS,INITIAL_EXTENT,MIN_EXTENT,MAX_EXTENT,BUFFER_POOL from dba_tab_partitions where TABLE_NAME='CRR_METERS'
+
+
+alter table DWSPEC.CRR_METERS add
+  PARTITION CRR_METERS_200801 VALUES LESS THAN (200802)
+    NOLOGGING
+    NOCOMPRESS
+    TABLESPACE TDWEB0_DATA
+    PCTFREE    10
+    INITRANS   1
+    MAXTRANS   255
+    STORAGE    (
+                INITIAL          31457280
+                MINEXTENTS       1
+                MAXEXTENTS       2147483645
+                BUFFER_POOL      DEFAULT
+               )
+
+
+
+Export/Import commands of partitions
+-------------------------------------
+
+nohup exp system/fdtp_nov07@fdtp file=exp_INVCTBLE_2006_2007.dmp log=exp_INVCTBLE_2006_2007.log parfile=INVCTBLE_2006_2007.par direct=y statistics=none > nohup.out &
+
+
+parfile entries for export some particular partitions
+---------------------------------------------------
+tables=
+(
+owner.table_name:Partition_name
+)
+
+
+
+
+nohup imp system/fdtt_0531@FDTT file=exp_INVCTBLE_2004_2005.dmp log=imp_INVCTBLE_2004_2005.log fromuser=DWSPEC touser=DWSPEC parfile=INVCTBLE_2004_2005.par commit=y rows=y buffer=1000000 ignore=y > nohup.out &
+
+Parfile entries for Import some particular partitions
+------------------------------------------------------
+tables=
+(
+table_name:partition_name
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

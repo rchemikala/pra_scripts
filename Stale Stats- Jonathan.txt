@@ -1,0 +1,61 @@
+declare
+    m_object_list   dbms_stats.objecttab;
+begin
+ 
+    dbms_stats.gather_schema_stats(
+        ownname     => 'test_user',
+        options     => 'LIST AUTO',
+--      options     => 'LIST STALE',
+--      options     => 'LIST EMPTY',
+        objlist     => m_object_list
+    );
+ 
+    for i in 1..m_object_list.count loop
+        dbms_output.put_line(
+            rpad(m_object_list(i).ownname,30)     ||
+            rpad(m_object_list(i).objtype, 6)     ||
+            rpad(m_object_list(i).objname,30)     ||
+            rpad(m_object_list(i).partname,30)    ||
+            rpad(m_object_list(i).subpartname,30) ||
+            lpad(m_object_list(i).confidence,4)
+        );
+    end loop;
+end;
+/
+
+
+
+create or replace function list_stale (
+    i_option    in  varchar2,
+    i_user      in  varchar2 default user
+)
+return dbms_stats.objecttab pipelined
+as
+    pragma autonomous_transaction;
+    m_object_list   dbms_stats.objecttab;
+begin
+ 
+    if i_option not in (
+        'LIST AUTO', 'LIST STALE','LIST EMPTY'
+    ) then
+        null;
+    else
+        dbms_stats.gather_schema_stats(
+            ownname     => i_user,
+            options     => i_option,
+            objlist     => m_object_list
+        );
+ 
+        for i in 1..m_object_list.count loop
+            pipe row (m_object_list(i));
+        end loop;
+ 
+        end if;
+ 
+    return;
+end;
+/
+
+
+select  *
+from    table(list_stale('LIST AUTO'))

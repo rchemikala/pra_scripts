@@ -1,0 +1,2 @@
+select * from DBA_TS_QUOTAS
+order by Tablespace_Name, Username;

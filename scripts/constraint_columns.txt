@@ -1,0 +1,5 @@
+SQL> select table_name, column_name
+from all_cons_columns
+where owner='RF'
+and constraint_name='XPKCURRENCY_EXCHANGE'
+order by position;  2    3    4    5

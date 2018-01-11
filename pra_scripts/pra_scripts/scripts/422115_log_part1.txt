@@ -1,0 +1,37 @@
+SQL> update ncth.t_invoice_2008 set nch_id = NULL where nch_id >= 53531320;
+
+17243 rows updated.
+
+SQL> update ncth.t_invoice_2009 set nch_id = NULL where nch_id >= 53531320;
+
+107094 rows updated.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> alter tablespace NCHDMYYYY read write;
+
+Tablespace altered.
+
+SQL> alter tablespace NCHXMYYYY read write;
+
+Tablespace altered.
+
+SQL> alter tablespace NCHXSYYYY read write;
+
+Tablespace altered.
+
+SQL> delete from nc.t_nc_header_2009 where transaction_period = '200902';
+
+124395 rows deleted.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> grant execute on ncth.ncth_load to danselm;
+
+Grant succeeded.
+
+SQL> spool off

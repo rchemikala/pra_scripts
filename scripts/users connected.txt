@@ -1,0 +1,3 @@
+SELECT s.username, s.program, s.logon_time 
+FROM v$session s, v$process p, sys.v_$sess_io si 
+WHERE s.paddr = p.addr(+) AND si.sid(+) = s.sid AND s.type='USER'

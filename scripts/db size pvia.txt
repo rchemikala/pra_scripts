@@ -1,0 +1,5 @@
+SQL> select (a.data_size+c.redo_size)/(1024*1024*1024) "total_size_IN GB" from ( select sum(bytes) data_size from dba_data_files ) a,  ( select sum(bytes) redo_size  from sys.v_$log ) c;
+
+total_size_IN GB
+----------------
+      10.5957031

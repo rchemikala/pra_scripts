@@ -1,0 +1,8 @@
+select 'alter database datafile '''||b.file_name||''' resize
+'||maxsize||'m;'
+from
+(select file_id,round(max(block_id)*16/1024+100,-2) maxsize from 
+dba_extents where tablespace_name like 'VBS_LINE_P6%'
+group by file_id) a,
+(select file_id,file_name from dba_data_files where tablespace_name
+like 'VBS_LINE_P6%' b where a.file_id=b.file_id ;

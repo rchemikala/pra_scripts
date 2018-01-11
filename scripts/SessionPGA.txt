@@ -1,0 +1,9 @@
+SELECT s.sid, n.name, s.value FROM v$sesstat s, v$statname n
+WHERE s.statistic# = n.statistic#
+AND n.name = 'session pga memory';
+
+For maximum PGA size each session has reached so far, use:
+
+SELECT s.sid, n.name, s.value/1024/1024 FROM v$sesstat s, v$statname n
+WHERE s.statistic# = n.statistic#
+AND n.name = 'session pga memory max';

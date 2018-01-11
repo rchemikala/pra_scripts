@@ -1,0 +1,8 @@
+select event, total_waits
+from v$system_event
+where event in ('free buffer waits', 'buffer busy waits');
+
+/*
+• If 'free buffer waits' occur, you should try to speed up DBWn
+or increase the buffer cache size
+• If 'buffer busy waits' occur, try to reduce contention */

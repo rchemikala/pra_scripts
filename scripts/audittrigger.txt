@@ -1,0 +1,35 @@
+CREATE OR REPLACE TRIGGER "AUDDBA"."CAPOWN_OBJECT_CHANGE"
+ AFTER
+CREATE OR DROP OR ALTER ON CAPOWN.SCHEMA
+BEGIN
+        Declare
+        Cursor C1 is
+        select
+                sys_context('USERENV','OS_USER') osuser,
+                sys_context('USERENV','TERMINAL') terminal,
+                sys_context('USERENV','HOST') machine,
+        sys_context('USERENV','SESSION_USER') sess_user
+                from dual;
+        BEGIN
+        FOR C2 IN C1 LOOP
+        null;
+Insert into AUDDBA.audit_events
+        (
+                Event_date,
+                Event_user,
+                Event_osuser,
+                Event_machine,
+                Event_terminal,
+                Event_operation,
+                Event_object_type,
+                Event_object_name
+        )
+        values
+                (
+                sysdate,C2.sess_user,C2.osuser,c2.machine,c2.terminal,
+                ora_sysevent,ora_dict_obj_type,
+                ora_dict_obj_name);
+        END LOOP;
+        END;
+END;
+ALTER TRIGGER "AUDDBA"."CAPOWN_OBJECT_CHANGE" ENABLE

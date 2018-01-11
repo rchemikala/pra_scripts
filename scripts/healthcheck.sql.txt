@@ -1,0 +1,104 @@
+spool /home/cspldba1/scripts/health_check.lst
+
+prompt
+prompt
+prompt
+prompt**---------------Objects Reaching Max extents-----------------------**
+prompt
+col segment_name format a40 heading "Object Name"
+col max_extents format 9999999999 heading "Max Extents"
+col curr_extents format 99999999999 heading "Curent Extents"
+
+
+select SEGMENT_NAME,MAX_EXTENTS,extents CURR_EXTENTS from dba_segments where (max_extents -extents) <=20;
+
+
+
+
+prompt
+prompt
+prompt**----------Tablespace Information------------------------**
+prompt
+
+col name Head "Tablespace Name" form a30
+col total head "Total|Space|(in MB)" form 9999999.99
+col used head "Used|Space|(in MB)" form 9999999.99
+col free head "Free|Space|(in MB)" form 9999999.99
+col pcfree head "% Free|Space" form 999.99
+set pages 99
+set pagesize 99
+
+select * from
+(
+select t.tsname name,nvl(t.total,0)/1048576 total,nvl(u.used,0)/1048576 used,
+         nvl(f.free,0)/1048576 free,(100 * nvl(f.free,0))/total pcfree
+from
+(select tb.tablespace_name tsname,sum(nvl(df.bytes,0)) total
+from dba_tablespaces tb,dba_data_files df
+where tb.tablespace_name(+)=df.tablespace_name
+group by tb.tablespace_name) t,
+(select tb.tablespace_name tsname,sum(nvl(ex.bytes,0)) used
+from dba_tablespaces tb,dba_extents ex
+where tb.tablespace_name(+)=ex.tablespace_name
+group by tb.tablespace_name) u,
+(select tb.tablespace_name tsname,sum(nvl(fs.bytes,0)) free
+from dba_tablespaces tb,dba_free_space fs
+where tb.tablespace_name(+)=fs.tablespace_name
+group by tb.tablespace_name) f
+where t.tsname=u.tsname(+)
+and t.tsname=f.tsname(+)
+order by 5 ASC
+)
+where rownum < 11
+/
+
+
+
+prompt
+prompt**-------Roll back segment Statistics--------------------**
+prompt
+set linesize 132
+set pages 99
+col segment_name format a15 heading "Segment Name"
+col status format a15 format a10 heading "Status"
+col "Initial KB" format 99999 heading "Initial KB"
+col "nextKB" format 99999 heading "Next KB"
+col "max_extents" format 99999 heading "Max Extents"
+col "min_extents" format 99999 heading "Min Extents"
+col "Opt Size KB" format 99999 heading "Opt Size KB"
+col "Current Extents " format 99999 heading "Current Extents"
+
+select  segment_name,
+        a.status,
+        initial_extent/(1024) "Initial KB",
+        (next_extent/1024)"NextKB",
+        max_extents,
+        min_extents,
+        optsize/1024 "Opt Size KB",
+        curext "Current Extents" from
+        dba_rollback_segs a,V$rollstat b where a.segment_id = b.usn;
+
+
+
+
+prompt
+prompt**---------------Shared Pool Statistics------------------**
+prompt
+col namespace format a22
+
+select  namespace,
+        gets,
+        gethits,
+        round(gethitratio,2) gethitratio,
+        pins,
+        pinhits,
+        round(pinhitratio,2)
+        pinhitratio,
+        reloads,
+        invalidations
+from v$librarycache;
+
+
+
+spoo off;
+

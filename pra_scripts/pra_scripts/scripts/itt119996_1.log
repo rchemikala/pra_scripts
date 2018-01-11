@@ -1,0 +1,1319 @@
+system@FIX9QA2.WORLD> select segment_name from dba_segments where tablespace_name='P_ACTREP_104';
+
+no rows selected
+
+system@FIX9QA2.WORLD> select segment_name from dba_segments where tablespace_name='P_ACTREP_104';
+
+no rows selected
+
+system@FIX9QA2.WORLD> drop tablespace P_ACTREP_104 including contents and datafiles;
+
+Tablespace dropped.
+
+system@FIX9QA2.WORLD> CREATE TABLESPACE "P_ACTREP_104"
+  2      NOLOGGING
+  3      DATAFILE '/u31/oradata/FIX9QA2/P_ACTREP_104.dbf' SIZE 2500M
+  4      BLOCKSIZE 8192 EXTENT MANAGEMENT LOCAL SEGMENT SPACE MANAGEMENT AUTO ;
+
+Tablespace created.
+
+system@FIX9QA2.WORLD> select segment_name from dba_segments where tablespace_name='P_ACTREP_105';
+
+no rows selected
+
+system@FIX9QA2.WORLD> drop tablespace P_ACTREP_105 including contents and datafiles;
+
+Tablespace dropped.
+
+system@FIX9QA2.WORLD> CREATE TABLESPACE "P_ACTREP_105"
+  2      NOLOGGING
+  3      DATAFILE '/u31/oradata/FIX9QA2/P_ACTREP_105.dbf' SIZE 2500M
+  4      BLOCKSIZE 8192 EXTENT MANAGEMENT LOCAL SEGMENT SPACE MANAGEMENT AUTO ;
+
+Tablespace created.
+
+system@FIX9QA2.WORLD> select segment_name from dba_segments where tablespace_name='P_ACTREP_106';
+
+no rows selected
+
+system@FIX9QA2.WORLD> drop tablespace P_ACTREP_106 including contents and datafiles;
+
+Tablespace dropped.
+
+system@FIX9QA2.WORLD> CREATE TABLESPACE "P_ACTREP_106"
+  2      NOLOGGING
+  3      DATAFILE '/u31/oradata/FIX9QA2/P_ACTREP_106.dbf' SIZE 2500M
+  4      BLOCKSIZE 8192 EXTENT MANAGEMENT LOCAL SEGMENT SPACE MANAGEMENT AUTO;
+
+Tablespace created.
+
+system@FIX9QA2.WORLD> select segment_name from dba_segments where tablespace_name='P_ACTREP_107';
+
+no rows selected
+
+system@FIX9QA2.WORLD> drop tablespace P_ACTREP_107 including contents and datafiles;
+
+Tablespace dropped.
+
+system@FIX9QA2.WORLD> CREATE TABLESPACE "P_ACTREP_107"
+  2      NOLOGGING
+  3      DATAFILE '/u31/oradata/FIX9QA2/P_ACTREP_107.dbf' SIZE 2500M
+  4      BLOCKSIZE 8192 EXTENT MANAGEMENT LOCAL SEGMENT SPACE MANAGEMENT AUTO;
+
+Tablespace created.
+
+system@FIX9QA2.WORLD> select segment_name from dba_segments where tablespace_name='P_ACTREP_108';
+
+no rows selected
+
+system@FIX9QA2.WORLD> drop tablespace P_ACTREP_108 including contents and datafiles;
+
+Tablespace dropped.
+
+system@FIX9QA2.WORLD> CREATE TABLESPACE "P_ACTREP_108"
+  2      NOLOGGING
+  3      DATAFILE '/u31/oradata/FIX9QA2/P_ACTREP_108.dbf' SIZE 2500M
+  4      BLOCKSIZE 8192 EXTENT MANAGEMENT LOCAL SEGMENT SPACE MANAGEMENT AUTO;
+
+Tablespace created.
+
+system@FIX9QA2.WORLD> select segment_name from dba_segments where tablespace_name='P_ACTREP_109';
+
+no rows selected
+
+system@FIX9QA2.WORLD> drop tablespace P_ACTREP_109 including contents and datafiles;
+
+Tablespace dropped.
+
+system@FIX9QA2.WORLD> CREATE TABLESPACE "P_ACTREP_109"
+  2      NOLOGGING
+  3      DATAFILE '/u31/oradata/FIX9QA2/P_ACTREP_109.dbf' SIZE 2500M
+  4      BLOCKSIZE 8192 EXTENT MANAGEMENT LOCAL SEGMENT SPACE MANAGEMENT AUTO;
+
+Tablespace created.
+
+system@FIX9QA2.WORLD> select segment_name from dba_segments where tablespace_name='P_ACTREP_110';
+
+no rows selected
+
+system@FIX9QA2.WORLD> drop tablespace P_ACTREP_110 including contents and datafiles;
+
+Tablespace dropped.
+
+system@FIX9QA2.WORLD> CREATE TABLESPACE "P_ACTREP_110"
+  2      NOLOGGING
+  3      DATAFILE '/u31/oradata/FIX9QA2/P_ACTREP_110.dbf' SIZE 2500M
+  4      BLOCKSIZE 8192 EXTENT MANAGEMENT LOCAL SEGMENT SPACE MANAGEMENT AUTO;
+
+Tablespace created.
+
+system@FIX9QA2.WORLD> 
+system@FIX9QA2.WORLD> select segment_name from dba_segments where tablespace_name='P_ACTREP_111';
+
+no rows selected
+
+system@FIX9QA2.WORLD> drop tablespace P_ACTREP_111 including contents and datafiles;
+
+Tablespace dropped.
+
+system@FIX9QA2.WORLD> CREATE TABLESPACE "P_ACTREP_111"
+  2      NOLOGGING
+  3      DATAFILE '/u31/oradata/FIX9QA2/P_ACTREP_111.dbf' SIZE 2500M
+  4      BLOCKSIZE 8192 EXTENT MANAGEMENT LOCAL SEGMENT SPACE MANAGEMENT AUTO;
+
+Tablespace created.
+
+system@FIX9QA2.WORLD> select segment_name from dba_segments where tablespace_name='P_ACTREP_112';
+
+no rows selected
+
+system@FIX9QA2.WORLD> drop tablespace P_ACTREP_112 including contents and datafiles;
+
+Tablespace dropped.
+
+system@FIX9QA2.WORLD> CREATE TABLESPACE "P_ACTREP_112"
+  2      NOLOGGING
+  3      DATAFILE '/u31/oradata/FIX9QA2/P_ACTREP_112.dbf' SIZE 2500M
+  4      BLOCKSIZE 8192 EXTENT MANAGEMENT LOCAL SEGMENT SPACE MANAGEMENT AUTO;
+
+Tablespace created.
+
+system@FIX9QA2.WORLD> 
+system@FIX9QA2.WORLD> 
+system@FIX9QA2.WORLD> select segment_name from dba_segments where tablespace_name='PI_ACTREPI_104';
+
+no rows selected
+
+system@FIX9QA2.WORLD> drop tablespace PI_ACTREPI_104 including contents and datafiles;
+
+Tablespace dropped.
+
+system@FIX9QA2.WORLD> CREATE TABLESPACE "PI_ACTREPI_104"
+  2      NOLOGGING
+  3      DATAFILE '/u32/oradata/FIX9QA2/PI_ACTREPI_104.dbf' SIZE 1500M
+  4      BLOCKSIZE 8192 EXTENT MANAGEMENT LOCAL SEGMENT SPACE MANAGEMENT AUTO;
+
+Tablespace created.
+
+system@FIX9QA2.WORLD> select segment_name from dba_segments where tablespace_name='PI_ACTREPI_105';
+
+no rows selected
+
+system@FIX9QA2.WORLD> drop tablespace PI_ACTREPI_105 including contents and datafiles;
+
+Tablespace dropped.
+
+system@FIX9QA2.WORLD> CREATE TABLESPACE "PI_ACTREPI_105"
+  2      NOLOGGING
+  3      DATAFILE '/u32/oradata/FIX9QA2/PI_ACTREPI_105.dbf' SIZE 1500M
+  4      BLOCKSIZE 8192 EXTENT MANAGEMENT LOCAL SEGMENT SPACE MANAGEMENT AUTO;
+
+Tablespace created.
+
+system@FIX9QA2.WORLD> select segment_name from dba_segments where tablespace_name='PI_ACTREPI_106';
+
+no rows selected
+
+system@FIX9QA2.WORLD> drop tablespace PI_ACTREPI_106 including contents and datafiles;
+
+Tablespace dropped.
+
+system@FIX9QA2.WORLD> CREATE TABLESPACE "PI_ACTREPI_106"
+  2      NOLOGGING
+  3      DATAFILE '/u32/oradata/FIX9QA2/PI_ACTREPI_106.dbf' SIZE 1500M
+  4      BLOCKSIZE 8192 EXTENT MANAGEMENT LOCAL SEGMENT SPACE MANAGEMENT AUTO;
+
+Tablespace created.
+
+system@FIX9QA2.WORLD> select segment_name from dba_segments where tablespace_name='PI_ACTREPI_107';
+
+no rows selected
+
+system@FIX9QA2.WORLD> drop tablespace PI_ACTREPI_107 including contents and datafiles;
+
+Tablespace dropped.
+
+system@FIX9QA2.WORLD> CREATE TABLESPACE "PI_ACTREPI_107"
+  2      NOLOGGING
+  3      DATAFILE '/u32/oradata/FIX9QA2/PI_ACTREPI_107.dbf' SIZE 1500M
+  4      BLOCKSIZE 8192 EXTENT MANAGEMENT LOCAL SEGMENT SPACE MANAGEMENT AUTO;
+
+Tablespace created.
+
+system@FIX9QA2.WORLD> select segment_name from dba_segments where tablespace_name='PI_ACTREPI_108';
+
+no rows selected
+
+system@FIX9QA2.WORLD> drop tablespace PI_ACTREPI_108 including contents and datafiles;
+
+Tablespace dropped.
+
+system@FIX9QA2.WORLD> CREATE TABLESPACE "PI_ACTREPI_108"
+  2      NOLOGGING
+  3      DATAFILE '/u32/oradata/FIX9QA2/PI_ACTREPI_108.dbf' SIZE 1500M
+  4      BLOCKSIZE 8192 EXTENT MANAGEMENT LOCAL SEGMENT SPACE MANAGEMENT AUTO;
+
+Tablespace created.
+
+system@FIX9QA2.WORLD> select segment_name from dba_segments where tablespace_name='PI_ACTREPI_109';
+
+no rows selected
+
+system@FIX9QA2.WORLD> drop tablespace PI_ACTREPI_109 including contents and datafiles;
+
+Tablespace dropped.
+
+system@FIX9QA2.WORLD> CREATE TABLESPACE "PI_ACTREPI_109"
+  2      NOLOGGING
+  3      DATAFILE '/u32/oradata/FIX9QA2/PI_ACTREPI_109.dbf' SIZE 1500M
+  4      BLOCKSIZE 8192 EXTENT MANAGEMENT LOCAL SEGMENT SPACE MANAGEMENT AUTO;
+
+Tablespace created.
+
+system@FIX9QA2.WORLD> select segment_name from dba_segments where tablespace_name='PI_ACTREPI_110';
+
+no rows selected
+
+system@FIX9QA2.WORLD> drop tablespace PI_ACTREPI_110 including contents and datafiles;
+
+Tablespace dropped.
+
+system@FIX9QA2.WORLD> CREATE TABLESPACE "PI_ACTREPI_110"
+  2      NOLOGGING
+  3      DATAFILE '/u32/oradata/FIX9QA2/PI_ACTREPI_110.dbf' SIZE 1500M
+  4      BLOCKSIZE 8192 EXTENT MANAGEMENT LOCAL SEGMENT SPACE MANAGEMENT AUTO;
+
+Tablespace created.
+
+system@FIX9QA2.WORLD> select segment_name from dba_segments where tablespace_name='PI_ACTREPI_111';
+
+no rows selected
+
+system@FIX9QA2.WORLD> drop tablespace PI_ACTREPI_111 including contents and datafiles;
+
+Tablespace dropped.
+
+system@FIX9QA2.WORLD> CREATE TABLESPACE "PI_ACTREPI_111"
+  2      NOLOGGING
+  3      DATAFILE '/u32/oradata/FIX9QA2/PI_ACTREPI_111.dbf' SIZE 1500M
+  4      BLOCKSIZE 8192 EXTENT MANAGEMENT LOCAL SEGMENT SPACE MANAGEMENT AUTO;
+
+Tablespace created.
+
+system@FIX9QA2.WORLD> select segment_name from dba_segments where tablespace_name='PI_ACTREPI_112';
+
+no rows selected
+
+system@FIX9QA2.WORLD> drop tablespace PI_ACTREPI_112 including contents and datafiles;
+
+Tablespace dropped.
+
+system@FIX9QA2.WORLD> CREATE TABLESPACE "PI_ACTREPI_112"
+  2      NOLOGGING
+  3      DATAFILE '/u32/oradata/FIX9QA2/PI_ACTREPI_112.dbf' SIZE 1500M
+  4      BLOCKSIZE 8192 EXTENT MANAGEMENT LOCAL SEGMENT SPACE MANAGEMENT AUTO;
+
+Tablespace created.
+
+system@FIX9QA2.WORLD> alter table salsa_wh.activity_fact add
+  2    PARTITION P_ACTREP_104 VALUES LESS THAN (105)
+  3      NOLOGGING
+  4      NOCOMPRESS
+  5      TABLESPACE P_ACTREP_104
+  6      PCTFREE    10
+  7      INITRANS   1
+  8      MAXTRANS   255
+  9      STORAGE    (
+ 10                  INITIAL          64K
+ 11                  MINEXTENTS       1
+ 12                  MAXEXTENTS       2147483645
+ 13                  BUFFER_POOL      DEFAULT
+ 14                 );
+alter table salsa_wh.activity_fact add
+                     *
+ERROR at line 1:
+ORA-01950: no privileges on tablespace 'P_ACTREP_104' 
+
+
+system@FIX9QA2.WORLD> grant resource to salsa_wh;
+
+Grant succeeded.
+
+system@FIX9QA2.WORLD> alter table salsa_wh.activity_fact add
+  2    PARTITION P_ACTREP_104 VALUES LESS THAN (105)
+  3      NOLOGGING
+  4      NOCOMPRESS
+  5      TABLESPACE P_ACTREP_104
+  6      PCTFREE    10
+  7      INITRANS   1
+  8      MAXTRANS   255
+  9      STORAGE    (
+ 10                  INITIAL          64K
+ 11                  MINEXTENTS       1
+ 12                  MAXEXTENTS       2147483645
+ 13                  BUFFER_POOL      DEFAULT
+ 14                 );
+
+Table altered.
+
+system@FIX9QA2.WORLD> alter table salsa_wh.activity_fact add
+  2    PARTITION P_ACTREP_105 VALUES LESS THAN (106)
+  3      NOLOGGING
+  4      NOCOMPRESS
+  5      TABLESPACE P_ACTREP_105
+  6      PCTFREE    10
+  7      INITRANS   1
+  8      MAXTRANS   255
+  9      STORAGE    (
+ 10                  INITIAL          64K
+ 11                  MINEXTENTS       1
+ 12                  MAXEXTENTS       2147483645
+ 13                  BUFFER_POOL      DEFAULT
+ 14                 );
+
+Table altered.
+
+system@FIX9QA2.WORLD> alter table salsa_wh.activity_fact add
+  2    PARTITION P_ACTREP_106 VALUES LESS THAN (107)
+  3      NOLOGGING
+  4      NOCOMPRESS
+  5      TABLESPACE P_ACTREP_106
+  6      PCTFREE    10
+  7      INITRANS   1
+  8      MAXTRANS   255
+  9      STORAGE    (
+ 10                  INITIAL          64K
+ 11                  MINEXTENTS       1
+ 12                  MAXEXTENTS       2147483645
+ 13                  BUFFER_POOL      DEFAULT
+ 14                 );
+
+Table altered.
+
+system@FIX9QA2.WORLD> alter table salsa_wh.activity_fact add
+  2    PARTITION P_ACTREP_107 VALUES LESS THAN (108)
+  3      NOLOGGING
+  4      NOCOMPRESS
+  5      TABLESPACE P_ACTREP_107
+  6      PCTFREE    10
+  7      INITRANS   1
+  8      MAXTRANS   255
+  9      STORAGE    (
+ 10                  INITIAL          64K
+ 11                  MINEXTENTS       1
+ 12                  MAXEXTENTS       2147483645
+ 13                  BUFFER_POOL      DEFAULT
+ 14                 );
+
+Table altered.
+
+system@FIX9QA2.WORLD> alter table salsa_wh.activity_fact add
+  2    PARTITION P_ACTREP_108 VALUES LESS THAN (109)
+  3      NOLOGGING
+  4      NOCOMPRESS
+  5      TABLESPACE P_ACTREP_108
+  6      PCTFREE    10
+  7      INITRANS   1
+  8      MAXTRANS   255
+  9      STORAGE    (
+ 10                  INITIAL          64K
+ 11                  MINEXTENTS       1
+ 12                  MAXEXTENTS       2147483645
+ 13                  BUFFER_POOL      DEFAULT
+ 14                 );
+
+Table altered.
+
+system@FIX9QA2.WORLD> alter table salsa_wh.activity_fact add
+  2    PARTITION P_ACTREP_109 VALUES LESS THAN (110)
+  3      NOLOGGING
+  4      NOCOMPRESS
+  5      TABLESPACE P_ACTREP_109
+  6      PCTFREE    10
+  7      INITRANS   1
+  8      MAXTRANS   255
+  9      STORAGE    (
+ 10                  INITIAL          64K
+ 11                  MINEXTENTS       1
+ 12                  MAXEXTENTS       2147483645
+ 13                  BUFFER_POOL      DEFAULT
+ 14                 );
+
+Table altered.
+
+system@FIX9QA2.WORLD> alter table salsa_wh.activity_fact add
+  2    PARTITION P_ACTREP_110 VALUES LESS THAN (111)
+  3      NOLOGGING
+  4      NOCOMPRESS
+  5      TABLESPACE P_ACTREP_110
+  6      PCTFREE    10
+  7      INITRANS   1
+  8      MAXTRANS   255
+  9      STORAGE    (
+ 10                  INITIAL          64K
+ 11                  MINEXTENTS       1
+ 12                  MAXEXTENTS       2147483645
+ 13                  BUFFER_POOL      DEFAULT
+ 14                 );
+
+Table altered.
+
+system@FIX9QA2.WORLD> alter table salsa_wh.activity_fact add
+  2    PARTITION P_ACTREP_111 VALUES LESS THAN (112)
+  3      NOLOGGING
+  4      NOCOMPRESS
+  5      TABLESPACE P_ACTREP_111
+  6      PCTFREE    10
+  7      INITRANS   1
+  8      MAXTRANS   255
+  9      STORAGE    (
+ 10                  INITIAL          64K
+ 11                  MINEXTENTS       1
+ 12                  MAXEXTENTS       2147483645
+ 13                  BUFFER_POOL      DEFAULT
+ 14                 );
+
+Table altered.
+
+system@FIX9QA2.WORLD> alter table salsa_wh.activity_fact add
+  2    PARTITION P_ACTREP_112 VALUES LESS THAN (113)
+  3      NOLOGGING
+  4      NOCOMPRESS
+  5      TABLESPACE P_ACTREP_112
+  6      PCTFREE    10
+  7      INITRANS   1
+  8      MAXTRANS   255
+  9      STORAGE    (
+ 10                  INITIAL          64K
+ 11                  MINEXTENTS       1
+ 12                  MAXEXTENTS       2147483645
+ 13                  BUFFER_POOL      DEFAULT
+ 14                 );
+
+Table altered.
+
+system@FIX9QA2.WORLD> alter index salsa_wh.ACTIVITY_MONTH_ID rebuild partition P_ACTREP_104
+  2  NOLOGGING
+  3      NOCOMPRESS
+  4      TABLESPACE PI_ACTREPI_104
+  5      PCTFREE    10
+  6      INITRANS   2
+  7      MAXTRANS   255
+  8      STORAGE    (
+  9                  INITIAL          64K
+ 10                  MINEXTENTS       1
+ 11                  MAXEXTENTS       2147483645
+ 12                  BUFFER_POOL      DEFAULT
+ 13                 );
+
+Index altered.
+
+system@FIX9QA2.WORLD> alter index salsa_wh.ACTIVITY_MONTH_ID rebuild partition P_ACTREP_105
+  2  NOLOGGING
+  3      NOCOMPRESS
+  4      TABLESPACE PI_ACTREPI_105
+  5      PCTFREE    10
+  6      INITRANS   2
+  7      MAXTRANS   255
+  8      STORAGE    (
+  9                  INITIAL          64K
+ 10                  MINEXTENTS       1
+ 11                  MAXEXTENTS       2147483645
+ 12                  BUFFER_POOL      DEFAULT
+ 13                 );
+
+Index altered.
+
+system@FIX9QA2.WORLD> alter index salsa_wh.ACTIVITY_MONTH_ID rebuild partition P_ACTREP_106
+  2  NOLOGGING
+  3      NOCOMPRESS
+  4      TABLESPACE PI_ACTREPI_106
+  5      PCTFREE    10
+  6      INITRANS   2
+  7      MAXTRANS   255
+  8      STORAGE    (
+  9                  INITIAL          64K
+ 10                  MINEXTENTS       1
+ 11                  MAXEXTENTS       2147483645
+ 12                  BUFFER_POOL      DEFAULT
+ 13                 );
+
+Index altered.
+
+system@FIX9QA2.WORLD> alter index salsa_wh.ACTIVITY_MONTH_ID rebuild partition P_ACTREP_107
+  2  NOLOGGING
+  3      NOCOMPRESS
+  4      TABLESPACE PI_ACTREPI_107
+  5      PCTFREE    10
+  6      INITRANS   2
+  7      MAXTRANS   255
+  8      STORAGE    (
+  9                  INITIAL          64K
+ 10                  MINEXTENTS       1
+ 11                  MAXEXTENTS       2147483645
+ 12                  BUFFER_POOL      DEFAULT
+ 13                 );
+
+Index altered.
+
+system@FIX9QA2.WORLD> alter index salsa_wh.ACTIVITY_MONTH_ID rebuild partition P_ACTREP_108
+  2  NOLOGGING
+  3      NOCOMPRESS
+  4      TABLESPACE PI_ACTREPI_108
+  5      PCTFREE    10
+  6      INITRANS   2
+  7      MAXTRANS   255
+  8      STORAGE    (
+  9                  INITIAL          64K
+ 10                  MINEXTENTS       1
+ 11                  MAXEXTENTS       2147483645
+ 12                  BUFFER_POOL      DEFAULT
+ 13                 );
+
+Index altered.
+
+system@FIX9QA2.WORLD> alter index salsa_wh.ACTIVITY_MONTH_ID rebuild partition P_ACTREP_109
+  2  NOLOGGING
+  3      NOCOMPRESS
+  4      TABLESPACE PI_ACTREPI_109
+  5      PCTFREE    10
+  6      INITRANS   2
+  7      MAXTRANS   255
+  8      STORAGE    (
+  9                  INITIAL          64K
+ 10                  MINEXTENTS       1
+ 11                  MAXEXTENTS       2147483645
+ 12                  BUFFER_POOL      DEFAULT
+ 13                 );
+
+Index altered.
+
+system@FIX9QA2.WORLD> alter index salsa_wh.ACTIVITY_MONTH_ID rebuild partition P_ACTREP_110
+  2  NOLOGGING
+  3      NOCOMPRESS
+  4      TABLESPACE PI_ACTREPI_110
+  5      PCTFREE    10
+  6      INITRANS   2
+  7      MAXTRANS   255
+  8      STORAGE    (
+  9                  INITIAL          64K
+ 10                  MINEXTENTS       1
+ 11                  MAXEXTENTS       2147483645
+ 12                  BUFFER_POOL      DEFAULT
+ 13                 );
+
+Index altered.
+
+system@FIX9QA2.WORLD> alter index salsa_wh.ACTIVITY_MONTH_ID rebuild partition P_ACTREP_111
+  2  NOLOGGING
+  3      NOCOMPRESS
+  4      TABLESPACE PI_ACTREPI_111
+  5      PCTFREE    10
+  6      INITRANS   2
+  7      MAXTRANS   255
+  8      STORAGE    (
+  9                  INITIAL          64K
+ 10                  MINEXTENTS       1
+ 11                  MAXEXTENTS       2147483645
+ 12                  BUFFER_POOL      DEFAULT
+ 13                 );
+
+Index altered.
+
+system@FIX9QA2.WORLD> alter index salsa_wh.ACTIVITY_MONTH_ID rebuild partition P_ACTREP_112
+  2  NOLOGGING
+  3      NOCOMPRESS
+  4      TABLESPACE PI_ACTREPI_112
+  5      PCTFREE    10
+  6      INITRANS   2
+  7      MAXTRANS   255
+  8      STORAGE    (
+  9                  INITIAL          64K
+ 10                  MINEXTENTS       1
+ 11                  MAXEXTENTS       2147483645
+ 12                  BUFFER_POOL      DEFAULT
+ 13                 );
+
+Index altered.
+
+system@FIX9QA2.WORLD> alter index salsa_wh.AF_CAPS_SERNO_IDX rebuild partition P_ACTREP_104
+  2  NOLOGGING
+  3      NOCOMPRESS
+  4      TABLESPACE PI_ACTREPI_104
+  5      PCTFREE    10
+  6      INITRANS   2
+  7      MAXTRANS   255
+  8      STORAGE    (
+  9                  INITIAL          64K
+ 10                  MINEXTENTS       1
+ 11                  MAXEXTENTS       2147483645
+ 12                  BUFFER_POOL      DEFAULT
+ 13                 );
+
+Index altered.
+
+system@FIX9QA2.WORLD> alter index salsa_wh.AF_CAPS_SERNO_IDX rebuild partition P_ACTREP_105
+  2  NOLOGGING
+  3      NOCOMPRESS
+  4      TABLESPACE PI_ACTREPI_105
+  5      PCTFREE    10
+  6      INITRANS   2
+  7      MAXTRANS   255
+  8      STORAGE    (
+  9                  INITIAL          64K
+ 10                  MINEXTENTS       1
+ 11                  MAXEXTENTS       2147483645
+ 12                  BUFFER_POOL      DEFAULT
+ 13                 );
+
+Index altered.
+
+system@FIX9QA2.WORLD> alter index salsa_wh.AF_CAPS_SERNO_IDX rebuild partition P_ACTREP_106
+  2  NOLOGGING
+  3      NOCOMPRESS
+  4      TABLESPACE PI_ACTREPI_106
+  5      PCTFREE    10
+  6      INITRANS   2
+  7      MAXTRANS   255
+  8      STORAGE    (
+  9                  INITIAL          64K
+ 10                  MINEXTENTS       1
+ 11                  MAXEXTENTS       2147483645
+ 12                  BUFFER_POOL      DEFAULT
+ 13                 );
+
+Index altered.
+
+system@FIX9QA2.WORLD> alter index salsa_wh.AF_CAPS_SERNO_IDX rebuild partition P_ACTREP_107
+  2  NOLOGGING
+  3      NOCOMPRESS
+  4      TABLESPACE PI_ACTREPI_107
+  5      PCTFREE    10
+  6      INITRANS   2
+  7      MAXTRANS   255
+  8      STORAGE    (
+  9                  INITIAL          64K
+ 10                  MINEXTENTS       1
+ 11                  MAXEXTENTS       2147483645
+ 12                  BUFFER_POOL      DEFAULT
+ 13                 );
+
+Index altered.
+
+system@FIX9QA2.WORLD> alter index salsa_wh.AF_CAPS_SERNO_IDX rebuild partition P_ACTREP_108
+  2  NOLOGGING
+  3      NOCOMPRESS
+  4      TABLESPACE PI_ACTREPI_108
+  5      PCTFREE    10
+  6      INITRANS   2
+  7      MAXTRANS   255
+  8      STORAGE    (
+  9                  INITIAL          64K
+ 10                  MINEXTENTS       1
+ 11                  MAXEXTENTS       2147483645
+ 12                  BUFFER_POOL      DEFAULT
+ 13                 );
+
+Index altered.
+
+system@FIX9QA2.WORLD> alter index salsa_wh.AF_CAPS_SERNO_IDX rebuild partition P_ACTREP_109
+  2  NOLOGGING
+  3      NOCOMPRESS
+  4      TABLESPACE PI_ACTREPI_109
+  5      PCTFREE    10
+  6      INITRANS   2
+  7      MAXTRANS   255
+  8      STORAGE    (
+  9                  INITIAL          64K
+ 10                  MINEXTENTS       1
+ 11                  MAXEXTENTS       2147483645
+ 12                  BUFFER_POOL      DEFAULT
+ 13                 );
+
+Index altered.
+
+system@FIX9QA2.WORLD> alter index salsa_wh.AF_CAPS_SERNO_IDX rebuild partition P_ACTREP_110
+  2  NOLOGGING
+  3      NOCOMPRESS
+  4      TABLESPACE PI_ACTREPI_110
+  5      PCTFREE    10
+  6      INITRANS   2
+  7      MAXTRANS   255
+  8      STORAGE    (
+  9                  INITIAL          64K
+ 10                  MINEXTENTS       1
+ 11                  MAXEXTENTS       2147483645
+ 12                  BUFFER_POOL      DEFAULT
+ 13                 );
+
+Index altered.
+
+system@FIX9QA2.WORLD> alter index salsa_wh.AF_CAPS_SERNO_IDX rebuild partition P_ACTREP_111
+  2  NOLOGGING
+  3      NOCOMPRESS
+  4      TABLESPACE PI_ACTREPI_111
+  5      PCTFREE    10
+  6      INITRANS   2
+  7      MAXTRANS   255
+  8      STORAGE    (
+  9                  INITIAL          64K
+ 10                  MINEXTENTS       1
+ 11                  MAXEXTENTS       2147483645
+ 12                  BUFFER_POOL      DEFAULT
+ 13                 );
+
+Index altered.
+
+system@FIX9QA2.WORLD> alter index salsa_wh.AF_CAPS_SERNO_IDX rebuild partition P_ACTREP_112
+  2  NOLOGGING
+  3      NOCOMPRESS
+  4      TABLESPACE PI_ACTREPI_112
+  5      PCTFREE    10
+  6      INITRANS   2
+  7      MAXTRANS   255
+  8      STORAGE    (
+  9                  INITIAL          64K
+ 10                  MINEXTENTS       1
+ 11                  MAXEXTENTS       2147483645
+ 12                  BUFFER_POOL      DEFAULT
+ 13                 );
+
+Index altered.
+
+system@FIX9QA2.WORLD> alter index salsa_wh.AF_INDX01 rebuild partition P_ACTREP_104
+  2  NOLOGGING
+  3      NOCOMPRESS
+  4      TABLESPACE PI_ACTREPI_104
+  5      PCTFREE    10
+  6      INITRANS   2
+  7      MAXTRANS   255
+  8      STORAGE    (
+  9                  INITIAL          64K
+ 10                  MINEXTENTS       1
+ 11                  MAXEXTENTS       2147483645
+ 12                  BUFFER_POOL      DEFAULT
+ 13                 );
+
+Index altered.
+
+system@FIX9QA2.WORLD> alter index salsa_wh.AF_INDX01 rebuild partition P_ACTREP_105
+  2  NOLOGGING
+  3      NOCOMPRESS
+  4      TABLESPACE PI_ACTREPI_105
+  5      PCTFREE    10
+  6      INITRANS   2
+  7      MAXTRANS   255
+  8      STORAGE    (
+  9                  INITIAL          64K
+ 10                  MINEXTENTS       1
+ 11                  MAXEXTENTS       2147483645
+ 12                  BUFFER_POOL      DEFAULT
+ 13                 );
+
+Index altered.
+
+system@FIX9QA2.WORLD> alter index salsa_wh.AF_INDX01 rebuild partition P_ACTREP_106
+  2  NOLOGGING
+  3      NOCOMPRESS
+  4      TABLESPACE PI_ACTREPI_106
+  5      PCTFREE    10
+  6      INITRANS   2
+  7      MAXTRANS   255
+  8      STORAGE    (
+  9                  INITIAL          64K
+ 10                  MINEXTENTS       1
+ 11                  MAXEXTENTS       2147483645
+ 12                  BUFFER_POOL      DEFAULT
+ 13                 );
+
+Index altered.
+
+system@FIX9QA2.WORLD> alter index salsa_wh.AF_INDX01 rebuild partition P_ACTREP_107
+  2  NOLOGGING
+  3      NOCOMPRESS
+  4      TABLESPACE PI_ACTREPI_107
+  5      PCTFREE    10
+  6      INITRANS   2
+  7      MAXTRANS   255
+  8      STORAGE    (
+  9                  INITIAL          64K
+ 10                  MINEXTENTS       1
+ 11                  MAXEXTENTS       2147483645
+ 12                  BUFFER_POOL      DEFAULT
+ 13                 );
+
+Index altered.
+
+system@FIX9QA2.WORLD> alter index salsa_wh.AF_INDX01 rebuild partition P_ACTREP_108
+  2  NOLOGGING
+  3      NOCOMPRESS
+  4      TABLESPACE PI_ACTREPI_108
+  5      PCTFREE    10
+  6      INITRANS   2
+  7      MAXTRANS   255
+  8      STORAGE    (
+  9                  INITIAL          64K
+ 10                  MINEXTENTS       1
+ 11                  MAXEXTENTS       2147483645
+ 12                  BUFFER_POOL      DEFAULT
+ 13                 );
+
+Index altered.
+
+system@FIX9QA2.WORLD> alter index salsa_wh.AF_INDX01 rebuild partition P_ACTREP_109
+  2  NOLOGGING
+  3      NOCOMPRESS
+  4      TABLESPACE PI_ACTREPI_109
+  5      PCTFREE    10
+  6      INITRANS   2
+  7      MAXTRANS   255
+  8      STORAGE    (
+  9                  INITIAL          64K
+ 10                  MINEXTENTS       1
+ 11                  MAXEXTENTS       2147483645
+ 12                  BUFFER_POOL      DEFAULT
+ 13                 );
+
+Index altered.
+
+system@FIX9QA2.WORLD> alter index salsa_wh.AF_INDX01 rebuild partition P_ACTREP_110
+  2  NOLOGGING
+  3      NOCOMPRESS
+  4      TABLESPACE PI_ACTREPI_110
+  5      PCTFREE    10
+  6      INITRANS   2
+  7      MAXTRANS   255
+  8      STORAGE    (
+  9                  INITIAL          64K
+ 10                  MINEXTENTS       1
+ 11                  MAXEXTENTS       2147483645
+ 12                  BUFFER_POOL      DEFAULT
+ 13                 );
+
+Index altered.
+
+system@FIX9QA2.WORLD> alter index salsa_wh.AF_INDX01 rebuild partition P_ACTREP_111
+  2  NOLOGGING
+  3      NOCOMPRESS
+  4      TABLESPACE PI_ACTREPI_111
+  5      PCTFREE    10
+  6      INITRANS   2
+  7      MAXTRANS   255
+  8      STORAGE    (
+  9                  INITIAL          64K
+ 10                  MINEXTENTS       1
+ 11                  MAXEXTENTS       2147483645
+ 12                  BUFFER_POOL      DEFAULT
+ 13                 );
+
+Index altered.
+
+system@FIX9QA2.WORLD> alter index salsa_wh.AF_INDX01 rebuild partition P_ACTREP_112
+  2  NOLOGGING
+  3      NOCOMPRESS
+  4      TABLESPACE PI_ACTREPI_112
+  5      PCTFREE    10
+  6      INITRANS   2
+  7      MAXTRANS   255
+  8      STORAGE    (
+  9                  INITIAL          64K
+ 10                  MINEXTENTS       1
+ 11                  MAXEXTENTS       2147483645
+ 12                  BUFFER_POOL      DEFAULT
+ 13                 );
+
+Index altered.
+
+system@FIX9QA2.WORLD> alter index salsa_wh.AF_INDX02 rebuild partition P_ACTREP_104
+  2  NOLOGGING
+  3      NOCOMPRESS
+  4      TABLESPACE PI_ACTREPI_104
+  5      PCTFREE    10
+  6      INITRANS   2
+  7      MAXTRANS   255
+  8      STORAGE    (
+  9                  INITIAL          64K
+ 10                  MINEXTENTS       1
+ 11                  MAXEXTENTS       2147483645
+ 12                  BUFFER_POOL      DEFAULT
+ 13                 );
+
+Index altered.
+
+system@FIX9QA2.WORLD> alter index salsa_wh.AF_INDX02 rebuild partition P_ACTREP_105
+  2  NOLOGGING
+  3      NOCOMPRESS
+  4      TABLESPACE PI_ACTREPI_105
+  5      PCTFREE    10
+  6      INITRANS   2
+  7      MAXTRANS   255
+  8      STORAGE    (
+  9                  INITIAL          64K
+ 10                  MINEXTENTS       1
+ 11                  MAXEXTENTS       2147483645
+ 12                  BUFFER_POOL      DEFAULT
+ 13                 );
+
+Index altered.
+
+system@FIX9QA2.WORLD> alter index salsa_wh.AF_INDX02 rebuild partition P_ACTREP_106
+  2  NOLOGGING
+  3      NOCOMPRESS
+  4      TABLESPACE PI_ACTREPI_106
+  5      PCTFREE    10
+  6      INITRANS   2
+  7      MAXTRANS   255
+  8      STORAGE    (
+  9                  INITIAL          64K
+ 10                  MINEXTENTS       1
+ 11                  MAXEXTENTS       2147483645
+ 12                  BUFFER_POOL      DEFAULT
+ 13                 );
+
+Index altered.
+
+system@FIX9QA2.WORLD> alter index salsa_wh.AF_INDX02 rebuild partition P_ACTREP_107
+  2  NOLOGGING
+  3      NOCOMPRESS
+  4      TABLESPACE PI_ACTREPI_107
+  5      PCTFREE    10
+  6      INITRANS   2
+  7      MAXTRANS   255
+  8      STORAGE    (
+  9                  INITIAL          64K
+ 10                  MINEXTENTS       1
+ 11                  MAXEXTENTS       2147483645
+ 12                  BUFFER_POOL      DEFAULT
+ 13                 );
+
+Index altered.
+
+system@FIX9QA2.WORLD> alter index salsa_wh.AF_INDX02 rebuild partition P_ACTREP_108
+  2  NOLOGGING
+  3      NOCOMPRESS
+  4      TABLESPACE PI_ACTREPI_108
+  5      PCTFREE    10
+  6      INITRANS   2
+  7      MAXTRANS   255
+  8      STORAGE    (
+  9                  INITIAL          64K
+ 10                  MINEXTENTS       1
+ 11                  MAXEXTENTS       2147483645
+ 12                  BUFFER_POOL      DEFAULT
+ 13                 );
+
+Index altered.
+
+system@FIX9QA2.WORLD> alter index salsa_wh.AF_INDX02 rebuild partition P_ACTREP_109
+  2  NOLOGGING
+  3      NOCOMPRESS
+  4      TABLESPACE PI_ACTREPI_109
+  5      PCTFREE    10
+  6      INITRANS   2
+  7      MAXTRANS   255
+  8      STORAGE    (
+  9                  INITIAL          64K
+ 10                  MINEXTENTS       1
+ 11                  MAXEXTENTS       2147483645
+ 12                  BUFFER_POOL      DEFAULT
+ 13                 );
+
+Index altered.
+
+system@FIX9QA2.WORLD> alter index salsa_wh.AF_INDX02 rebuild partition P_ACTREP_110
+  2  NOLOGGING
+  3      NOCOMPRESS
+  4      TABLESPACE PI_ACTREPI_110
+  5      PCTFREE    10
+  6      INITRANS   2
+  7      MAXTRANS   255
+  8      STORAGE    (
+  9                  INITIAL          64K
+ 10                  MINEXTENTS       1
+ 11                  MAXEXTENTS       2147483645
+ 12                  BUFFER_POOL      DEFAULT
+ 13                 );
+
+Index altered.
+
+system@FIX9QA2.WORLD> alter index salsa_wh.AF_INDX02 rebuild partition P_ACTREP_111
+  2  NOLOGGING
+  3      NOCOMPRESS
+  4      TABLESPACE PI_ACTREPI_111
+  5      PCTFREE    10
+  6      INITRANS   2
+  7      MAXTRANS   255
+  8      STORAGE    (
+  9                  INITIAL          64K
+ 10                  MINEXTENTS       1
+ 11                  MAXEXTENTS       2147483645
+ 12                  BUFFER_POOL      DEFAULT
+ 13                 );
+
+Index altered.
+
+system@FIX9QA2.WORLD> alter index salsa_wh.AF_INDX02 rebuild partition P_ACTREP_112
+  2  NOLOGGING
+  3      NOCOMPRESS
+  4      TABLESPACE PI_ACTREPI_112
+  5      PCTFREE    10
+  6      INITRANS   2
+  7      MAXTRANS   255
+  8      STORAGE    (
+  9                  INITIAL          64K
+ 10                  MINEXTENTS       1
+ 11                  MAXEXTENTS       2147483645
+ 12                  BUFFER_POOL      DEFAULT
+ 13                 );
+
+Index altered.
+
+system@FIX9QA2.WORLD> alter index salsa_wh.AF_INDX03 rebuild partition P_ACTREP_104
+  2  NOLOGGING
+  3      NOCOMPRESS
+  4      TABLESPACE PI_ACTREPI_104
+  5      PCTFREE    10
+  6      INITRANS   2
+  7      MAXTRANS   255
+  8      STORAGE    (
+  9                  INITIAL          64K
+ 10                  MINEXTENTS       1
+ 11                  MAXEXTENTS       2147483645
+ 12                  BUFFER_POOL      DEFAULT
+ 13                 );
+
+Index altered.
+
+system@FIX9QA2.WORLD> alter index salsa_wh.AF_INDX03 rebuild partition P_ACTREP_105
+  2  NOLOGGING
+  3      NOCOMPRESS
+  4      TABLESPACE PI_ACTREPI_105
+  5      PCTFREE    10
+  6      INITRANS   2
+  7      MAXTRANS   255
+  8      STORAGE    (
+  9                  INITIAL          64K
+ 10                  MINEXTENTS       1
+ 11                  MAXEXTENTS       2147483645
+ 12                  BUFFER_POOL      DEFAULT
+ 13                 );
+
+Index altered.
+
+system@FIX9QA2.WORLD> alter index salsa_wh.AF_INDX03 rebuild partition P_ACTREP_106
+  2  NOLOGGING
+  3      NOCOMPRESS
+  4      TABLESPACE PI_ACTREPI_106
+  5      PCTFREE    10
+  6      INITRANS   2
+  7      MAXTRANS   255
+  8      STORAGE    (
+  9                  INITIAL          64K
+ 10                  MINEXTENTS       1
+ 11                  MAXEXTENTS       2147483645
+ 12                  BUFFER_POOL      DEFAULT
+ 13                 );
+
+Index altered.
+
+system@FIX9QA2.WORLD> alter index salsa_wh.AF_INDX03 rebuild partition P_ACTREP_107
+  2  NOLOGGING
+  3      NOCOMPRESS
+  4      TABLESPACE PI_ACTREPI_107
+  5      PCTFREE    10
+  6      INITRANS   2
+  7      MAXTRANS   255
+  8      STORAGE    (
+  9                  INITIAL          64K
+ 10                  MINEXTENTS       1
+ 11                  MAXEXTENTS       2147483645
+ 12                  BUFFER_POOL      DEFAULT
+ 13                 );
+
+Index altered.
+
+system@FIX9QA2.WORLD> alter index salsa_wh.AF_INDX03 rebuild partition P_ACTREP_108
+  2  NOLOGGING
+  3      NOCOMPRESS
+  4      TABLESPACE PI_ACTREPI_108
+  5      PCTFREE    10
+  6      INITRANS   2
+  7      MAXTRANS   255
+  8      STORAGE    (
+  9                  INITIAL          64K
+ 10                  MINEXTENTS       1
+ 11                  MAXEXTENTS       2147483645
+ 12                  BUFFER_POOL      DEFAULT
+ 13                 );
+
+Index altered.
+
+system@FIX9QA2.WORLD> alter index salsa_wh.AF_INDX03 rebuild partition P_ACTREP_109
+  2  NOLOGGING
+  3      NOCOMPRESS
+  4      TABLESPACE PI_ACTREPI_109
+  5      PCTFREE    10
+  6      INITRANS   2
+  7      MAXTRANS   255
+  8      STORAGE    (
+  9                  INITIAL          64K
+ 10                  MINEXTENTS       1
+ 11                  MAXEXTENTS       2147483645
+ 12                  BUFFER_POOL      DEFAULT
+ 13                 );
+
+Index altered.
+
+system@FIX9QA2.WORLD> alter index salsa_wh.AF_INDX03 rebuild partition P_ACTREP_110
+  2  NOLOGGING
+  3      NOCOMPRESS
+  4      TABLESPACE PI_ACTREPI_110
+  5      PCTFREE    10
+  6      INITRANS   2
+  7      MAXTRANS   255
+  8      STORAGE    (
+  9                  INITIAL          64K
+ 10                  MINEXTENTS       1
+ 11                  MAXEXTENTS       2147483645
+ 12                  BUFFER_POOL      DEFAULT
+ 13                 );
+
+Index altered.
+
+system@FIX9QA2.WORLD> alter index salsa_wh.AF_INDX03 rebuild partition P_ACTREP_111
+  2  NOLOGGING
+  3      NOCOMPRESS
+  4      TABLESPACE PI_ACTREPI_111
+  5      PCTFREE    10
+  6      INITRANS   2
+  7      MAXTRANS   255
+  8      STORAGE    (
+  9                  INITIAL          64K
+ 10                  MINEXTENTS       1
+ 11                  MAXEXTENTS       2147483645
+ 12                  BUFFER_POOL      DEFAULT
+ 13                 );
+
+Index altered.
+
+system@FIX9QA2.WORLD> alter index salsa_wh.AF_INDX03 rebuild partition P_ACTREP_112
+  2  NOLOGGING
+  3      NOCOMPRESS
+  4      TABLESPACE PI_ACTREPI_112
+  5      PCTFREE    10
+  6      INITRANS   2
+  7      MAXTRANS   255
+  8      STORAGE    (
+  9                  INITIAL          64K
+ 10                  MINEXTENTS       1
+ 11                  MAXEXTENTS       2147483645
+ 12                  BUFFER_POOL      DEFAULT
+ 13                 );
+
+Index altered.
+
+system@FIX9QA2.WORLD> alter index salsa_wh.AF_INDX04 rebuild partition P_ACTREP_104
+  2  NOLOGGING
+  3      NOCOMPRESS
+  4      TABLESPACE PI_ACTREPI_104
+  5      PCTFREE    10
+  6      INITRANS   2
+  7      MAXTRANS   255
+  8      STORAGE    (
+  9                  INITIAL          64K
+ 10                  MINEXTENTS       1
+ 11                  MAXEXTENTS       2147483645
+ 12                  BUFFER_POOL      DEFAULT
+ 13                 );
+
+Index altered.
+
+system@FIX9QA2.WORLD> alter index salsa_wh.AF_INDX04 rebuild partition P_ACTREP_105
+  2  NOLOGGING
+  3      NOCOMPRESS
+  4      TABLESPACE PI_ACTREPI_105
+  5      PCTFREE    10
+  6      INITRANS   2
+  7      MAXTRANS   255
+  8      STORAGE    (
+  9                  INITIAL          64K
+ 10                  MINEXTENTS       1
+ 11                  MAXEXTENTS       2147483645
+ 12                  BUFFER_POOL      DEFAULT
+ 13                 );
+
+Index altered.
+
+system@FIX9QA2.WORLD> alter index salsa_wh.AF_INDX04 rebuild partition P_ACTREP_106
+  2  NOLOGGING
+  3      NOCOMPRESS
+  4      TABLESPACE PI_ACTREPI_106
+  5      PCTFREE    10
+  6      INITRANS   2
+  7      MAXTRANS   255
+  8      STORAGE    (
+  9                  INITIAL          64K
+ 10                  MINEXTENTS       1
+ 11                  MAXEXTENTS       2147483645
+ 12                  BUFFER_POOL      DEFAULT
+ 13                 );
+
+Index altered.
+
+system@FIX9QA2.WORLD> alter index salsa_wh.AF_INDX04 rebuild partition P_ACTREP_107
+  2  NOLOGGING
+  3      NOCOMPRESS
+  4      TABLESPACE PI_ACTREPI_107
+  5      PCTFREE    10
+  6      INITRANS   2
+  7      MAXTRANS   255
+  8      STORAGE    (
+  9                  INITIAL          64K
+ 10                  MINEXTENTS       1
+ 11                  MAXEXTENTS       2147483645
+ 12                  BUFFER_POOL      DEFAULT
+ 13                 );
+
+Index altered.
+
+system@FIX9QA2.WORLD> alter index salsa_wh.AF_INDX04 rebuild partition P_ACTREP_108
+  2  NOLOGGING
+  3      NOCOMPRESS
+  4      TABLESPACE PI_ACTREPI_108
+  5      PCTFREE    10
+  6      INITRANS   2
+  7      MAXTRANS   255
+  8      STORAGE    (
+  9                  INITIAL          64K
+ 10                  MINEXTENTS       1
+ 11                  MAXEXTENTS       2147483645
+ 12                  BUFFER_POOL      DEFAULT
+ 13                 );
+
+Index altered.
+
+system@FIX9QA2.WORLD> alter index salsa_wh.AF_INDX04 rebuild partition P_ACTREP_109
+  2  NOLOGGING
+  3      NOCOMPRESS
+  4      TABLESPACE PI_ACTREPI_109
+  5      PCTFREE    10
+  6      INITRANS   2
+  7      MAXTRANS   255
+  8      STORAGE    (
+  9                  INITIAL          64K
+ 10                  MINEXTENTS       1
+ 11                  MAXEXTENTS       2147483645
+ 12                  BUFFER_POOL      DEFAULT
+ 13                 );
+
+Index altered.
+
+system@FIX9QA2.WORLD> alter index salsa_wh.AF_INDX04 rebuild partition P_ACTREP_110
+  2  NOLOGGING
+  3      NOCOMPRESS
+  4      TABLESPACE PI_ACTREPI_110
+  5      PCTFREE    10
+  6      INITRANS   2
+  7      MAXTRANS   255
+  8      STORAGE    (
+  9                  INITIAL          64K
+ 10                  MINEXTENTS       1
+ 11                  MAXEXTENTS       2147483645
+ 12                  BUFFER_POOL      DEFAULT
+ 13                 );
+
+Index altered.
+
+system@FIX9QA2.WORLD> alter index salsa_wh.AF_INDX04 rebuild partition P_ACTREP_111
+  2  NOLOGGING
+  3      NOCOMPRESS
+  4      TABLESPACE PI_ACTREPI_111
+  5      PCTFREE    10
+  6      INITRANS   2
+  7      MAXTRANS   255
+  8      STORAGE    (
+  9                  INITIAL          64K
+ 10                  MINEXTENTS       1
+ 11                  MAXEXTENTS       2147483645
+ 12                  BUFFER_POOL      DEFAULT
+ 13                 );
+
+Index altered.
+
+system@FIX9QA2.WORLD> alter index salsa_wh.AF_INDX04 rebuild partition P_ACTREP_112
+  2  NOLOGGING
+  3      NOCOMPRESS
+  4      TABLESPACE PI_ACTREPI_112
+  5      PCTFREE    10
+  6      INITRANS   2
+  7      MAXTRANS   255
+  8      STORAGE    (
+  9                  INITIAL          64K
+ 10                  MINEXTENTS       1
+ 11                  MAXEXTENTS       2147483645
+ 12                  BUFFER_POOL      DEFAULT
+ 13                 );
+
+Index altered.
+
+system@FIX9QA2.WORLD> spool off

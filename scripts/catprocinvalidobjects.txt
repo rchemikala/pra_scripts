@@ -1,0 +1,24 @@
+set serveroutput on; 
+declare 
+start_time date; 
+end_time date; 
+object_name varchar(100); 
+object_id char(10); 
+begin 
+SELECT date_loading, date_loaded into start_time, end_time FROM registry$ 
+WHERE cid = 'CATPROC'; 
+SELECT obj#,name into object_id,object_name 
+FROM obj$ 
+WHERE status > 1 AND 
+(ctime BETWEEN start_time AND end_time OR 
+mtime BETWEEN start_time AND end_time OR 
+stime BETWEEN start_time AND end_time) AND 
+ROWNUM <=1; 
+dbms_output.put_line('Please compile Invalid object '||object_name||' 
+Object_id '||object_id ); 
+EXCEPTION 
+WHEN NO_DATA_FOUND THEN 
+dbms_output.put_line('CATPROC can be validated now' ); 
+end; 
+/
+

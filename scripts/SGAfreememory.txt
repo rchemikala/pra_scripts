@@ -1,0 +1,4 @@
+SQL> select POOL, round(bytes/1024/1024,0) FREE_MB
+from v$sgastat
+where name like '%free memory%';
+

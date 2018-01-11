@@ -1,0 +1,75 @@
+http://dboptimizer.com/2010/01/14/oracle-waits-latch-cache-buffer-chains/#comments
+
+
+In order to solve a CBC latch bottleneck we need to know what SQL is causing the bottleneck and what table or index that the SQL statement is using is causing the bottleneck.
+From ASH data this is fairly easy:
+
+select
+count(*),
+sql_id,
+nvl(o.object_name,ash.current_obj#) objn,
+substr(o.object_type,0,10) otype,
+CURRENT_FILE# fn,
+CURRENT_BLOCK# blockn
+from v$active_session_history ash
+, all_objects o
+where event like 'latch: cache buffers chains'
+and o.object_id (+)= ash.CURRENT_OBJ#
+group by sql_id, current_obj#, current_file#,
+current_block#, o.object_name,o.object_type
+order by count(*)
+/
+
+
+
+
+We can investigate further to get more information by looking at P1, P2 and P3 for the CBC latch wait. How can we find out what P1, P2 and P3 mean? by looking them up in V$EVENT_NAME:
+
+select * from v$event_name
+where name = 'latch: cache buffers chains'
+
+
+select
+count(*),
+lpad(replace(to_char(p1,'XXXXXXXXX'),' ','0'),16,0) laddr
+from v$active_session_history
+where event='latch: cache buffers chains'
+group by p1
+order by count(*);
+
+
+In this case, there is only one address that we had waits for, so now we can look up what blocks (headers actually) where at that address
+
+select o.name, bh.dbarfil, bh.dbablk, bh.tch
+from x$bh bh, obj$ o
+where tch > 100
+and hladdr='00000004D8108330'
+and o.obj#=bh.obj
+order by tch
+;
+
+
+We look for the block with the highest “TCH” or “touch count”. Touch count is a count of the times the block has been accesses. The count has some restrictions. The count is only incremented once every 3 seconds, so even if I access the block 1 million times a second, the count will only go up once every 3 seconds. Also, and unfortunately, the count gets zeroed out if the block cycles through the buffer cache, but probably the most unfortunate is that this analysis only works when the problem is currently happening. Once the problem is over then the blocks will usually get pushed out of the buffer cache.
+In the case where the CBC latch contention is happening right now we can run all of this analysis in one query
+
+
+
+select
+name, file#, dbablk, obj, tch, hladdr
+from x$bh bh
+, obj$ o
+where
+o.obj#(+)=bh.obj and
+hladdr in
+(
+select ltrim(to_char(p1,'XXXXXXXXXX') )
+from v$active_session_history
+where event like 'latch: cache buffers chains'
+group by p1
+having count(*) > 5
+)
+and tch > 5
+order by tch
+
+
+

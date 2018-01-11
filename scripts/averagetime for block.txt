@@ -1,0 +1,12 @@
+By the way, in addition to the systemwide db file sequential read average wait time from the V$SYSTEM_EVENT view, Oracle also provides single-block read statistics for every database file in the V$FILESTAT view. The file-level single-block average wait time can be calculated by dividing the SINGLEBLKRDTIM with the SINGLEBLKRDS, as shown next. (The SINGLEBLKRDTIM is in centiseconds.) You can quickly discover which files have unacceptable average wait times and begin to investigate the mount points or devices and ensure that they are exclusive to the database.
+
+FPRIVATE "TYPE=PICT;ALT=Add a note here"select a.file#, 
+       b.file_name, 
+       a.singleblkrds, 
+       a.singleblkrdtim, 
+       a.singleblkrdtim/a.singleblkrds average_wait
+from   v$filestat a, dba_data_files b 
+where  a.file# = b.file_id   
+and    a.singleblkrds > 0
+order by average_wait;
+

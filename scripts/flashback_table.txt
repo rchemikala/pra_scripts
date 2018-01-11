@@ -1,0 +1,9 @@
+select count(*) from FSTORE.FS_MC_PAYMENT_POSTED_LOG as of timestamp TO_TIMESTAMP('2010-04-21 19:05:22','YYYY-MM-DD HH24:MI:SS')
+
+
+
+select max(ora_rowscn), scn_to_timestamp(max(ora_rowscn)) from <table_name>;
+
+
+FLASHBACK TABLE flashback_table_test TO SCN 715315
+FLASHBACK TABLE flashback_table_test TO TIMESTAMP TO_TIMESTAMP('2004-03-03 10:00:00', 'YYYY-MM-DD

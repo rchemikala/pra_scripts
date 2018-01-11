@@ -1,0 +1,22 @@
+select SID,SERIAL#,USERNAME,STATUS,TERMINAL from v$session where status='ACTIVE' AND USERNAME IS NOT NULL
+
+
+
+
+select USERNAME,USER_ID,ACCOUNT_STATUS,LOCK_DATE from dba_users;
+
+
+
+
+
+select object_name, o.object_id from user_objects o, v$locked_object l where o.object_id = l.object_id
+
+
+
+SELECT owner, grantee,TABLE_NAME,PRIVILEGE FROM DBA_TAB_PRIVS:
+
+
+
+
+
+SELECT FILE_NAME,AUTOEXTENSIBLE,SUM(BYTES)/1024/1024,MAXBYTES/1024/1024 MAXBYTES FROM DBA_DATA_FILES WHERE TABLESPACE_NAME='IDCP_TOOLS' GROUP BY FILE_NAME,AUTOEXTENSIBLE,MAXBYTES;

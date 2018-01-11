@@ -1,0 +1,9 @@
+SELECT file#, dbablk, class, state, TCH
+  FROM X$BH
+  WHERE HLADDR='000000066D2864F0'
+
+
+SELECT tablespace_name, segment_type, owner, segment_name
+FROM dba_extents
+WHERE file_id = 22
+and 1430619 between block_id AND block_id + blocks - 1

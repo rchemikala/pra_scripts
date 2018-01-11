@@ -1,0 +1,38 @@
+Description:    This script assigns a temporary tablespace (by number of assigned users) with a database
+ user when its temporary tablespace is wrongly associated to 
+system tablespace or another permanent tablespace. This is only useful when 
+database has a dictionary-managed system tablespace. newpage 0
+
+
+
+set space 0
+set pagesize 0
+set feed off
+set head off
+set trimspool on
+
+spool change_temp_tbs.sql
+
+select 'ALTER USER ' || a.username ||
+' TEMPORARY TABLESPACE ' || a.temporary_tablespace || ';'
+from dba_users a,
+(select c.tablespace_name, 
+max(c.nusers)
+from dba_users u, 
+(select t.tablespace_name,
+count(*) nusers
+from dba_tablespaces t,
+dba_users u
+where t.contents = 'TEMPORARY'
+and t.tablespace_name = u.temporary_tablespace
+group by t.tablespace_name) c
+where c.tablespace_name = u.temporary_tablespace
+group by c.tablespace_name) b
+where a.temporary_tablespace in
+(select tablespace_name 
+from dba_tablespaces
+where contents <> 'TEMPORARY')
+and a.temporary_tablespace = b.tablespace_name;
+
+spool off
+@change_temp_tbs.sql

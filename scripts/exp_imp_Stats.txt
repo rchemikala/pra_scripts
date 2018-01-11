@@ -1,0 +1,7 @@
+exec dbms_stats.create_stat_table('INFODBA','PIDENTIFIER_STATS190911');
+exec dbms_stats.export_table_stats(ownname => 'INFODBA', tabname => 'PIDENTIFIER',stattab => 'PIDENTIFIER_STATS190911', cascade => true, statown => 'INFODBA');
+
+exec dbms_stats.IMPORT_TABLE_STATS(OWNNAME => 'INFODBA',TABNAME =>'PIDENTIFIER',STATTAB =>'PIDENTIFIER_STATS190911');
+
+
+

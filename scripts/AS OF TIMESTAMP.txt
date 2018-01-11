@@ -1,0 +1,81 @@
+SELECT * FROM DEPT AS OF TIMESTAMP to_timestamp('28-12-2007 15:37:00','DD-MM-YYYY HH24:MI:SS');
+
+SQL> SELECT * FROM DEPT AS OF TIMESTAMP to_timestamp('28-12-2007 15:37:00','DD-MM-YYYY HH24:MI:SS');
+
+    DEPTNO DNAME          LOC
+---------- -------------- -------------
+        10 ACCOUNTING     NEW YORK
+        20 RESEARCH       DALLAS
+        30 SALES          CHICAGO
+        40 OPERATIONS     BOSTON
+        50 RETIRE         INDIA
+
+SQL> insert into scott.dept values(60,'MARKETTING
+  2  ','INDIA');
+
+1 row created.
+
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> SELECT * FROM DEPT AS OF TIMESTAMP to_timestamp('28-12-2007 15:37:00','DD-MM-YYYY HH24:MI:SS');
+
+    DEPTNO DNAME          LOC
+---------- -------------- -------------
+        10 ACCOUNTING     NEW YORK
+        20 RESEARCH       DALLAS
+        30 SALES          CHICAGO
+        40 OPERATIONS     BOSTON
+        50 RETIRE         INDIA
+
+SQL> SELECT * FROM SCOTT.DEPT;
+
+    DEPTNO DNAME          LOC
+---------- -------------- -------------
+        10 ACCOUNTING     NEW YORK
+        20 RESEARCH       DALLAS
+        30 SALES          CHICAGO
+        40 OPERATIONS     BOSTON
+        50 RETIRE         INDIA
+        60 MARKETTING     INDIA
+
+SQL> SELECT * FROM DEPT AS OF TIMESTAMP to_timestamp('28-12-2007 15:37:00','DD-MM-YYYY HH
+
+    DEPTNO DNAME          LOC
+---------- -------------- -------------
+        10 ACCOUNTING     NEW YORK
+        20 RESEARCH       DALLAS
+        30 SALES          CHICAGO
+        40 OPERATIONS     BOSTON
+        50 RETIRE         INDIA
+
+SQL> SELECT * FROM SCOTT.DEPT;
+
+    DEPTNO DNAME          LOC
+---------- -------------- -------------
+        10 ACCOUNTING     NEW YORK
+        20 RESEARCH       DALLAS
+        30 SALES          CHICAGO
+        40 OPERATIONS     BOSTON
+        50 RETIRE         INDIA
+        60 MARKETTING     INDIA
+
+6 rows selected.
+
+SQL> CREATE TABLE DEPT_OLD AS
+  2  SELECT * FROM scott.DEPT AS OF TIMESTAMP
+  3  to_timestamp('28-12-2007 15:37:00','DD-MM-YYYY HH24:MI:SS');
+
+Table created.
+
+SQL> select * from dept_old;
+
+    DEPTNO DNAME          LOC
+---------- -------------- -------------
+        10 ACCOUNTING     NEW YORK
+        20 RESEARCH       DALLAS
+        30 SALES          CHICAGO
+        40 OPERATIONS     BOSTON
+        50 RETIRE         INDIA
+

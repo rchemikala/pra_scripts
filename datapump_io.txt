@@ -1,0 +1,18 @@
+SELECT V.STATUS, V.SID,V.SERIAL#,IO.BLOCK_CHANGES,EVENT, MODULE FROM V$SESS_IO IO,V$SESSION V WHERE IO.SID=V.SID AND V.SADDR IN (SELECT SADDR FROM DBA_DATAPUMP_SESSIONS) ORDER BY SID;
+
+select  dps.job_name, dps.session_type, s.sid, s.serial#, s.blocking_session, s.event, s.state, s.wait_time_micro, sql.sql_fulltext
+from    dba_datapump_sessions dps
+join    v$session s
+  on    dps.saddr = s.saddr
+left join v$sql sql
+  on    s.sql_id = sql.sql_id
+and    s.sql_child_number = sql.child_number;
+ 
+select  dps.job_name, dps.session_type, s.sid, se.event, se.total_waits, se.total_timeouts, se.time_waited, se.average_wait, se.max_wait, se.time_waited_micro
+from    dba_datapump_sessions dps
+join    v$session s
+  on    dps.saddr = s.saddr
+join    v$session_event se
+  on    s.sid = se.sid
+order by dps.job_name, dps.session_type, time_waited_micro, se.time_waited_micro;
+ 

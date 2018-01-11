@@ -1,0 +1,11 @@
+select 
+   component, 
+   current_size/1024/1024 "CURRENT_SIZE", 
+   min_size/1024/1024 "MIN_SIZE",
+   user_specified_size/1024/1024 "USER_SPECIFIED_SIZE", 
+   last_oper_type "TYPE",GRANULE_SIZE
+from 
+   v$sga_dynamic_components;
+
+
+select name, current_size, buffers, prev_size, prev_buffers from v$buffer_pool;

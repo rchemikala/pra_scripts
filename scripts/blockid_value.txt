@@ -1,0 +1,1 @@
+select dbms_rowid.rowid_block_number(rowid), a from t;

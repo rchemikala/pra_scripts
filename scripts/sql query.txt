@@ -1,0 +1,9 @@
+SELECT a.OSUSER,a.username,
+a.SID,to_char(a.logon_time,'dd/mm/yyyy hh24:mi:ss') Time_Logged,
+b.SQL_TEXT
+FROM V$SESSION a, V$SQL b
+WHERE a.SQL_ADDRESS = b.ADDRESS
+AND a.STATUS = 'ACTIVE'
+
+/
+

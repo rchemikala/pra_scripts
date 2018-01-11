@@ -1,0 +1,10 @@
+jtfstats2
+tsstat1
+jtfstats1
+arstats
+
+10 'o clock TS Schema analyze is schedule.
+
+12 '0  '0 clock AR schema schedule
+
+12 0 JTF Schema schedule.

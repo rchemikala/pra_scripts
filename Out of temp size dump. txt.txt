@@ -1,0 +1,7 @@
+alter system set events '1652 trace name errorstack lifetime 10';
+
+
+Should you have been in a version >= 11g you would have been probably able to find the SQL which reported this TEMP error by looking at the v$sql_monitor (if appropriately licenced of course)
+select * from gv$sql_monitor
+where status like '%ERROR%'
+and error_message like '%ORA-01652%';

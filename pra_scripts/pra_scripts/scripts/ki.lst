@@ -1,0 +1,4 @@
+old   3: where sid=&1
+new   3: where sid=14
+
+alter system kill session '14,1167';                                                                                    

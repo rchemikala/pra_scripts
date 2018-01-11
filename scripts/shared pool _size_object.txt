@@ -1,0 +1,31 @@
+set pagesize 132
+
+column owner format a16
+column name  format a36
+column sharable_mem format 999,999,999
+column executions   format 999,999,999
+prompt 
+prompt  Memory Usage of Shared Pool Order - Biggest First
+prompt 
+column name format 45
+select  owner, name||' - '||type name, sharable_mem from v$db_object_cache
+where sharable_mem > 10000
+  and type in ('PACKAGE', 'PACKAGE BODY', 'FUNCTION', 'PROCEDURE')
+order by sharable_mem desc
+/
+prompt 
+prompt  Loads into Shared Pool  - Most Loads First
+prompt 
+select  owner, name||' - '||type name, loads , sharable_mem from v$db_object_cache
+where loads > 3 
+  and type in ('PACKAGE', 'PACKAGE BODY', 'FUNCTION', 'PROCEDURE')
+order by loads desc
+/
+prompt 
+prompt  Executions of Objects in the  Shared Pool  - Most Executions First
+prompt 
+select  owner, name||' - '||type name, executions from v$db_object_cache
+where executions  > 100
+  and type in ('PACKAGE', 'PACKAGE BODY', 'FUNCTION', 'PROCEDURE')
+order by executions  desc
+/

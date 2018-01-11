@@ -1,0 +1,21 @@
+INSERT INTO FND_COMPILED_MENU_FUNCTIONS (MENU_ID, FUNCTION_ID, GRANT_FLAG) VALUES (:B3, :B1, :B2)
+
+
+	
+
+ select session_id from dba_locks where blocking_others='Blocking';
+geet : 9820102139
+vimal: 9810401802
+
+'
+select 
+
+
+from v$session_longops a, v$session b
+where
+a.sid = b.sid and
+b.status='ACTIVE' and
+totalwork <> SOFAR and
+target = 'APPLSYS.WF_LOCAL_ROLES'
+order by start_time
+/

@@ -1,0 +1,145 @@
+=>How To Use Automatic Shared Memory Management (ASMM) In Oracle10g -(Doc ID 295626.1)
+
+=>Document TitleOracle Database 10g Automated SGA Memory Tuning (Doc ID 257643.1) 
+
+=> Document TitleHow to Change DBSNMP Password in Database 10g and 11g Monitored by DB Control (Doc ID 259387.1) 
+
+=> Document TitleHow To Change the Password of the Database User Sysman (DB Control Repository Schema) (Doc ID 259379.1) 
+
+=>Why Is The Row Source Operation Missing From The TKProf Output ? (Doc ID 462913.1)
+
+=> 960216.1-Segment creation deferred
+
+=>427939.1-System Statistics: How to gather system stats for a particular batch of work (Doc ID 427939.1)
+
+=> 296727.1-INDEX prefetching scattered read in index range scan
+
+=>465177.1 => Error "java.lang.NoSuchMethodError: oracle.i18n.text.converter.CharacterConverterOGS.getInstance"
+
+
+
+=>  Document TitleDiagnosing and Resolving ORA-4030 errors (Doc ID 233869.1)
+ 
+{=> Changing the Database Character Set ( NLS_CHARACTERSET ) [ID 225912.1]
+
+=>The National Character Set ( NLS_NCHAR_CHARACTERSET ) in Oracle 9i, 10g and 11g [ID 276914.1]
+
+=>Installing and configuring Csscan in 10g and 11g (Database Character Set Scanner) [ID 745809.1]
+Csscan output explained [ID 444701.1]
+}
+ =>How To : How To Find What Objects Are Keeping Catalog And Catproc In Dba_Registry Invalid{578841.1}
+
+
+=> 1173433.1 - How to Install Oracle 10gR2 on MS Windows 7/Windows 2008R2
+
+=>294350.1- OCI.dll usage while applying the patch
+
+
+=>Troubleshooting Guide for ORA-12500: TNS:listener failed to start a dedicated server process [ID 555448.1]
+
+=>What is the Maximum Datafile Size Limit In an Oracle Database? [ID 804733.1]
+
+
+=> Solving Convertible or Lossy data in Data Dictionary objects reported by Csscan when changing the NLS_CHARACTERSET [ID 258904.1]
+
+=> 	Oracle Database Upgrade Path Reference List [ID 730365.1]
+
+
+=>	Master Note for Oracle XML Database (XDB) Install / Deinstall (Doc ID 1292089.1)
+
+=>Diagnosing and Resolving ORA-4030 errors (Doc ID 233869.1)
+
+=>  Downloading 9i, 10g, and 11g database software media (Doc ID 1476075.1)
+
+
+
+=>Script to investigate a b-tree index structure (Doc ID 989186.1)
+
+=>	How To Avoid ORA-04030/ORA-12500 In 32-bit Windows Environment [Video] (Doc ID 373602.1)
+
+=>Diagnosing and Resolving ORA-4030 errors (Doc ID 233869.1)
+
+=>ORA-27300 ORA-27301 ORA-27302 in alert log. Cannot connect to database. (Doc ID 371074.1)
+
+
+=>"ld: warning: symbol `_start' has differing types:" While Installing or Patching 11gR2 or 11gR1 on Oracle Solaris (Doc ID 1446945.1)
+
+===============================================CORRUPTIONS========================================================================
+=>How to Format Corrupted Block Not Part of Any Segment (Doc ID 336133.1)
+
+=>Handling Oracle Block Corruptions in Oracle7/8/8i/9i/10g/11g (Doc ID 28814.1)
+
+
+
+======================================================RMAN RELATED====================================================================
+
+
+=> RMAN: I/O Slaves and Memory Usage [ID 73354.1]
+
+=>RMAN RESTORE FAILS WITH RMAN-06023 BUT THERE ARE BACKUPS AVAILABLE [ID 965122.1]
+
+=> OERR: ORA 19606 Cannot copy or restore to snapshot controlfile (Doc ID 49303.1)
+
+=>Note.413586.1 How To Use RMAN CONVERT DATABASE for Cross Platform Migration 
+
+=>414878.1 - Cross-Platform Migration on Destination Host Using Rman Convert Database
+
+=>RMAN restore from autobackup and tape fails with RMAN-06172 [ID 1222443.1]
+
+=>Determining Which Tape(s) RMAN Will Use For A Restore Or Tapes For Specific Backups [ID 1118846.1]
+
+
+====================================================DataGUARD RELATED==================================================================
+
+=>Message in standby alert*log "No standby redo logfiles created for thread XX" (Doc ID 1595034.1)
+
+=>1514588.1 (Data Guard Physical Standby - Managing temporary tablespace tempfiles).
+
+=>	ORA-19527 reported in Standby Database when starting Managed Recovery (Doc ID 352879.1)
+
+===================================================RAC RELATED==========================================================================
+
+
+=> How to Proceed from Failed Upgrade to 11gR2 Grid Infrastructure on Linux/Unix (Doc ID 969254.1)
+
+=>ORA-15097 Cannot Shutdown ASM if OCR is Located in ASM (Doc ID 984663.1)
+
+=>Rename Diskgroup having OCR , Vote File , ASM SPILE (Doc ID 1335975.1)
+
+=>How To Add/Increase The Size Of Redo Log Files In Rac Environment?		[Article ID 779306.1]
+	
+=>Recreating the Spfile for RAC Instances Where the Spfile is Stored in ASM (Doc ID 554120.1)
+
+=>ASM Concepts Quick Overview (Doc ID 1086199.1)
+
+=>HowTo Restore RMAN Disk backups of RAC Database to Single Instance On Another Node		[Article ID 415579.1]
+
+Troubleshoot Grid Infrastructure Startup Issues (Doc ID 1050908.1)
+
+How To Setup ASM on Linux Using ASMLIB Disks, Raw Devices, Block Devices or UDEV Devices? (Doc ID 580153.1)
+
+OCR / Vote disk Maintenance Operations: (ADD/REMOVE/REPLACE/MOVE) (Doc ID 428681.1)
+
+How to restore ASM based OCR after complete loss of the CRS diskgroup on Linux/Unix systems (Doc ID 1062983.1)
+
+Additional Diskgroups Does Not Get Mounted When SRVCTL Is Used To Start And Shutdown ASM Instance (Doc ID 987904.1)
+
+ASM Diskgroups are not mounted with spfile on ASM on next startup with crsctl command in 11gR2. (Doc ID 1059856.1)
+
+DISKGROUP status 'OFFLINE' after CRS restart (Doc ID 1076324.1)
+
+ASM 11gR2 instance Can Not Mount OCR/Voting Diskgroup On RAC. (Doc ID 1095214.1)
+
+Steps to Remove Node from Cluster When the Node Crashes Due to OS/Hardware Failure and cannot boot up (Doc ID 466975.1)
+
+Things to Consider Before Upgrading to 11.2.0.3/11.2.0.4 Grid Infrastructure/ASM (Doc ID 1363369.1)
+
+Database Will Not Mount: ORA-15025, ORA-27041, 'Permission denied', ORA-15081 (Doc ID 1378747.1)
+
+OPatch failed with error code 15 in 12C (Doc ID 1964569.1)
+
+==============================================================================================================================================
+
+
+Advisor Webcasts: Current Schedule and Archived Recordings (Doc ID 740966.1)
+

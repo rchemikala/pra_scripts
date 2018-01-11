@@ -1,0 +1,255 @@
+
+DATABASE INSTALL-UPGRADE
+========================
+
+connect to slc13kav (your docker host) using your Unix user account
+Login:<Your_UserID>
+Password:<YourPassword>
+
+Switch user to root:
+sudo su -
+password:<YourPassword>
+
+cd /scratch
+./dockerwrapper.sh
+
+Choose no. 2    <-- to see available containers
+Choose no. 5
+Enter container name: mscsdb1   <-- whatever container you want to use
+Process: bash
+
+cd /u01/app/software/app/oracle
+
+Transfer the installer from the source by executing the command below.
+
+scp <Your_UserID>@slc03rbg.us.oracle.com:/spl/versions/Releases/CSF/Release-CSF-V2.0.0.0.0-Database.jar .
+example:
+scp ptagle@slc03rbg.us.oracle.com:/spl/versions/Releases/CSF/Release-CSF-V2.0.0.0.0-Database.jar .
+
+Unjar the file:
+/u01/java/jdk1.8.0_65/bin/jar -xvf Release-CSF-V2.0.0.0.0-Database.jar 
+chmod -R 777 CSF
+
+cd /u01/app/software/app/oracle/CSF/V2.0.0.0.0/Install-Upgrade
+perl -pi -e "s/\cM\cJ/\cJ/g" Upgrade_mscsdb_java.sh
+./Upgrade_mscsdb_java.sh
+
+After successful run, exit the container:
+Hold ctrl-p-q
+12
+
+ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+
+
+APPLICATION INSTALLATION
+========================
+
+Prepare the installer:
+
+connect to slc13kav (your docker host) using your Unix user account
+Login:<Your_UserID>
+Password:<YourPassword>
+
+Switch user to root:
+sudo su -
+password:<YourPassword>
+
+cd /scratch
+./dockerwrapper.sh
+
+Choose no. 2    <-- to see available containers
+choose no. 5
+Enter container name: ouafnode1a   <-- whatever container you want to use
+Process: bash
+
+sudo su ugbu_apps
+
+cd /u01/software/spl
+
+Transfer the installer from the source by executing the command below.
+
+scp <Your_UserID>@slc03rbg.us.oracle.com:/spl/versions/Releases/CSF/Release-CSF-V2.0.0.0.0.jar .
+example:
+scp ptagle@slc03rbg.us.oracle.com:/spl/versions/Releases/CSF/Release-CSF-V2.0.0.0.0.jar .
+  
+Unjar the file:
+/u01/software-R1/java/jdk1.8.0_102/bin/jar -xvf Release-CSF-V2.0.0.0.0.jar 
+chmod -R 777 Release-CSF-V2.0.0.0.0
+
+Stop the application if running:
+cd /u01/app/ugbu_tools/bin
+./ugbuctl stop &
+cd /u01/app/ugbu_tools/logs/ugbuctl
+ls -l
+
+Install CSF:
+cd /u01/software/spl/UGBU_KITCHEN_TESTINSTALL_MDM_V22010/bin
+./splenviron.sh -e UGBU_KITCHEN_TESTINSTALL_MDM_V22010
+cd /u01/software/spl/Release-CSF-V2.0.0.0.0-Linux/CSF.V2.0.0.0.0
+./install.sh
+
+Start the application:
+cd /u01/app/ugbu_tools/bin
+./ugbuctl start &
+cd /u01/app/ugbu_tools/logs/ugbuctl
+ls -l
+
+Perform the following additional configurations:
+================================================
+
+cd /u01/software/spl/UGBU_KITCHEN_TESTINSTALL_MDM_V22010/bin
+./splenviron.sh -e UGBU_KITCHEN_TESTINSTALL_MDM_V22010
+
+initialSetup.sh -i   (while the appserver is up)
+
+cd $SPLEBASE/bin
+./iwsdeploy.sh
+
+...confirm from the screen the SUCCESSFUL BUILD.
+
+Restart the application
+
+oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+
+REDEPLOYMENT of APPLICATION
+===========================
+
+Now you need to redeploy some Enterprise Applications
+
+login to Weblogic console (example: https://slc12lbk.us.oracle.com:9001/console)
+
+Click on Deployments (from Domain Structure Section)
+
+Click on Lock & Edit button  (on Upper left corner)
+
+On configuration tab (under Summary of Deployments),
+
+Select SPL Service
+
+   - Click on "Update" button
+
+   Update Application Assistant window shows up
+
+   - Click on "Next" button
+   - Click on "Finish" button
+
+   You'll get the message:
+   Message icon - Success Selected Deployments were updated.
+   Message icon - Success You must also activate the pending changes to commit this, and other updates, to the active system.
+
+Do the same for:
+   - SPLWeb
+   - ThreadPoolWorker
+
+   Tick the check box --> "Update" --> "Next" --> "Finish"
+
+Now finalize it by clicking on "Activate Changes" button  (Upper left)
+
+It will take few minutes ... and it's done.
+
+oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+
+
+
+
+
+
+
+oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+
+Setting up SFTP on GIJ,  Please refer to the following links:
+
+https://confluence.oraclecorp.com/confluence/display/UCSF/SFTP+on+GIJ+Cloud+Setup
+https://adc4110315.us.oracle.com/svn/ugbu-cloudctrl/branches/K1/2.0.0.0.0/Code/tools/ugbu/
+https://confluence.oraclecorp.com/confluence/display/UCSF/Cloud+Environment+Setup+for+CSF
+https://adc4110315.us.oracle.com/svn/ugbu-cloudctrl/branches/K1/2.0.0.0.0/Code/modules/K1/source/resources/templates/CSF_substitutionVariableList.xml.exit_1.include
+
+oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+
+Importing sftpserver image into docker
+=======================================
+
+1. Login to the docker host server and sudo as root
+
+   cd /scratch
+   [root@slc13kav scratch]#
+
+2 . Get sftpserver docker image from NAS partition: /taxrs/spl/versions/Releases/CSF/Linux/docker_images/
+
+   mkdir /tmp/image
+   cd /tmp/image/
+   scp <username>@slc03rbg.us.oracle.com:/spl/versions/Releases/CSF/Linux/docker_images/sftpserverimage.tar .
+
+3. load the sftpserver docker image into the docker server
+      
+	  [root@slc13kav image]# docker load < sftpserverimage.tar
+	  
+      85ea013c9ccd: Loading layer [==================================================>] 233.6 MB/233.6 MB
+      3aa93b0ab617: Loading layer [==================================================>] 493.1 MB/493.1 MB
+      34988e2bca9b: Loading layer [==================================================>] 2.048 kB/2.048 kB
+      f2edb547dfab: Loading layer [==================================================>] 338.4 kB/338.4 kB
+      Loaded image: newsftpserver:latest
+
+ 4. Run docker wrapper and choose the following:
+ 
+	/scratch/dockerwrapper.sh 
+ 
+	-> 1.  List Images     (verify repository has been loaded)
+	 
+	   REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+       newsftpserver       latest              06e1c448d404        45 minutes ago      718.6 MB
+
+	-> 3.  Create new container (input the following options:
+	 
+			1. Image name        [MANDATORY]        : newsftpserver
+			2. Container name    [MANDATORY]        : sftpserver
+			3. Hostname          [OPTIONAL]         : sftpserver
+			4. Container ports   [OPTIONAL|CSV]     : 22     (ssh port)
+			5. Host ports        [OPTIONAL|CSV]     : 2222   (can change depending on port you want to Access)
+			6. Mount volumes     [OPTIONAL|CSV]     : /tmp
+			Available containers :
+			NETWORK ID          NAME                DRIVER              SCOPE
+			f2a8dafb1101        bridge              bridge              local
+			9fe5b6a69cbc        host                host                local
+			eae9038386a2        mynetwork1          bridge              local
+			523d091a57d3        mynetwork2          bridge              local
+			d04ee28f5d1e        none                null                local
+			7. Network   [OPTIONAL|CSV]     : mynetwork1 (your network name)
+			8. Datavolume containers [OPTIONAL|CSV] :
+
+	-> 2.  List Containers   (verify container was created)
+	      
+			CONTAINER ID  IMAGE          COMMAND  CREATED        STATUS         PORTS  NAMES
+			390cce1de158  newsftpserver  "bash"   5 minutes ago  Up 5 minutes    	   0.0.0.0:1022->22/tcp 
+
+5. Login to the sftpserver and run ssh daemon (still running dockerwrapper.sh)
+
+	-> Enter choice [ 1 - 12] 5
+		Enter container name: sftpserver
+		Process: bash
+		hold ctrl+p+q to exit session
+		
+		[root@sftpserver /]#  /sbin/sshd -D &
+		
+		[root@sftpserver /]# ps -ef
+		UID        PID  PPID  C STIME TTY          TIME CMD
+		root         1     0  0 09:00 ?        00:00:00 bash
+		root        15     0  0 09:08 ?        00:00:00 bash
+		root        30    15  0 09:09 ?        00:00:00 /sbin/sshd -D
+
+6. Test logging in to sftp server from another linux server or putty
+
+	ssh root@<dockerserver> -p <Host Port>
+	ssh root@slc13kav.us.oracle.com -p 1022   (Note: user/pass is root/root)
+
+	root@slc13kav.us.oracle.com's password:
+	last login: Thu Mar  9 06:43:47 2017 from dhcp-ph-taguig-10-186-252-180.ph.oracle.com
+
+7. int-dev-msc user and stage folder has already  been created
+ 
+	[root@sftpserver /]# su - int-dev-msc
+	Last login: Thu Mar  9 09:24:53 UTC 2017 on pts/0
+	int-dev-msc@sftpserver ~]$ ls
+	stage
+
+oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo

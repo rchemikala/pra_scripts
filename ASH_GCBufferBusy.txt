@@ -1,0 +1,57 @@
+1. Verify the interval that will be chosen when analyzing the database in the pursuit of the database bottleneck at that specific time. The following query checks whether the AWR snapshot timeframe between AWR snapshot IDs is the one that is really needed for the analysis about to be performed:
+
+SELECT
+    MIN(begin_interval_time) min,
+    MAX(end_interval_time) max
+  FROM dba_hist_snapshot
+ WHERE snap_id BETWEEN 54657 AND 54658;
+
+
+2. Verify that the defined AWR snapshot interval indeed does encapsulate the class of wait events that as a whole are exhibiting the longest waits for the instance as of that AWR snapshot timeframe:
+Click here to view code image
+
+SQL> SELECT
+    wait_class_id,
+    wait_class,
+    COUNT(*) cnt
+  FROM dba_hist_active_sess_history
+ WHERE snap_id BETWEEN 54657 AND 54659
+ GROUP BY wait_class_id, wait_class
+ ORDER BY 3;
+
+
+3. Armed with this information, use the following query to find the event inside the wait class that is waiting the longest; the gc buffer busy is the worst one:
+Click here to view code image
+
+SELECT
+    event_id,
+    event,
+    COUNT(*) cnt
+  FROM dba_hist_active_sess_history
+ WHERE snap_id BETWEEN 54657 AND 54659
+  AND wait_class_id = 3871361733
+ GROUP BY event_id, event
+ ORDER BY 3;
+
+
+4. Run this next query to isolate the SQL_ID of statements that were run within sessions that are waiting for the gc buffer busy wait event:
+Click here to view code image
+
+SELECT
+ sql_id,
+ COUNT(*) cnt
+  FROM dba_hist_active_sess_history
+ WHERE snap_id BETWEEN 54657 AND 54659
+   AND event_id = 1478861578
+ GROUP BY sql_id
+ HAVING COUNT(*)>1
+ ORDER BY 2;
+
+
+5. Locate the SQL text that corresponds to the identified SQL_ID via this simple query:
+Click here to view code image
+
+SQL> SELECT
+      DISTINCT sql_text
+       FROM gv$sqltext
+     WHERE sql_id = 'fv4un8f4w6zg8';

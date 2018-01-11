@@ -1,0 +1,4 @@
+nohup imp tcsdba/hyderabad01 file=camps_030108.dmp log=imp_camps_030108.log fromuser=camps touser=xeur rows=y statistics=none buffer=256000000 > nohup.out &
+
+
+nohup imp tcsdba/xgblt_june08@xgblt file=exp_gblxp_prod.dmp log=imp_gblxp_ITT355221.log fromuser=GBLXP touser=GBLXP rows=y commit=y feedback=100000 recordlength=65532 buffer=1000000 statistics=none > nohup.out &

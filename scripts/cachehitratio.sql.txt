@@ -1,0 +1,6 @@
+select 1 – (phy.value – lob.value – dir.value) / ses.value
+from v$sysstat ses, v$sysstat lob, v$sysstat dir, v$sysstat phy
+where ses.name='session logical reads'
+and dir.name='physical reads direct'
+and lob.name='physical reads direct (lob)'
+and phy.name='physical reads';

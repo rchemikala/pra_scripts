@@ -1,0 +1,16 @@
+COLUMN username FORMAT A10
+COLUMN owner    FORMAT A10
+COLUMN obj_name FORMAT A10
+COLUMN extended_timestamp FORMAT A35
+
+SELECT username,
+       extended_timestamp,
+       owner,
+       obj_name,
+       action_name
+FROM   dba_audit_trail
+where trunc(extended_timestamp)=trunc(SYSDATE) and username='SGOTTI'
+ORDER BY timestamp;
+
+
+ 

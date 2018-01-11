@@ -1,0 +1,78 @@
+col c1 heading ‘Object|Name’ format a30
+col c2 heading ‘Operation’ format a15
+col c3 heading ‘Option’ format a15
+col c4 heading ‘Index|Usage|Count’ format 999,999
+break on c1 skip 2
+break on c2 skip 2
+
+select
+   p.object_name c1,
+   p.operation c2,
+   p.options c3,
+   count(1) c4
+from
+   dba_hist_sql_plan p,
+   dba_hist_sqlstat s
+where
+   p.object_owner <> 'SYS'
+and
+   p.operation like ‘%INDEX%’
+and
+   p.sql_id = s.sql_id
+group by
+   p.object_name,
+   p.operation,
+   p.options
+order by
+   1,2,3;
+
+==========================
+
+DECLARE 
+  vOwner   dba_indexes.owner%TYPE;            /* Index Owner            */ 
+  vIdxName dba_indexes.index_name%TYPE;       /* Index Name             */ 
+  vAnalyze VARCHAR2(100);                     /* String of Analyze Stmt */ 
+  vCursor  NUMBER;                            /* DBMS_SQL cursor        */ 
+  vNumRows INTEGER;                           /* DBMS_SQL return rows   */ 
+  vHeight  index_stats.height%TYPE;           /* Height of index tree   */ 
+  vLfRows  index_stats.lf_rows%TYPE;          /* Index Leaf Rows        */ 
+  vDLfRows index_stats.del_lf_rows%TYPE;      /* Deleted Leaf Rows      */ 
+  vDLfPerc   NUMBER;                          /* Del lf Percentage      */ 
+  vMaxHeight NUMBER;                          /* Max tree height        */ 
+  vMaxDel    NUMBER;                          /* Max del lf percentage  */ 
+  CURSOR cGetIdx IS SELECT owner,index_name 
+     FROM dba_indexes WHERE OWNER NOT LIKE 'SYS%'; 
+BEGIN 
+  /* Define maximums. This section can be customized. */ 
+  vMaxHeight := 3; 
+  vMaxDel    := 20; 
+  
+  /* For every index, validate structure */ 
+  OPEN cGetIdx; 
+  LOOP 
+     FETCH cGetIdx INTO vOwner,vIdxName; 
+     EXIT WHEN cGetIdx%NOTFOUND; 
+     /* Open DBMS_SQL cursor */ 
+     vCursor := DBMS_SQL.OPEN_CURSOR; 
+     /* Set up dynamic string to validate structure */ 
+     vAnalyze := 'ANALYZE INDEX ' || vOwner || '.' || vIdxName || ' VALIDATE STRUCTURE'; 
+     DBMS_SQL.PARSE(vCursor,vAnalyze,DBMS_SQL.V7); 
+     vNumRows := DBMS_SQL.EXECUTE(vCursor); 
+     /* Close DBMS_SQL cursor */ 
+     DBMS_SQL.CLOSE_CURSOR(vCursor); 
+     /* Does index need rebuilding?  */ 
+     /* If so, then generate command */ 
+     SELECT height,lf_rows,del_lf_rows INTO vHeight,vLfRows,vDLfRows 
+        FROM INDEX_STATS;  
+     IF vDLfRows = 0 THEN         /* handle case where div by zero */ 
+        vDLfPerc := 0; 
+     ELSE 
+        vDLfPerc := (vDLfRows / vLfRows) * 100; 
+     END IF; 
+     IF (vHeight > vMaxHeight) OR (vDLfPerc > vMaxDel) THEN  
+        DBMS_OUTPUT.PUT_LINE('ALTER INDEX ' || vOwner || '.' || vIdxName || ' REBUILD;'); 
+     END IF; 
+  
+  END LOOP; 
+  CLOSE cGetIdx; 
+END; 

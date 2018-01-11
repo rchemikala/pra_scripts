@@ -1,0 +1,5 @@
+ALTER TABLE <table_name>
+TRUNCATE PARTITION <partition_name>;
+
+ 
+

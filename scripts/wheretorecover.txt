@@ -1,0 +1,3 @@
+select HXFIL File_num,substr(HXFNM,1,40) File_name,FHTYP Type,HXERR Validity,
+FHSCN SCN, FHTNM TABLESPACE_NAME,FHSTA status ,FHRBA_SEQ Sequence
+from X$KCVFH;

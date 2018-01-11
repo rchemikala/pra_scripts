@@ -1,0 +1,86 @@
+exp system@aisprd file=arch_ais_jul19.dmp log=arch_ais_jul19.log  parfile=arch_ais_jul19.par
+
+
+tables=(ais.TTL_IN_PREP_ACCT_DTLS_HIS,
+ais.TTL_IN_PREP_ESN_HIS,
+ais.TTL_IN_PREP_MDN_HIS,
+ais.TTL_IN_PREP_MIN_HIS,
+ais.TTL_IN_PREP_PINS_HIS,
+ais.TTL_IN_PREP_SERIAL_NO_HIS,
+ais.TTL_IN_PREP_STARTER_PACKS_HIS,
+ais.PUB_TTL_IN_PREP_ACCT_DTLS,
+ais.PUB_TTL_IN_PREP_ESN,
+ais.PUB_TTL_IN_PREP_MDN,
+ais.PUB_TTL_IN_PREP_SERIAL_NO,
+ais.P_TTL_AIS_CRM_ACCT_DTLS,
+ais.P_TTL_IN_PREP_ACCT_DTLS,
+ais.P_TTL_IN_PREP_ESN,
+ais.P_TTL_IN_PREP_MDN,
+ais.P_TTL_IN_PREP_PINS,
+ais.P_TTL_IN_PREP_STRT_PAC,
+ais.TTL_IN_PREP_SAS_EVENTS,
+ais.TTL_IN_PREP_SAS_TASKS,
+ais.TTL_IN_PREP_ON_GOINGOTAF_ACT_H,
+ais.TTL_IN_PREP_OTAF_LOG_HIS_TABLE,
+ais.TTL_IN_PREP_RUIM_MIN_UPDTL_HIS,
+ais.TTL_IN_PREP_RUIM_RESV_CHG_HIS,
+ais.TTL_IN_PREP_SAP_DEALER_CD)
+
+
+We dot have below table in production database
+
+3.TTL_IN_PREP_OTAF_DEALER_CD
+4.TTL_IN_PREP_RUIM_DEALER_CD
+
+
+. . exporting table      TTL_IN_PREP_ACCT_DTLS_HIS   28179179 rows exported
+
+. . exporting table            TTL_IN_PREP_ESN_HIS   16162267 rows exported
+
+. . exporting table            TTL_IN_PREP_MDN_HIS   24226125 rows exported
+
+. . exporting table            TTL_IN_PREP_MIN_HIS   23958694 rows exported
+
+. . exporting table           TTL_IN_PREP_PINS_HIS    3058452 rows exported
+
+. . exporting table      TTL_IN_PREP_SERIAL_NO_HIS    8468713 rows exported
+
+. . exporting table  TTL_IN_PREP_STARTER_PACKS_HIS   12484956 rows exported
+
+. . exporting table      PUB_TTL_IN_PREP_ACCT_DTLS    9897319 rows exported
+
+. . exporting table            PUB_TTL_IN_PREP_ESN   15715188 rows exported
+
+. . exporting table            PUB_TTL_IN_PREP_MDN   15987094 rows exported
+
+. . exporting table      PUB_TTL_IN_PREP_SERIAL_NO    5130784 rows exported
+
+. . exporting table        P_TTL_AIS_CRM_ACCT_DTLS    9899991 rows exported
+
+. . exporting table        P_TTL_IN_PREP_ACCT_DTLS    2459847 rows exported
+
+. . exporting table              P_TTL_IN_PREP_ESN   15722567 rows exported
+
+. . exporting table              P_TTL_IN_PREP_MDN   15027328 rows exported
+
+. . exporting table             P_TTL_IN_PREP_PINS    1996998 rows exported
+
+. . exporting table         P_TTL_IN_PREP_STRT_PAC   10477396 rows exported
+
+. . exporting table         TTL_IN_PREP_SAS_EVENTS    2718055 rows exported
+
+. . exporting table          TTL_IN_PREP_SAS_TASKS    2673423 rows exported
+
+. . exporting table TTL_IN_PREP_ON_GOINGOTAF_ACT_H    1233093 rows exported
+
+. . exporting table TTL_IN_PREP_OTAF_LOG_HIS_TABLE    3275912 rows exported
+
+. . exporting table TTL_IN_PREP_RUIM_MIN_UPDTL_HIS    2423947 rows exported
+
+. . exporting table  TTL_IN_PREP_RUIM_RESV_CHG_HIS     536100 rows exported
+
+. . exporting table      TTL_IN_PREP_SAP_DEALER_CD    2080519 rows exported
+
+
+
+

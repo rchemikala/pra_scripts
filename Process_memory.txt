@@ -1,0 +1,32 @@
+http://www.databasejournal.com/features/oracle/article.php/3756396/Looking-at-Memory-Usage-for-Oracle-Processes.htm
+
+Use the following SQL to look at the smon background process we identified in the previous SQL and see its PGA memory allocations. 
+
+SELECT spid, program,
+            pga_max_mem      max,
+            pga_alloc_mem    alloc,
+            pga_used_mem     used,
+            pga_freeable_mem free
+       FROM V$PROCESS
+      WHERE spid =
+
+
+
+Category – Valid categories include "SQL", "PL/SQL", "OLAP" and "JAVA".
+Allocated – Is the bytes of memory allocated to the process for a category.
+Used – Is the current bytes of memory used by the process for the category.
+Max_allocated – Is the maximum bytes of memory ever allocated for the category
+Freeable - Is a special category that memory that has been allocated to the process but not to a specific category. This memory is available to be given back to the operating system. Interesting to note, there is no max_allocated value.
+Other - Is a special category where memory has been allocated to the process but not to one of the default categories. Interesting to note, there is no used.
+
+So, if you wanted to monitor the memory usage for our smon background processes in detail you could use the following SQL.
+
+SQL> SELECT p.program,
+            p.spid,
+            pm.category,
+            pm.allocated,
+            pm.used,
+            pm.max_allocated
+       FROM V$PROCESS p, V$PROCESS_MEMORY pm
+      WHERE p.pid = pm.pid
+        AND p.spid = 2587;

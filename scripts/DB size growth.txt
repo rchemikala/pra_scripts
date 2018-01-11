@@ -1,0 +1,15 @@
+select to_char(creation_time, 'MM-RRRR') "Month", sum(bytes)/1024/1024/1024 "Growth in GB"
+from sys.v_$datafile
+where to_char(creation_time,'RRRR')='2015'
+group by to_char(creation_time, 'MM-RRRR')
+order by  to_char(creation_time, 'MM-RRRR');
+
+
+select b.tsname tablespace_name , MAX(b.used_size_mb) cur_used_size_mb , round(AVG(inc_used_size_mb),2)avg_increas_mb  
+from ( SELECT a.days,a.tsname , used_size_mb , used_size_mb - LAG (used_size_mb,1) OVER ( PARTITION BY a.tsname ORDER BY a.tsname,a.days) inc_used_size_mb
+from ( SELECT TO_CHAR(sp.begin_interval_time,'MM-DD-YYYY') days  ,ts.tsname ,MAX(round((tsu.tablespace_usedsize* dt.block_size )/(1024*1024),2)) used_size_mb
+from dba_hist_tbspc_space_usage  tsu , dba_hist_tablespace_stat  ts ,dba_hist_snapshot  sp, dba_tablespaces  dt   where tsu.tablespace_id= ts.ts# 
+AND tsu.snap_id = sp.snap_id
+AND ts.tsname = dt.tablespace_name AND sp.begin_interval_time > sysdate-365
+GROUP BY TO_CHAR(sp.begin_interval_time,'MM-DD-YYYY'), ts.tsname 
+ORDER BY ts.tsname, days ) a ) b GROUP BY b.tsname ORDER BY b.tsname;

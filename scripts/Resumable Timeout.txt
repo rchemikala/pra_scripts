@@ -1,0 +1,46 @@
+
+  CREATE OR REPLACE TRIGGER SYS.RESUMABLE_DEFAULT_TRG
+AFTER SUSPEND
+ON DATABASE
+DECLARE
+v_sid number;
+errormessage varchar2(4000);
+BEGIN
+select distinct(sid) into v_sid  from v$mystat;
+select error_msg into errormessage from dba_resumable where session_id = v_sid;
+send_mail('usa.tcs.dba.team@xerox.com','Suspend Event occured',msg_text =>'Error Message :'|| errormessage);
+END;
+ALTER TRIGGER SYS.RESUMABLE_DEFAULT_TRG ENABLE
+
+
+
+
+
+  CREATE OR REPLACE PROCEDURE SYS.SEND_MAIL (
+msg_to varchar2,
+msg_subject varchar2,
+msg_text varchar2 )
+IS
+c utl_smtp.connection;
+rc integer;
+msg_from varchar2(50) := 'usa.tcs.dba.team@xerox.com';
+mailhost VARCHAR2(30) := 'mailhost.apps.mc.xerox.com';
+errno number;
+errmessage varchar2(4000);
+BEGIN
+c := utl_smtp.open_connection(mailhost, 25); -- SMTP on port 25
+utl_smtp.helo(c, mailhost);
+utl_smtp.mail(c, msg_from);
+utl_smtp.rcpt(c, msg_to);
+utl_smtp.data(c,'From: PDM01D Database' || utl_tcp.crlf ||'To: ' || msg_to ||utl_tcp.crlf ||'Subject: ' || msg_subject ||utl_tcp.crlf || msg_text);
+utl_smtp.quit(c);
+EXCEPTION
+WHEN UTL_SMTP.INVALID_OPERATION THEN
+dbms_output.put_line(' Invalid Operation in Mail attempt using UTL_SMTP.');
+WHEN UTL_SMTP.TRANSIENT_ERROR THEN
+dbms_output.put_line(' Temporary e-mail issue - try again');
+WHEN UTL_SMTP.PERMANENT_ERROR THEN
+dbms_output.put_line(' Permanent Error Encountered.');
+END;
+
+

@@ -1,0 +1,9 @@
+
+
+mv file to target location
+
+go to target location and fire the command
+
+
+
+ln -s /uv1044/u321/home/sgotti/sedtest/htm.txt /uv1044/u321/home/sgotti/testing

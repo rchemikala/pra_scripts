@@ -1,0 +1,6 @@
+http://www.gplivna.eu/papers/otrace.htm
+
+exec sys.dbms_system.set_ev(sid,serial#,10046,12,'');-> start tracing
+
+exec sys.dbms_system.set_ev(sid,serial#,10046,0,'');-> stop tracing
+

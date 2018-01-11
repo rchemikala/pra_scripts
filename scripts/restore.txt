@@ -1,0 +1,121 @@
+1)chaged the db name to pdm02p in init.ora
+
+
+RMAN> restore controlfile from '/apps/oracle/admin/PDM01D/rman/RMAN_PDM02P/c-2375826104-20101014-00'
+2> ;
+
+Starting restore at 15-OCT-10
+
+
+RMAN> sql 'alter database mount';
+
+sql statement: alter database mount
+released channel: ORA_DISK_1
+
+RMAN> show all;
+
+RMAN configuration parameters are:
+CONFIGURE RETENTION POLICY TO REDUNDANCY 1;
+CONFIGURE BACKUP OPTIMIZATION OFF; # default
+CONFIGURE DEFAULT DEVICE TYPE TO DISK;
+CONFIGURE CONTROLFILE AUTOBACKUP ON;
+CONFIGURE CONTROLFILE AUTOBACKUP FORMAT FOR DEVICE TYPE DISK TO '/uv1107/oradata/RMANBKUP/%F';
+CONFIGURE DEVICE TYPE DISK PARALLELISM 6 BACKUP TYPE TO BACKUPSET;
+CONFIGURE DATAFILE BACKUP COPIES FOR DEVICE TYPE DISK TO 1; # default
+CONFIGURE ARCHIVELOG BACKUP COPIES FOR DEVICE TYPE DISK TO 1; # default
+CONFIGURE CHANNEL DEVICE TYPE DISK FORMAT   '/uv1107/oradata/RMANBKUP/%I-%Y%M%D-%U';
+CONFIGURE MAXSETSIZE TO UNLIMITED;
+CONFIGURE ENCRYPTION FOR DATABASE OFF; # default
+CONFIGURE ENCRYPTION ALGORITHM 'AES128'; # default
+CONFIGURE ARCHIVELOG DELETION POLICY TO NONE; # default
+CONFIGURE SNAPSHOT CONTROLFILE NAME TO '/apps/oracle/product/10.2.0.4.2009Q3/dbs/snapcf_PDM01D.f'; # default
+
+RMAN> catalog start with '/apps/oracle/admin/PDM01D/rman/RMAN_PDM02P/';
+
+run
+{
+set newname for datafile 1 to '/uv1084/u01/oradata/PDM01D/system01.dbf';
+set newname for datafile 2 to '/uv1084/u01/oradata/PDM01D/undotbs01.dbf';
+set newname for datafile 3 to '/uv1084/u01/oradata/PDM01D/sysaux.dbf';
+set newname for datafile 4 to '/uv1084/u01/oradata/PDM01D/idata01.dbf';
+set newname for datafile 5 to '/uv1084/u01/oradata/PDM01D/idata02.dbf';
+set newname for datafile 6 to '/uv1084/u01/oradata/PDM01D/idata03.dbf';
+set newname for datafile 7 to '/uv1084/u01/oradata/PDM01D/idata04.dbf';
+set newname for datafile 8 to '/uv1084/u01/oradata/PDM01D/ilog01.dbf';
+set newname for datafile 9 to '/uv1084/u01/oradata/PDM01D/indx01.dbf';
+set newname for datafile 10 to '/uv1084/u01/oradata/PDM01D/PDM01P_perf_data01.dbf';
+set newname for datafile 11 to '/uv1084/u01/oradata/PDM01D/PDM01P_tools01.dbf';
+set newname for datafile 12 to '/uv1084/u01/oradata/PDM01D/idata05.dbf';
+set newname for datafile 13 to '/uv1084/u01/oradata/PDM01D/idata06.dbf';
+set newname for datafile 14 to '/uv1084/u01/oradata/PDM01D/idata07.dbf';
+set newname for datafile 15 to '/uv1084/u01/oradata/PDM01D/undotbs02.dbf';
+set newname for datafile 16 to '/uv1084/u01/oradata/PDM01D/idata08.dbf';
+set newname for datafile 17 to '/uv1084/u01/oradata/PDM01D/idata09.dbf';
+set newname for datafile 18 to '/uv1084/u01/oradata/PDM01D/idata10.dbf';
+set newname for datafile 19 to '/uv1084/u01/oradata/PDM01D/idata11.dbf';
+set newname for datafile 20 to '/uv1084/u01/oradata/PDM01D/idata12.dbf';
+set newname for datafile 21 to '/uv1084/u01/oradata/PDM01D/idata13.dbf';
+set newname for datafile 22 to '/uv1084/u01/oradata/PDM01D/idata14.dbf';
+set newname for datafile 23 to '/uv1084/u01/oradata/PDM01D/idata15.dbf';
+set newname for datafile 24 to '/uv1084/u01/oradata/PDM01D/idata16.dbf';
+set newname for datafile 25 to '/uv1084/u01/oradata/PDM01D/idata17.dbf';
+set newname for datafile 26 to '/uv1084/u01/oradata/PDM01D/ilog02.dbf';
+set newname for datafile 27 to '/uv1084/u01/oradata/PDM01D/idata18.dbf';
+set newname for datafile 28 to '/uv1084/u01/oradata/PDM01D/idata19.dbf';
+set newname for datafile 29 to '/uv1084/u01/oradata/PDM01D/idata20.dbf';
+set newname for datafile 30 to '/uv1084/u01/oradata/PDM01D/idata21.dbf';
+switch datafile all;
+restore database;
+}
+
+
+RMAN> recover database until logseq 14594;
+
+Starting recover at 15-OCT-10
+allocated channel: ORA_DISK_1
+channel ORA_DISK_1: sid=150 devtype=DISK
+allocated channel: ORA_DISK_2
+channel ORA_DISK_2: sid=147 devtype=DISK
+allocated channel: ORA_DISK_3
+channel ORA_DISK_3: sid=146 devtype=DISK
+allocated channel: ORA_DISK_4
+channel ORA_DISK_4: sid=145 devtype=DISK
+allocated channel: ORA_DISK_5
+channel ORA_DISK_5: sid=144 devtype=DISK
+allocated channel: ORA_DISK_6
+channel ORA_DISK_6: sid=143 devtype=DISK
+
+starting media recovery
+media recovery complete, elapsed time: 00:00:03
+
+Finished recover at 15-OCT-10
+
+
+SQL> alter database rename file '/uv1107/oradata/PDM02P/redo04.log' to '/uv1084/u01/oradata/PDM01D/redo04.log';
+
+Database altered.
+
+SQL> alter database rename file '/uv1107/oradata/PDM02P/redo05.log' to '/uv1084/u01/oradata/PDM01D/redo05.log';
+
+Database altered.
+
+SQL> alter database rename file '/uv1107/oradata/PDM02P/redo06.log' to '/uv1084/u01/oradata/PDM01D/redo06.log';
+alter database rename file '/uv1107/oradata/PDM02P/redo06.log' to '/uv1084/u01/oradata/PDM01D/redo06.log'
+*
+ERROR at line 1:
+ORA-01511: error in renaming log/data files
+ORA-01516: nonexistent log file, datafile, or tempfile
+"/uv1107/oradata/PDM02P/redo06.log"
+
+
+SQL> alter database rename file '/uv1108/oradata/PDM02P/redo06.log' to '/uv1084/u01/oradata/PDM01D/redo06.log';
+
+Database altered.
+
+
+SQL> alter database open resetlogs;
+
+Database altered.
+
+
+

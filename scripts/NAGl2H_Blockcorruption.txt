@@ -1,0 +1,23 @@
+Please use DBV to check the affected datafile and see if there are more corruptions:
+
+dbv file=/uv1247/u292/oradata/NAGL2H/glddutility01.dbf blocksize=8192
+
+You might need to change the blocksize if it's not 8K.
+
+Unfortunately, since you are running in NOARCHIVELOG mode, we cannot use restore/recovery to fix the corrupt block. We have 2 options:
+
+1. Restore the entire database from a cold backup taken before the corruption was seen. In this option, you will lose all data from the database which was modified after the cold backup.
+
+2. Use event 10231 to salvage data from good blocks for table NADDDBA.AUDIT_LOGONS. In this option, you will lose rows of table NADDDBA.AUDIT_LOGONS which are part of corrupt block.
+
+SQL> ALTER SESSION SET EVENTS '10231 TRACE NAME CONTEXT FOREVER, LEVEL 10';
+SQL> create table NADDDBA.AUDIT_LOGONS_NEW as select * from NADDDBA.AUDIT_LOGONS;
+
+Verify count(*) from NADDDBA.AUDIT_LOGONS_NEW and NADDDBA.AUDIT_LOGONS to estimate the rows lost. Once verified and found ok for application, you can then run:
+
+SQL> truncate table NADDDBA.AUDIT_LOGONS;
+SQL> insert into NADDDBA.AUDIT_LOGONS select * from NADDDBA.AUDIT_LOGONS_NEW;
+SQL> drop table NADDDBA.AUDIT_LOGONS_NEW;
+
+Regards,
+GCS

@@ -1,0 +1,6 @@
+select fk.*
+from dba_constraints pk
+join dba_constraints fk
+  on fk.r_constraint_name = pk.constraint_name
+where pk.table_name = 'BREAK_TABLE'
+and pk.constraint_type='P'

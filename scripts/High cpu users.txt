@@ -1,0 +1,1 @@
+select n.username,s.sid,s.value from v$sesstat s,v$statname t,v$session n where s.statistic#=t.statistic# and n.sid=s.sid and t.name='CPU used by this session' order by s.value desc;
